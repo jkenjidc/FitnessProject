@@ -6,12 +6,19 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct FitnessProjectApp: App {
+    @StateObject var dataManager = DataManager()
+    init() {
+        FirebaseApp.configure()
+    }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WelcomeView()
+                .preferredColorScheme(.dark)
+                .environmentObject(dataManager)
         }
     }
 }
