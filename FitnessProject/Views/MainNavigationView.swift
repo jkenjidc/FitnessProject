@@ -7,17 +7,8 @@
 
 import SwiftUI
 
-public struct TabviewItemLabel: View {
-    var tabBarFontSize = CGFloat(150)
-    public let title: String
-
-    public var body: some View {
-        Text(title)
-            .font(.system(size: tabBarFontSize))
-    }
-}
-
 struct MainNavigationView: View {
+    @EnvironmentObject var dataManager: DataManager
     @State private var selectedTab = 1
     private var tabBarFontSize = CGFloat(25)
     var body: some View {
@@ -25,21 +16,18 @@ struct MainNavigationView: View {
             ProfileView()
                 .tabItem {
                     Image(systemName: "person")
-                        .font(.largeTitle)
                 }
                 .tag(0)
             
-            RoutineListView()
+            RoutineListView(routines: Routine.example)
                 .tabItem {
-                    Text("Routines")
-                        .font(.system(size: tabBarFontSize))
+                    Image(systemName: "dumbbell.fill")
                 }
                 .tag(1)
             
             ProgressView()
                 .tabItem {
-                    Text("Progress")
-                        .font(.system(size: tabBarFontSize))
+                    Image(systemName: "chart.line.uptrend.xyaxis")
                 }
                 .tag(2)
             

@@ -27,6 +27,9 @@
 		7AF20F932C90C9610057A100 /* RoutineListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F922C90C9610057A100 /* RoutineListView.swift */; };
 		7AF20F952C90C97A0057A100 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F942C90C97A0057A100 /* ProfileView.swift */; };
 		7AF20F972C90CAE70057A100 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F962C90CAE70057A100 /* ProgressView.swift */; };
+		7AF20F9E2C91F3EA0057A100 /* RoutineListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F9D2C91F3EA0057A100 /* RoutineListCellView.swift */; };
+		7AF20FA22C92137E0057A100 /* CreateRoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */; };
+		7AF20FA52C9239AB0057A100 /* CreateRoutineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +52,9 @@
 		7AF20F922C90C9610057A100 /* RoutineListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineListView.swift; sourceTree = "<group>"; };
 		7AF20F942C90C97A0057A100 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		7AF20F962C90CAE70057A100 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		7AF20F9D2C91F3EA0057A100 /* RoutineListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineListCellView.swift; sourceTree = "<group>"; };
+		7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoutineView.swift; sourceTree = "<group>"; };
+		7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoutineViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,11 +152,46 @@
 			children = (
 				7AF20F8E2C90BC770057A100 /* WelcomeView.swift */,
 				7AF20F902C90C8EA0057A100 /* MainNavigationView.swift */,
-				7AF20F922C90C9610057A100 /* RoutineListView.swift */,
-				7AF20F962C90CAE70057A100 /* ProgressView.swift */,
-				7AF20F942C90C97A0057A100 /* ProfileView.swift */,
+				7AF20F9A2C90E7C40057A100 /* RoutineListView */,
+				7AF20F982C90E7A20057A100 /* ProgressView */,
+				7AF20F992C90E7B00057A100 /* ProfileView */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		7AF20F982C90E7A20057A100 /* ProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				7AF20F962C90CAE70057A100 /* ProgressView.swift */,
+			);
+			path = ProgressView;
+			sourceTree = "<group>";
+		};
+		7AF20F992C90E7B00057A100 /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				7AF20F942C90C97A0057A100 /* ProfileView.swift */,
+			);
+			path = ProfileView;
+			sourceTree = "<group>";
+		};
+		7AF20F9A2C90E7C40057A100 /* RoutineListView */ = {
+			isa = PBXGroup;
+			children = (
+				7AF20F922C90C9610057A100 /* RoutineListView.swift */,
+				7AF20F9D2C91F3EA0057A100 /* RoutineListCellView.swift */,
+				7AF20FA32C9239910057A100 /* CreateRoutineView */,
+			);
+			path = RoutineListView;
+			sourceTree = "<group>";
+		};
+		7AF20FA32C9239910057A100 /* CreateRoutineView */ = {
+			isa = PBXGroup;
+			children = (
+				7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */,
+				7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */,
+			);
+			path = CreateRoutineView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,7 +272,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AF20FA22C92137E0057A100 /* CreateRoutineView.swift in Sources */,
 				7AF20F722C8B7DA40057A100 /* TestView.swift in Sources */,
+				7AF20F9E2C91F3EA0057A100 /* RoutineListCellView.swift in Sources */,
 				7AF20F892C909D140057A100 /* Stats.swift in Sources */,
 				7AF20F972C90CAE70057A100 /* ProgressView.swift in Sources */,
 				7AF20F832C909C2F0057A100 /* Routine.swift in Sources */,
@@ -240,6 +283,7 @@
 				7AF20F872C909CC00057A100 /* ExerciseSet.swift in Sources */,
 				7AF20F8B2C909F920057A100 /* Exercise.swift in Sources */,
 				7AF20F8F2C90BC770057A100 /* WelcomeView.swift in Sources */,
+				7AF20FA52C9239AB0057A100 /* CreateRoutineViewModel.swift in Sources */,
 				7AF20F912C90C8EA0057A100 /* MainNavigationView.swift in Sources */,
 				7AF20F7F2C909B390057A100 /* User.swift in Sources */,
 				7A4239F32C8B71BC00F34FC7 /* ContentView.swift in Sources */,

@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject var dataManager: DataManager
     var body: some View {
-        Text("Profile View")
+        Button {
+            dataManager.isLoggedIn = false
+        } label: {
+            Text("log out")
+        }
     }
 }
 

@@ -16,9 +16,15 @@ struct FitnessProjectApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
-                .preferredColorScheme(.dark)
-                .environmentObject(dataManager)
+            if dataManager.isLoggedIn {
+                MainNavigationView()
+                    .preferredColorScheme(.dark)
+                    .environmentObject(dataManager)
+            } else {
+                WelcomeView()
+                    .preferredColorScheme(.dark)
+                    .environmentObject(dataManager)
+            }
         }
     }
 }

@@ -12,9 +12,10 @@ struct Stats: Identifiable, Codable, Hashable {
     var oneRepMax: [Date: Double]
     var totalReps: [Date:Int]
     
-    init(id: String = UUID().uuidString, oneRepMax: [Date : Double], totalReps: [Date : Int]) {
-        self.id = id
+    init(oneRepMax: [Date : Double], totalReps: [Date : Int]) {
         self.oneRepMax = oneRepMax
         self.totalReps = totalReps
     }
+    
+    static let example = Stats(oneRepMax: [:], totalReps: [:])
 }

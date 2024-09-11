@@ -14,9 +14,9 @@ class DataManager: ObservableObject{
 //    @Published var dogs: [Dog] = []
     @Published var isLoggedIn = false
 
-//    init() {
-////        fetchDogs()
-//    }
+    func addRoutine(routine: Routine) {
+        user.routines.append(routine)
+    }
     
 //    func saveDogs() {
 ////        let object: [String: Any] = [
