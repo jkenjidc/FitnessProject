@@ -19,7 +19,7 @@ struct MainNavigationView: View {
                 }
                 .tag(0)
             
-            RoutineListView(routines: Routine.example)
+            RoutineListView()
                 .tabItem {
                     Image(systemName: "dumbbell.fill")
                 }
@@ -39,5 +39,6 @@ struct MainNavigationView: View {
 
 #Preview {
     MainNavigationView()
+        .environmentObject(DataManager())
         .preferredColorScheme(.dark)
 }

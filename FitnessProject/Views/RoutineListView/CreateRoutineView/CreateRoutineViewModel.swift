@@ -18,7 +18,7 @@ extension CreateRoutineView {
         var newExerciseName = ""
         
         func saveExercise() {
-            let exercise = Exercise(name: newExerciseName, description: "", stats: Stats.example, sets: [])
+            let exercise = Exercise(name: newExerciseName, description: "", stats: Stats.example, sets: [ExerciseSet(weight: 0, reps: 0)])
             routine.exercises.append(exercise)
             routine.name = routineName
             showAddExerciseSheet.toggle()

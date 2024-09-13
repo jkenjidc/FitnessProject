@@ -19,9 +19,9 @@ struct CreateRoutineView: View {
                         .frame(height: 75)
                 }
                 if !viewModel.routine.exercises.isEmpty {
-                    List{
-                        ForEach(viewModel.routine.exercises) { exercise in
-                            Text(exercise.name)
+                    ScrollView{
+                        ForEach($viewModel.routine.exercises) { $exercise in
+                            ExerciseListCellView(exercise: $exercise)
                         }
                     }
                 }

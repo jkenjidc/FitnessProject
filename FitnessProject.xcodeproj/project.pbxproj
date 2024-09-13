@@ -30,6 +30,7 @@
 		7AF20F9E2C91F3EA0057A100 /* RoutineListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F9D2C91F3EA0057A100 /* RoutineListCellView.swift */; };
 		7AF20FA22C92137E0057A100 /* CreateRoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */; };
 		7AF20FA52C9239AB0057A100 /* CreateRoutineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */; };
+		7AF20FA72C94B33A0057A100 /* ExerciseListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		7AF20F9D2C91F3EA0057A100 /* RoutineListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineListCellView.swift; sourceTree = "<group>"; };
 		7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoutineView.swift; sourceTree = "<group>"; };
 		7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoutineViewModel.swift; sourceTree = "<group>"; };
+		7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 			children = (
 				7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */,
 				7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */,
+				7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */,
 			);
 			path = CreateRoutineView;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				7AF20F912C90C8EA0057A100 /* MainNavigationView.swift in Sources */,
 				7AF20F7F2C909B390057A100 /* User.swift in Sources */,
 				7A4239F32C8B71BC00F34FC7 /* ContentView.swift in Sources */,
+				7AF20FA72C94B33A0057A100 /* ExerciseListCellView.swift in Sources */,
 				7AF20F742C8B7DBB0057A100 /* Dog.swift in Sources */,
 				7AF20F952C90C97A0057A100 /* ProfileView.swift in Sources */,
 				7A4239F12C8B71BC00F34FC7 /* FitnessProjectApp.swift in Sources */,

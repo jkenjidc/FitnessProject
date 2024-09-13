@@ -9,8 +9,8 @@ import Foundation
 
 struct Exercise: Identifiable, Codable, Hashable {
     var id = UUID().uuidString
-    var name: String
-    var description: String?
-    var stats: Stats
-    var sets: [ExerciseSet]
+    var name: String = ""
+    var description: String? = ""
+    var stats: Stats = Stats.example
+    var sets: [ExerciseSet] = []
 }
