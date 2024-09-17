@@ -7,12 +7,32 @@
 
 import SwiftUI
 
+@MainActor
+struct exerciseSetListRowView: View {
+    @Binding var exercise: Exercise
+    @Binding var exerciseSet: ExerciseSet
+    var body: some View {
+        Text(exercise.getSetIndex(exerciseSet: exerciseSet))
+        TextField("\(exerciseSet.weight)", value: $exerciseSet.weight, format: .number)
+            .multilineTextAlignment(.center)
+        TextField("\(exerciseSet.reps)", value: $exerciseSet.reps, format: .number)
+            .multilineTextAlignment(.center)
+        Button {
+            exercise.deleteSet(exerciseSet: exerciseSet)
+            
+        } label: {
+            Image(systemName: "minus.square.fill")
+                .foregroundStyle(Color.red)
+        }
+        .buttonStyle(.plain)
+    }
+}
+
 struct ExerciseListCellView: View {
     @Binding var exercise: Exercise
-    @State var weights:[String] = ["0"]
-    @State var reps:[String] = ["0"]
     
     let columns = [
+        GridItem(.fixed(80)),
         GridItem(.fixed(80)),
         GridItem(.fixed(80)),
         GridItem(.fixed(80))
@@ -25,45 +45,51 @@ struct ExerciseListCellView: View {
                 Text("Sets")
                 Text("lbs")
                 Text("Reps")
-                ForEach(0..<exercise.sets.count, id: \.self){ index in
-                    Text(String(index+1))
-                    TextField("\(weights[index])", text: $weights[index])
-                        .multilineTextAlignment(.center)
-                    TextField("\(reps[index])", text: $reps[index])
-                        .multilineTextAlignment(.center)
+                Text("")
+                ForEach($exercise.sets){ exerciseSet in
+                    
+                    exerciseSetListRowView(exercise: $exercise, exerciseSet: exerciseSet)
+//                    Text(exercise.getSetIndex(exerciseSet: exerciseSet.wrappedValue))
+//                    TextField("\(exerciseSet.weight)", value: exerciseSet.weight, format: .number)
+//                        .multilineTextAlignment(.center)
+//                    TextField("\(exerciseSet.reps)", value: exerciseSet.reps, format: .number)
+//                        .multilineTextAlignment(.center)
+//                    Button {
+//                        exercise.deleteSet(exerciseSet: exerciseSet.wrappedValue)
+//                        
+//                    } label: {
+//                        Image(systemName: "minus.square.fill")
+//                            .foregroundStyle(Color.red)
+//                    }
+//                    .buttonStyle(.plain)
                 }
-                
             }
             .padding(.bottom, 15)
             Button{
                 addSet()
             } label: {
                 Text("Add Set +")
+                    .frame(maxWidth: .infinity)
+                    .contentShape(Capsule())
+                    .background(.secondary)
+                    .clipShape(.capsule)
+                    .padding(.horizontal, 30)
             }
-            .frame(maxWidth: .infinity)
             .buttonStyle(.plain)
-            .background(.secondary)
-            .clipShape(.capsule)
-            .padding(.horizontal, 30)
+
         }
-//        .onAppear(perform: {
-//            weights.append(String(exercise.sets.first?.weight ?? 0))
-//            reps.append(String(exercise.sets.first?.reps ?? 0))
-//        })
     }
     
     func addSet() {
         let lastWeight = exercise.sets.last?.weight ?? 0
         let lastRep = exercise.sets.last?.reps ?? 0
-        weights.append(exercise.sets.last?.formattedWeight ?? "")
-        reps.append(String(lastRep))
         exercise.sets.append(ExerciseSet(weight: lastWeight, reps: lastRep))
 
     }
 }
 
 #Preview {
-    @State var exercise = Exercise(name: "Exercise 1", sets: [ExerciseSet(weight: 0, reps: 0)])
+    @State var exercise = Exercise(name: "Exercise 1",stats: Stats.example, sets: [ExerciseSet(weight: 0, reps: 0)])
     return ExerciseListCellView(exercise: $exercise)
         .preferredColorScheme(.dark)
 }

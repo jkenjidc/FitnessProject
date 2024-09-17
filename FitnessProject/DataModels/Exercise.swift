@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Exercise: Identifiable, Codable, Hashable {
     var id = UUID().uuidString
@@ -13,4 +14,13 @@ struct Exercise: Identifiable, Codable, Hashable {
     var description: String? = ""
     var stats: Stats = Stats.example
     var sets: [ExerciseSet] = []
+    func getSetIndex(exerciseSet: ExerciseSet) -> String {
+        return String ((sets.firstIndex(where: { $0.id == exerciseSet.id }) ?? 0) + 1)
+    }
+    
+   mutating func deleteSet(exerciseSet: ExerciseSet) {
+//       if sets.count > 1 {
+           sets.removeAll(where: { $0.id == exerciseSet.id})
+//       }
+    }
 }
