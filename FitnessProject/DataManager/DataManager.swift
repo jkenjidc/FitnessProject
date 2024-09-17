@@ -11,7 +11,6 @@ import Firebase
 @MainActor
 class DataManager: ObservableObject{
     @Published var user = User()
-//    @Published var dogs: [Dog] = []
     @Published var isLoggedIn = false
     
     var hasHitRoutineLimit: Bool {
@@ -20,6 +19,7 @@ class DataManager: ObservableObject{
 
     func addRoutine(routine: Routine) {
         user.routines.append(routine)
+
     }
     
     func deleteRoutine(at offsets: IndexSet){

@@ -9,6 +9,7 @@ import Foundation
 
 struct Routine: Identifiable, Codable, Hashable {
     var id = UUID().uuidString
+    var description: String = ""
     var name: String = ""
     var daysToDo: [String] = []
     var datesDone: [Date] = []
