@@ -7,10 +7,9 @@
 
 import Foundation
 
-
 extension CreateRoutineView {
     @Observable
-    class ViewModel {
+    class ViewModel: ObservableObject {
         var routine: Routine = Routine()
         var showAddExerciseSheet = false
         var newExerciseName = ""
@@ -40,9 +39,11 @@ extension CreateRoutineView {
         }
         
         func checkInputs() {
-            showAlert.toggle()
-            alertTitle = "Invalid Information entered"
-            alertMessage = "Routine name can't be blank"
+            if showAddExerciseSheet {
+                isMissingExerciseName = newExerciseName.isEmpty
+            } else {
+                isMissingRoutineName = (routine.name.isEmpty && !cancellationAlert)
+            }
         }
     }
 }

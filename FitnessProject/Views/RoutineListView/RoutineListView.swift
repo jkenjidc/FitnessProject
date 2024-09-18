@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct RoutineListView: View {
-    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var appState: AppState
     @State private var action: Int? = 0
     @State private var showRoutineLimitAlert = false
     var body: some View {
         NavigationStack{
             VStack {
-                if dataManager.user.routines.isEmpty {
+                if appState.user.routines.isEmpty {
                     ContentUnavailableView{
                         Image(systemName: "figure.flexibility")
                             .resizable()
@@ -26,11 +26,11 @@ struct RoutineListView: View {
                     .navigationTitle("Routines")
                 } else {
                     List{
-                        ForEach(dataManager.user.routines){ routine in
+                        ForEach(appState.user.routines){ routine in
                             RoutineListCellView(title: routine.name)
                         }
                         .onDelete(perform: { indexSet in
-                            dataManager.deleteRoutine(at: indexSet)
+                            appState.deleteRoutine(at: indexSet)
                         })
                     }
                 }
@@ -47,10 +47,10 @@ struct RoutineListView: View {
                             .frame(width: 50, height: 50)
                             .padding()
                     }
-                    .disabled(dataManager.hasHitRoutineLimit)
+                    .disabled(appState.hasHitRoutineLimit)
                     .buttonStyle(.plain)
                     .onTapGesture {
-                        if dataManager.hasHitRoutineLimit {
+                        if appState.hasHitRoutineLimit {
                             showRoutineLimitAlert = true
                         }
                     }
@@ -66,7 +66,7 @@ struct RoutineListView: View {
 
 #Preview {
     RoutineListView()
-        .environmentObject(DataManager())
+        .environmentObject(AppState())
         .preferredColorScheme(.dark)
     //    RoutineListView(routines: [])
 }

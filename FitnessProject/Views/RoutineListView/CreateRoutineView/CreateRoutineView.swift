@@ -8,31 +8,73 @@
 import SwiftUI
 
 struct CreateRoutineView: View {
-    @EnvironmentObject var dataManager: DataManager
-    @State var viewModel = ViewModel()
+    @EnvironmentObject var appState: AppState
+    @StateObject var viewModel = ViewModel()
     @Environment(\.dismiss) var dismiss
+    
+    var routineNameView: some View {
+        return Section(header: Text("Routine Name"), footer: errorFooterView(invalidField: viewModel.isMissingRoutineName)){
+            TextField("", text: $viewModel.routine.name)
+                .keyboardType(.asciiCapable)
+                .onChange(of: viewModel.routine.name) { _,_ in
+                    viewModel.checkInputs()
+                }
+        }
+    }
+    
+    var routineDescriptionView: some View {
+        return Section("Routine Description"){
+            TextEditor(text: $viewModel.routine.description)
+                .frame(height: 75)
+        }
+    }
+    
+    var exercisesEmbeddedListView: some View {
+        return !viewModel.routine.exercises.isEmpty ?
+            ScrollView{
+                ForEach($viewModel.routine.exercises) { $exercise in
+                    ExerciseListCellView(exercise: $exercise)
+                }
+                .scrollBounceBehavior(.basedOnSize)
+            }
+        :
+            nil
+    }
+    
+    var addExerciseSheetView: some View {
+        return VStack {
+            VStack(alignment: .leading){
+                TextField("Exercise Name", text: $viewModel.newExerciseName)
+                    .padding()
+                    .overlay (
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(.secondary)
+                    )
+                    .padding(.horizontal, 15)
+                    .onChange(of: viewModel.newExerciseName){ _,_ in
+                        viewModel.isMissingExerciseName = viewModel.newExerciseName.isEmpty
+                    }
+                errorFooterView(invalidField: viewModel.isMissingExerciseName)
+                    .padding(.leading, 25)
+            }
+            Button {
+                !viewModel.newExerciseName.isEmpty ? viewModel.saveExercise() : viewModel.checkInputs()
+            } label: {
+                Text("Add Exercise")
+            }
+            .onDisappear(perform: {
+                viewModel.isMissingExerciseName = false
+            })
+        }
+        .presentationDetents([.fraction(0.4), .medium], selection: .constant(.fraction(0.4)))
+    }
     var body: some View {
         NavigationStack{
             Form {
-                Section(header: Text("Routine Name"), footer: errorFooterView(invalidField: viewModel.isMissingRoutineName)){
-                    TextField("", text: $viewModel.routine.name)
-                        .keyboardType(.asciiCapable)
-                        .onChange(of: viewModel.routine.name) { _,_ in
-                            viewModel.isMissingRoutineName = viewModel.routine.name.isEmpty
-                        }
-                }
+                routineNameView
+                routineDescriptionView
+                exercisesEmbeddedListView
                 
-                Section("Routine Description"){
-                    TextEditor(text: $viewModel.routine.description)
-                        .frame(height: 75)
-                }
-                if !viewModel.routine.exercises.isEmpty {
-                    ScrollView{
-                        ForEach($viewModel.routine.exercises) { $exercise in
-                            ExerciseListCellView(exercise: $exercise)
-                        }
-                    }
-                }
                 Button {
                     viewModel.showAddExerciseSheet.toggle()
                 } label: {
@@ -40,37 +82,13 @@ struct CreateRoutineView: View {
                         .frame(maxWidth: .infinity)
                 }
             }
+            .scrollBounceBehavior(.basedOnSize)
             .navigationBarBackButtonHidden(true)
             .sheet(isPresented: $viewModel.showAddExerciseSheet) {
-                VStack {
-                    VStack(alignment: .leading){
-                        TextField("Exercise Name", text: $viewModel.newExerciseName)
-                            .padding()
-                            .overlay (
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(.secondary)
-                            )
-                            .padding(.horizontal, 15)
-                            .onChange(of: viewModel.newExerciseName){ _,_ in
-                                viewModel.isMissingExerciseName = viewModel.newExerciseName.isEmpty
-                            }
-                        errorFooterView(invalidField: viewModel.isMissingExerciseName)
-                            .padding(.leading, 25)
-                    }
-                    Button {
-                        if !viewModel.isMissingExerciseName {
-                            viewModel.saveExercise()
-                        } else {
-                            viewModel.isMissingExerciseName = viewModel.newExerciseName.isEmpty
-                        }
-                    } label: {
-                        Text("Add Exercise")
-                    }
-                }
-                .presentationDetents([.fraction(0.4), .medium], selection: .constant(.fraction(0.4)))
+                addExerciseSheetView
             }
             .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
-                alertBodyView(viewModel: $viewModel)
+                alertBodyView(viewModel: viewModel)
             } message: {
                 Text(viewModel.alertMessage)
             }
@@ -88,10 +106,10 @@ struct CreateRoutineView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         if viewModel.validInputs {
-                            dataManager.addRoutine(routine: viewModel.routine)
+                            appState.addRoutine(routine: viewModel.routine)
                             dismiss()
                         } else {
-                            viewModel.isMissingRoutineName = viewModel.routine.name.isEmpty
+                            viewModel.checkInputs()
                         }
                     } label: {
                         Text("Save")
@@ -115,7 +133,7 @@ struct errorFooterView: View {
 }
 
 struct alertBodyView: View {
-    @Binding var viewModel: CreateRoutineView.ViewModel
+    @Bindable var viewModel: CreateRoutineView.ViewModel
     @Environment(\.dismiss) var dismiss
     var body: some View {
         if viewModel.cancellationAlert {
@@ -126,7 +144,6 @@ struct alertBodyView: View {
         Button("OK", role: (viewModel.cancellationAlert ? .destructive : .none)){
             if viewModel.cancellationAlert {
                 dismiss()
-                viewModel.cancellationAlert = false
             }
         }
     }
@@ -135,5 +152,5 @@ struct alertBodyView: View {
 #Preview {
     @State var routines = Routine.example
     return CreateRoutineView()
-        .environmentObject(DataManager())
+        .environmentObject(AppState())
 }

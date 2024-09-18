@@ -16,7 +16,6 @@
 		7A423A042C8B77AD00F34FC7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A423A032C8B77AD00F34FC7 /* GoogleService-Info.plist */; };
 		7AF20F722C8B7DA40057A100 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F712C8B7DA40057A100 /* TestView.swift */; };
 		7AF20F742C8B7DBB0057A100 /* Dog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F732C8B7DBB0057A100 /* Dog.swift */; };
-		7AF20F782C8B7EF20057A100 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F772C8B7EF20057A100 /* DataManager.swift */; };
 		7AF20F7F2C909B390057A100 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F7E2C909B390057A100 /* User.swift */; };
 		7AF20F832C909C2F0057A100 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F822C909C2F0057A100 /* Routine.swift */; };
 		7AF20F872C909CC00057A100 /* ExerciseSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F862C909CC00057A100 /* ExerciseSet.swift */; };
@@ -31,6 +30,7 @@
 		7AF20FA22C92137E0057A100 /* CreateRoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */; };
 		7AF20FA52C9239AB0057A100 /* CreateRoutineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */; };
 		7AF20FA72C94B33A0057A100 /* ExerciseListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */; };
+		7AF20FAA2C9B64540057A100 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA92C9B64540057A100 /* AppState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,7 +42,6 @@
 		7A423A032C8B77AD00F34FC7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7AF20F712C8B7DA40057A100 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		7AF20F732C8B7DBB0057A100 /* Dog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dog.swift; sourceTree = "<group>"; };
-		7AF20F772C8B7EF20057A100 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DataManager.swift; path = FitnessProject/DataManager/DataManager.swift; sourceTree = SOURCE_ROOT; };
 		7AF20F7E2C909B390057A100 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7AF20F822C909C2F0057A100 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
 		7AF20F862C909CC00057A100 /* ExerciseSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSet.swift; sourceTree = "<group>"; };
@@ -57,6 +56,7 @@
 		7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoutineView.swift; sourceTree = "<group>"; };
 		7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoutineViewModel.swift; sourceTree = "<group>"; };
 		7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListCellView.swift; sourceTree = "<group>"; };
+		7AF20FA92C9B64540057A100 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +144,7 @@
 		7AF20F8C2C90B91F0057A100 /* DataManager */ = {
 			isa = PBXGroup;
 			children = (
-				7AF20F772C8B7EF20057A100 /* DataManager.swift */,
+				7AF20FA92C9B64540057A100 /* AppState.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -281,11 +281,11 @@
 				7AF20F892C909D140057A100 /* Stats.swift in Sources */,
 				7AF20F972C90CAE70057A100 /* ProgressView.swift in Sources */,
 				7AF20F832C909C2F0057A100 /* Routine.swift in Sources */,
-				7AF20F782C8B7EF20057A100 /* DataManager.swift in Sources */,
 				7AF20F932C90C9610057A100 /* RoutineListView.swift in Sources */,
 				7AF20F872C909CC00057A100 /* ExerciseSet.swift in Sources */,
 				7AF20F8B2C909F920057A100 /* Exercise.swift in Sources */,
 				7AF20F8F2C90BC770057A100 /* WelcomeView.swift in Sources */,
+				7AF20FAA2C9B64540057A100 /* AppState.swift in Sources */,
 				7AF20FA52C9239AB0057A100 /* CreateRoutineViewModel.swift in Sources */,
 				7AF20F912C90C8EA0057A100 /* MainNavigationView.swift in Sources */,
 				7AF20F7F2C909B390057A100 /* User.swift in Sources */,

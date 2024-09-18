@@ -10,20 +10,20 @@ import Firebase
 
 @main
 struct FitnessProjectApp: App {
-    @StateObject var dataManager = DataManager()
+    @StateObject var appState = AppState()
     init() {
         FirebaseApp.configure()
     }
     var body: some Scene {
         WindowGroup {
-            if dataManager.isLoggedIn {
+            if appState.isLoggedIn {
                 MainNavigationView()
                     .preferredColorScheme(.dark)
-                    .environmentObject(dataManager)
+                    .environmentObject(appState)
             } else {
                 WelcomeView()
                     .preferredColorScheme(.dark)
-                    .environmentObject(dataManager)
+                    .environmentObject(appState)
             }
         }
     }

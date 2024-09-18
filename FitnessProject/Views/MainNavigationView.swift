@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainNavigationView: View {
-    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var appState: AppState
     @State private var selectedTab = 1
     private var tabBarFontSize = CGFloat(25)
     var body: some View {
@@ -39,6 +39,6 @@ struct MainNavigationView: View {
 
 #Preview {
     MainNavigationView()
-        .environmentObject(DataManager())
+        .environmentObject(AppState())
         .preferredColorScheme(.dark)
 }

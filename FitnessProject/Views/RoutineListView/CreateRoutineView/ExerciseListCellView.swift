@@ -12,19 +12,21 @@ struct exerciseSetListRowView: View {
     @Binding var exercise: Exercise
     @Binding var exerciseSet: ExerciseSet
     var body: some View {
-        Text(exercise.getSetIndex(exerciseSet: exerciseSet))
-        TextField("\(exerciseSet.weight)", value: $exerciseSet.weight, format: .number)
-            .multilineTextAlignment(.center)
-        TextField("\(exerciseSet.reps)", value: $exerciseSet.reps, format: .number)
-            .multilineTextAlignment(.center)
-        Button {
-            exercise.deleteSet(exerciseSet: exerciseSet)
-            
-        } label: {
-            Image(systemName: "minus.square.fill")
-                .foregroundStyle(Color.red)
+        Group{
+            Text(exercise.getSetIndex(exerciseSet: exerciseSet))
+            TextField("\(exerciseSet.weight)", value: $exerciseSet.weight, format: .number)
+                .multilineTextAlignment(.center)
+            TextField("\(exerciseSet.reps)", value: $exerciseSet.reps, format: .number)
+                .multilineTextAlignment(.center)
+            Button {
+                exercise.deleteSet(exerciseSet: exerciseSet)
+                
+            } label: {
+                Image(systemName: "minus.square.fill")
+                    .foregroundStyle(Color.red)
+            }
+            .buttonStyle(.plain)
         }
-        .buttonStyle(.plain)
     }
 }
 
@@ -38,6 +40,7 @@ struct ExerciseListCellView: View {
         GridItem(.fixed(80))
     ]
     
+    
     var body: some View {
         VStack(spacing: 0){
             Text(exercise.name)
@@ -47,21 +50,7 @@ struct ExerciseListCellView: View {
                 Text("Reps")
                 Text("")
                 ForEach($exercise.sets){ exerciseSet in
-                    
                     exerciseSetListRowView(exercise: $exercise, exerciseSet: exerciseSet)
-//                    Text(exercise.getSetIndex(exerciseSet: exerciseSet.wrappedValue))
-//                    TextField("\(exerciseSet.weight)", value: exerciseSet.weight, format: .number)
-//                        .multilineTextAlignment(.center)
-//                    TextField("\(exerciseSet.reps)", value: exerciseSet.reps, format: .number)
-//                        .multilineTextAlignment(.center)
-//                    Button {
-//                        exercise.deleteSet(exerciseSet: exerciseSet.wrappedValue)
-//                        
-//                    } label: {
-//                        Image(systemName: "minus.square.fill")
-//                            .foregroundStyle(Color.red)
-//                    }
-//                    .buttonStyle(.plain)
                 }
             }
             .padding(.bottom, 15)

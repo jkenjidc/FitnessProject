@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var appState: AppState
     var welcomeLabelFontsize: CGFloat {
         if UIScreen.main.bounds.width < 380 {
             return CGFloat(30)
