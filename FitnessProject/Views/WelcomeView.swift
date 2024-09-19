@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct WelcomeView: View {
     @Environment(AppState.self) var appState
@@ -63,8 +64,12 @@ struct WelcomeView: View {
                 .buttonStyle(.plain)
                 .padding(.bottom, 15)
                 
-                Button {
-                    // SignUP
+                NavigationLink {
+                    if appState.authState == .loggedIn {
+                        MainNavigationView()
+                    } else {
+                        SignUpView()
+                    }
                 } label: {
                     Text("Sign Up")
                         .font(.system(size: 30))

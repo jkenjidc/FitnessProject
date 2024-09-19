@@ -32,6 +32,10 @@
 		7AF20FA72C94B33A0057A100 /* ExerciseListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */; };
 		7AF20FAA2C9B64540057A100 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA92C9B64540057A100 /* AppState.swift */; };
 		7AF20FAC2C9B70430057A100 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FAB2C9B70430057A100 /* Router.swift */; };
+		7AF20FAE2C9CBA620057A100 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FAD2C9CBA620057A100 /* AuthManager.swift */; };
+		7AF20FB02C9CBE210057A100 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FAF2C9CBE210057A100 /* SignUpView.swift */; };
+		7AF20FB22C9CBFA00057A100 /* AuthDataResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FB12C9CBFA00057A100 /* AuthDataResult.swift */; };
+		7AF20FB42C9CCCCA0057A100 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FB32C9CCCCA0057A100 /* RootView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +63,10 @@
 		7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListCellView.swift; sourceTree = "<group>"; };
 		7AF20FA92C9B64540057A100 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		7AF20FAB2C9B70430057A100 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		7AF20FAD2C9CBA620057A100 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		7AF20FAF2C9CBE210057A100 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		7AF20FB12C9CBFA00057A100 /* AuthDataResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataResult.swift; sourceTree = "<group>"; };
+		7AF20FB32C9CCCCA0057A100 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				7AF20F8D2C90B9BF0057A100 /* Views */,
-				7AF20F8C2C90B91F0057A100 /* DataManager */,
+				7AF20F8C2C90B91F0057A100 /* Core */,
 				7AF20F7D2C909B0E0057A100 /* DataModels */,
 				7AF20F7C2C909AD60057A100 /* TestGroup */,
 				7A4239F02C8B71BC00F34FC7 /* FitnessProjectApp.swift */,
@@ -139,22 +147,26 @@
 				7AF20F862C909CC00057A100 /* ExerciseSet.swift */,
 				7AF20F8A2C909F920057A100 /* Exercise.swift */,
 				7AF20F882C909D140057A100 /* Stats.swift */,
+				7AF20FB12C9CBFA00057A100 /* AuthDataResult.swift */,
 			);
 			path = DataModels;
 			sourceTree = "<group>";
 		};
-		7AF20F8C2C90B91F0057A100 /* DataManager */ = {
+		7AF20F8C2C90B91F0057A100 /* Core */ = {
 			isa = PBXGroup;
 			children = (
 				7AF20FA92C9B64540057A100 /* AppState.swift */,
 				7AF20FAB2C9B70430057A100 /* Router.swift */,
+				7AF20FAD2C9CBA620057A100 /* AuthManager.swift */,
 			);
-			path = DataManager;
+			path = Core;
 			sourceTree = "<group>";
 		};
 		7AF20F8D2C90B9BF0057A100 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7AF20FB32C9CCCCA0057A100 /* RootView.swift */,
+				7AF20FAF2C9CBE210057A100 /* SignUpView.swift */,
 				7AF20F8E2C90BC770057A100 /* WelcomeView.swift */,
 				7AF20F902C90C8EA0057A100 /* MainNavigationView.swift */,
 				7AF20F9A2C90E7C40057A100 /* RoutineListView */,
@@ -279,11 +291,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AF20FA22C92137E0057A100 /* CreateRoutineView.swift in Sources */,
+				7AF20FAE2C9CBA620057A100 /* AuthManager.swift in Sources */,
 				7AF20F722C8B7DA40057A100 /* TestView.swift in Sources */,
 				7AF20F9E2C91F3EA0057A100 /* RoutineListCellView.swift in Sources */,
+				7AF20FB22C9CBFA00057A100 /* AuthDataResult.swift in Sources */,
 				7AF20F892C909D140057A100 /* Stats.swift in Sources */,
 				7AF20F972C90CAE70057A100 /* ProgressView.swift in Sources */,
 				7AF20F832C909C2F0057A100 /* Routine.swift in Sources */,
+				7AF20FB42C9CCCCA0057A100 /* RootView.swift in Sources */,
 				7AF20F932C90C9610057A100 /* RoutineListView.swift in Sources */,
 				7AF20F872C909CC00057A100 /* ExerciseSet.swift in Sources */,
 				7AF20F8B2C909F920057A100 /* Exercise.swift in Sources */,
@@ -293,6 +308,7 @@
 				7AF20FAC2C9B70430057A100 /* Router.swift in Sources */,
 				7AF20F912C90C8EA0057A100 /* MainNavigationView.swift in Sources */,
 				7AF20F7F2C909B390057A100 /* User.swift in Sources */,
+				7AF20FB02C9CBE210057A100 /* SignUpView.swift in Sources */,
 				7A4239F32C8B71BC00F34FC7 /* ContentView.swift in Sources */,
 				7AF20FA72C94B33A0057A100 /* ExerciseListCellView.swift in Sources */,
 				7AF20F742C8B7DBB0057A100 /* Dog.swift in Sources */,

@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct User: Identifiable, Hashable {
+struct CurrentUser: Identifiable, Hashable {
     var id = UUID().uuidString
     var name: String = ""
     var userName: String = ""
