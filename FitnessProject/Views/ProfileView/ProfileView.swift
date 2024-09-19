@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) var appState
     var body: some View {
         Button {
             appState.isLoggedIn = false
@@ -20,4 +20,5 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environment(AppState())
 }

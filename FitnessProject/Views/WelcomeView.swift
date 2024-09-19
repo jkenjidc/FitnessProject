@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) var appState
     var welcomeLabelFontsize: CGFloat {
         if UIScreen.main.bounds.width < 380 {
             return CGFloat(30)
@@ -87,5 +87,6 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView()
+        .environment(AppState())
         .preferredColorScheme(.dark)
 }

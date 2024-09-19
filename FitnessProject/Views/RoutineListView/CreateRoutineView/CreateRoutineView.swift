@@ -8,9 +8,60 @@
 import SwiftUI
 
 struct CreateRoutineView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) var appState
     @StateObject var viewModel = ViewModel()
     @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        NavigationStack{
+            Form {
+                routineNameView
+                routineDescriptionView
+                exercisesEmbeddedListView
+                
+                Button {
+                    viewModel.showAddExerciseSheet.toggle()
+                } label: {
+                    Text("Add Exercise")
+                        .frame(maxWidth: .infinity)
+                }
+            }
+            .scrollBounceBehavior(.basedOnSize)
+            .navigationBarBackButtonHidden(true)
+            .sheet(isPresented: $viewModel.showAddExerciseSheet) {
+                addExerciseSheetView
+            }
+            .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
+                alertBodyView(viewModel: viewModel)
+            } message: {
+                Text(viewModel.alertMessage)
+            }
+            .navigationTitle($viewModel.routine.name)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar{
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        viewModel.cancelCreation()
+                    } label: {
+                        Text("Cancel")
+                            .foregroundStyle(.red)
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        if viewModel.validInputs {
+                            appState.addRoutine(routine: viewModel.routine)
+                            dismiss()
+                        } else {
+                            viewModel.checkInputs()
+                        }
+                    } label: {
+                        Text("Save")
+                    }
+                }
+            }
+        }
+    }
     
     var routineNameView: some View {
         return Section(header: Text("Routine Name"), footer: errorFooterView(invalidField: viewModel.isMissingRoutineName)){
@@ -68,57 +119,6 @@ struct CreateRoutineView: View {
         }
         .presentationDetents([.fraction(0.4), .medium], selection: .constant(.fraction(0.4)))
     }
-    var body: some View {
-        NavigationStack{
-            Form {
-                routineNameView
-                routineDescriptionView
-                exercisesEmbeddedListView
-                
-                Button {
-                    viewModel.showAddExerciseSheet.toggle()
-                } label: {
-                    Text("Add Exercise")
-                        .frame(maxWidth: .infinity)
-                }
-            }
-            .scrollBounceBehavior(.basedOnSize)
-            .navigationBarBackButtonHidden(true)
-            .sheet(isPresented: $viewModel.showAddExerciseSheet) {
-                addExerciseSheetView
-            }
-            .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
-                alertBodyView(viewModel: viewModel)
-            } message: {
-                Text(viewModel.alertMessage)
-            }
-            .navigationTitle($viewModel.routine.name)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar{
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        viewModel.cancelCreation()
-                    } label: {
-                        Text("Cancel")
-                            .foregroundStyle(.red)
-                    }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        if viewModel.validInputs {
-                            appState.addRoutine(routine: viewModel.routine)
-                            dismiss()
-                        } else {
-                            viewModel.checkInputs()
-                        }
-                    } label: {
-                        Text("Save")
-                    }
-                }
-            }
-        }
-        
-    }
 }
 
 struct errorFooterView: View {
@@ -152,5 +152,5 @@ struct alertBodyView: View {
 #Preview {
     @State var routines = Routine.example
     return CreateRoutineView()
-        .environmentObject(AppState())
+        .environment(AppState())
 }

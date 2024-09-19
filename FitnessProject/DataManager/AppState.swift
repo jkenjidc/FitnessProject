@@ -7,11 +7,15 @@
 
 import Foundation
 import Firebase
+import SwiftUI
 
 @MainActor
-class AppState: ObservableObject{
-    @Published var user = User()
-    @Published var isLoggedIn = false
+
+@Observable class AppState{
+    var user = User()
+    var router = Router()
+    var isLoggedIn = false
+    
     
     var hasHitRoutineLimit: Bool {
         return user.routines.count == 5

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RoutineListView: View {
-    @EnvironmentObject var appState: AppState
+    @Environment(AppState.self) var appState
     @State private var action: Int? = 0
     @State private var showRoutineLimitAlert = false
     var body: some View {
@@ -66,7 +66,7 @@ struct RoutineListView: View {
 
 #Preview {
     RoutineListView()
-        .environmentObject(AppState())
+        .environment(AppState())
         .preferredColorScheme(.dark)
     //    RoutineListView(routines: [])
 }

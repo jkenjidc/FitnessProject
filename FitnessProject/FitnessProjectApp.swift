@@ -9,21 +9,24 @@ import SwiftUI
 import Firebase
 
 @main
+@MainActor
 struct FitnessProjectApp: App {
-    @StateObject var appState = AppState()
+    @State var appState = AppState()
     init() {
         FirebaseApp.configure()
     }
     var body: some Scene {
         WindowGroup {
-            if appState.isLoggedIn {
-                MainNavigationView()
-                    .preferredColorScheme(.dark)
-                    .environmentObject(appState)
-            } else {
-                WelcomeView()
-                    .preferredColorScheme(.dark)
-                    .environmentObject(appState)
+//            NavigationStack(path: $appState.router.navPath){
+                if appState.isLoggedIn {
+                    MainNavigationView()
+                        .preferredColorScheme(.dark)
+                        .environment(appState)
+                } else {
+                    WelcomeView()
+                        .preferredColorScheme(.dark)
+                        .environment(appState)
+//                }
             }
         }
     }
