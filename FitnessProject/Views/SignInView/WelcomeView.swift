@@ -23,8 +23,10 @@ struct WelcomeView: View {
             VStack{
                 HStack{
                     Spacer()
-                    NavigationLink{
-                        MainNavigationView()
+                    Button{
+                        Task {
+                            try await appState.signInAnonymous()
+                        }
                     } label: {
                         Label("Guest Sign In", systemImage: "person.crop.square")
                     }
@@ -49,8 +51,8 @@ struct WelcomeView: View {
                 }
                 Spacer()
                 Spacer()
-                Button {
-                    // Log in
+                NavigationLink {
+                    SignInView()
                 } label: {
                     Text("Log In")
                         .font(.system(size: 30))
@@ -65,11 +67,7 @@ struct WelcomeView: View {
                 .padding(.bottom, 15)
                 
                 NavigationLink {
-                    if appState.authState == .loggedIn {
-                        MainNavigationView()
-                    } else {
-                        SignUpView()
-                    }
+                    SignUpView()
                 } label: {
                     Text("Sign Up")
                         .font(.system(size: 30))

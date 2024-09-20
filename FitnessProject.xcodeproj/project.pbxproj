@@ -36,6 +36,7 @@
 		7AF20FB02C9CBE210057A100 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FAF2C9CBE210057A100 /* SignUpView.swift */; };
 		7AF20FB22C9CBFA00057A100 /* AuthDataResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FB12C9CBFA00057A100 /* AuthDataResult.swift */; };
 		7AF20FB42C9CCCCA0057A100 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FB32C9CCCCA0057A100 /* RootView.swift */; };
+		7AF20FB72C9DE9D80057A100 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FB62C9DE9D80057A100 /* SignInView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		7AF20FAF2C9CBE210057A100 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		7AF20FB12C9CBFA00057A100 /* AuthDataResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataResult.swift; sourceTree = "<group>"; };
 		7AF20FB32C9CCCCA0057A100 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		7AF20FB62C9DE9D80057A100 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,9 +167,8 @@
 		7AF20F8D2C90B9BF0057A100 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7AF20FB52C9DE9870057A100 /* SignInView */,
 				7AF20FB32C9CCCCA0057A100 /* RootView.swift */,
-				7AF20FAF2C9CBE210057A100 /* SignUpView.swift */,
-				7AF20F8E2C90BC770057A100 /* WelcomeView.swift */,
 				7AF20F902C90C8EA0057A100 /* MainNavigationView.swift */,
 				7AF20F9A2C90E7C40057A100 /* RoutineListView */,
 				7AF20F982C90E7A20057A100 /* ProgressView */,
@@ -210,6 +211,16 @@
 				7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */,
 			);
 			path = CreateRoutineView;
+			sourceTree = "<group>";
+		};
+		7AF20FB52C9DE9870057A100 /* SignInView */ = {
+			isa = PBXGroup;
+			children = (
+				7AF20F8E2C90BC770057A100 /* WelcomeView.swift */,
+				7AF20FAF2C9CBE210057A100 /* SignUpView.swift */,
+				7AF20FB62C9DE9D80057A100 /* SignInView.swift */,
+			);
+			path = SignInView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,6 +310,7 @@
 				7AF20F972C90CAE70057A100 /* ProgressView.swift in Sources */,
 				7AF20F832C909C2F0057A100 /* Routine.swift in Sources */,
 				7AF20FB42C9CCCCA0057A100 /* RootView.swift in Sources */,
+				7AF20FB72C9DE9D80057A100 /* SignInView.swift in Sources */,
 				7AF20F932C90C9610057A100 /* RoutineListView.swift in Sources */,
 				7AF20F872C909CC00057A100 /* ExerciseSet.swift in Sources */,
 				7AF20F8B2C909F920057A100 /* Exercise.swift in Sources */,

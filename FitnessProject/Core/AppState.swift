@@ -35,14 +35,6 @@ class AppState{
     
     init() {
         FirebaseApp.configure()
-        Auth.auth().addStateDidChangeListener { _, user in
-            switch user {
-            case nil:
-                self.authState = .loggedOut
-            default:
-                self.authState = .loggedIn
-            }
-        }
     }
     
     var hasHitRoutineLimit: Bool {
@@ -63,4 +55,58 @@ class AppState{
         showsignInView = authUser == nil
     }
     
+    func signUp(email: String, password: String) async throws {
+        guard !email.isEmpty, !password.isEmpty else {
+            print("No email or password found.")
+            return
+        }
+        do {
+            try await shared.createUser(email: email, password: password)
+            showsignInView = false
+        } catch {
+            print(error)
+        }
+
+    }
+    
+    func signIn(email: String, password: String) async throws {
+        guard !email.isEmpty, !password.isEmpty else {
+            print("No email or password found.")
+            return
+        }
+        do {
+            try await shared.signInUser(email: email, password: password)
+            showsignInView = false
+        } catch {
+            print(error)
+        }
+
+    }
+    
+    func resetPassword(email: String) async throws {
+        guard !email.isEmpty else { return }
+        do {
+            try await shared.resetPassword(email: email)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func updatePassword(password: String) async throws {
+        guard !password.isEmpty else { return }
+        do{
+            try await shared.updatePassword(password: password)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func signInAnonymous() async throws {
+        do {
+            try await shared.signInAnonymously()
+            showsignInView = false
+        } catch {
+            print(error)
+        }
+    }
 }

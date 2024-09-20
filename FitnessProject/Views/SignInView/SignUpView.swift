@@ -14,16 +14,16 @@ struct SignUpView: View {
     @Environment(\.dismiss) var dismiss
     var body: some View {
         TextField("Email", text: $email)
-        TextField("Password", text: $password)
+        SecureField("Password", text: $password)
         Button {
-            withAnimation {
-                appState.shared.signIn(email: email, password: password)
-//                dismiss()
+            Task {
+                try await appState.signUp(email: email, password: password)
             }
         } label: {
             Text("Sign Up")
         }
     }
+    
 }
 
 #Preview {

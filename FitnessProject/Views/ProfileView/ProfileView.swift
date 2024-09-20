@@ -10,20 +10,36 @@ import SwiftUI
 struct ProfileView: View {
     @Environment(AppState.self) var appState
     var body: some View {
-        Button {
-            
+        VStack{
+            Button {
                 Task {
                     do {
-
-                            try appState.shared.signOut()
+                        
+                        try appState.shared.signOut()
                         appState.showsignInView = true
                     } catch {
                         print(error)
                     }
+                }
+            } label: {
+                Text("log out")
             }
-        } label: {
-            Text("log out")
+            
+            Button {
+                
+                Task {
+                    do {
+                        try await appState.updatePassword(password: "test1243")
+                    } catch {
+                        print(error)
+                    }
+                }
+            } label: {
+                Text("Update password")
+            }
         }
+        
+        
     }
 }
 
