@@ -16,6 +16,7 @@ struct FitnessProjectApp: App {
         WindowGroup {
             RootView()
                 .environment(appState)
+                .preferredColorScheme(.dark)
         }
     }
 }

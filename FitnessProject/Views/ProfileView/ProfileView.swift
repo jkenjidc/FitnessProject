@@ -14,9 +14,9 @@ struct ProfileView: View {
             
                 Task {
                     do {
-                        try withAnimation {
+
                             try appState.shared.signOut()
-                        }
+                        appState.showsignInView = true
                     } catch {
                         print(error)
                     }

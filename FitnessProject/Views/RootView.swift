@@ -10,17 +10,18 @@ import SwiftUI
 struct RootView: View {
     @Environment(AppState.self) var appState
     var body: some View {
-        NavigationStack{
-            if appState.authState == .loggedIn {
+        ZStack{
+            NavigationStack{
                 MainNavigationView()
-                    .preferredColorScheme(.dark)
-                    .environment(appState)
-            } else {
-                WelcomeView()
-                    .preferredColorScheme(.dark)
-                    .environment(appState)
             }
         }
+        .onAppear {
+            appState.checkAuth()
+        }
+        .fullScreenCover(isPresented: appState.signInBinding, content: {
+            WelcomeView()
+        })
+            
     }
 }
 

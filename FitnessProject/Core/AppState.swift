@@ -19,6 +19,13 @@ class AppState{
     var isLoggedIn = false
     let shared =  AuthManager.shared
     var authState = AuthState.loggedOut
+    var showsignInView = false
+    var signInBinding: Binding<Bool> {
+        Binding(
+                    get: { self.showsignInView },
+                    set: { self.showsignInView = $0 }
+                )
+    }
     
     public enum AuthState{
         case loggedOut
@@ -49,6 +56,11 @@ class AppState{
     
     func deleteRoutine(at offsets: IndexSet){
         user.routines.remove(atOffsets: offsets)
+    }
+    
+    func checkAuth() {
+        let authUser = try? shared.getAuthenticatedUser()
+        showsignInView = authUser == nil
     }
     
 }
