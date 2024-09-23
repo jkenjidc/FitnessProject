@@ -17,6 +17,7 @@ class AppState{
     var user = CurrentUser()
     var router = Router()
     var isLoggedIn = false
+    var isAnonymous = false
     let shared =  AuthManager.shared
     var authState = AuthState.loggedOut
     var showsignInView = false
@@ -105,8 +106,25 @@ class AppState{
         do {
             try await shared.signInAnonymously()
             showsignInView = false
+            isAnonymous = true
         } catch {
             print(error)
         }
     }
+    
+    func isUserAnonymous() -> Bool {
+        let authUser = try? shared.getAuthenticatedUser()
+        return authUser?.isAnonymous ?? false
+    }
+    
+    func linkEmail(email: String, password: String) async throws {
+        guard !password.isEmpty else { return }
+        do {
+            try await shared.linkEmail(email: email, password: password)
+            isAnonymous = false
+        } catch {
+            print(error)
+        }
+    }
+    
 }

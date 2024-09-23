@@ -17,7 +17,12 @@ struct SignUpView: View {
         SecureField("Password", text: $password)
         Button {
             Task {
-                try await appState.signUp(email: email, password: password)
+                if appState.isAnonymous{
+                    try await appState.linkEmail(email: email, password: password)
+                    dismiss()
+                } else {
+                    try await appState.signUp(email: email, password: password)
+                }
             }
         } label: {
             Text("Sign Up")

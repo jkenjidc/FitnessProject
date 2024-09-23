@@ -49,8 +49,9 @@ final class AuthManager {
         return AuthDataResultModel(user: authDataResult.user)
     }
     
+    @discardableResult
     func linkEmail(email: String, password: String) async throws -> AuthDataResultModel {
-        let credential = EmailAuthProvider.credential(withEmail: email, link: password)
+        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         
         guard let user  = Auth.auth().currentUser else {
             throw URLError(.badURL)
