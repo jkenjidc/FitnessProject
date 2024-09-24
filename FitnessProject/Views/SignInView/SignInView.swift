@@ -26,7 +26,7 @@ struct SignInView: View {
                     }
                     Button {
                         Task{
-                            try await appState.signIn(email: viewModel.email, password: viewModel.password)
+                            try await AuthManager.shared.signInUser(email: viewModel.email, password: viewModel.password)
                         }
                     } label: {
                         Text("Sign In")
@@ -42,7 +42,7 @@ struct SignInView: View {
                     
                     Button {
                         Task{
-                            try await appState.resetPassword(email: viewModel.email)
+                            try await AuthManager.shared.resetPassword(email: viewModel.email)
                         }
                     } label: {
                         Text("Forgot Password?")

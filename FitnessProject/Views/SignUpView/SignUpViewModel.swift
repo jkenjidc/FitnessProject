@@ -24,5 +24,22 @@ extension SignUpView {
                 passwordsMatch = password == passwordConfirmation
             }
         }
+        
+        func signUp(email: String, password: String) async throws {
+            guard !email.isEmpty, !password.isEmpty else {
+                print("No email or password found.")
+                return
+            }
+            do {
+                try await AuthManager.shared.createUser(email: email, password: password)
+            } catch {
+                print(error)
+            }
+
+        }
+        
+        
+        
+        
     }
 }

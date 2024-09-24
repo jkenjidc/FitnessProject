@@ -16,9 +16,9 @@ struct RootView: View {
             }
         }
         .onAppear {
-            appState.checkAuth()
+            AuthManager.shared.checkAuth()
         }
-        .fullScreenCover(isPresented: appState.signInBinding, content: {
+        .fullScreenCover(isPresented: AuthManager.shared.signOutBinding, content: {
             WelcomeView()
         })
             

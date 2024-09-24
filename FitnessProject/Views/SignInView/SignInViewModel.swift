@@ -16,5 +16,18 @@ extension SignInView {
         var invalidInputs: Bool {
             return email.isEmpty && password.isEmpty
         }
+        
+        func signIn(email: String, password: String) async throws {
+            guard !email.isEmpty, !password.isEmpty else {
+                print("No email or password found.")
+                return
+            }
+            do {
+                try await AuthManager.shared.signInUser(email: email, password: password)
+            } catch {
+                print(error)
+            }
+
+        }
     }
 }

@@ -17,7 +17,7 @@ struct ProfileView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width:180, height: 180)
-                if appState.isAnonymous{
+                if AuthManager.shared.isAnonymous{
                     Text("Guest user")
                     if let user = appState.authProfile {
                         Text("User ID \(user.uid)")
@@ -28,14 +28,27 @@ struct ProfileView: View {
                         Text("Create account")
                     }
                     
+                    Button {
+                        Task {
+                            do {
+                                
+                                try AuthManager.shared.signOut()
+//                                appState.showsignInView = true
+                            } catch {
+                                print(error)
+                            }
+                        }
+                    } label: {
+                        Text("log out")
+                    }
+                    
                 } else {
                     Text("Name: \(appState.user.name)")
                     Button {
                         Task {
                             do {
                                 
-                                try appState.shared.signOut()
-                                appState.showsignInView = true
+                                try AuthManager.shared.signOut()
                             } catch {
                                 print(error)
                             }
@@ -47,7 +60,7 @@ struct ProfileView: View {
                         
                         Task {
                             do {
-                                try await appState.updatePassword(password: "test1243")
+                                try await AuthManager.shared.updatePassword(password: "test1243")
                             } catch {
                                 print(error)
                             }
@@ -58,7 +71,7 @@ struct ProfileView: View {
                 }
             }
             .onAppear {
-                try? appState.loadAuthProfile()
+                try? AuthManager.shared.loadAuthProfile()
             }
             .frame(maxWidth: .infinity)
             

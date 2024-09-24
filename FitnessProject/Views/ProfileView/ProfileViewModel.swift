@@ -9,7 +9,6 @@ import Foundation
 
 extension ProfileView {
     
-    
     @MainActor
     @Observable
     class ViewModel {
