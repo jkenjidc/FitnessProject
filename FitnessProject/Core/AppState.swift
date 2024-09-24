@@ -9,17 +9,18 @@ import Foundation
 import FirebaseAuth
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 
 @MainActor
 
 @Observable 
 class AppState{
     var user = CurrentUser()
+    private(set) var authProfile: AuthDataResultModel? = nil
     var router = Router()
-    var isLoggedIn = false
+//    var db: Any? = nil
     var isAnonymous = false
     let shared =  AuthManager.shared
-    var authState = AuthState.loggedOut
     var showsignInView = false
     var signInBinding: Binding<Bool> {
         Binding(
@@ -28,14 +29,14 @@ class AppState{
                 )
     }
     
-    public enum AuthState{
-        case loggedOut
-        case guestMode
-        case loggedIn
-    }
+//    func loadDb() {
+//        db  = Firestore.firestore()
+//    }
     
-    init() {
-        FirebaseApp.configure()
+    func loadAuthProfile() throws {
+        self.authProfile = try shared.getAuthenticatedUser()
+        self.isAnonymous = self.authProfile?.isAnonymous == true
+        
     }
     
     var hasHitRoutineLimit: Bool {

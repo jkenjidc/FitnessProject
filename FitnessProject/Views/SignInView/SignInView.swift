@@ -9,31 +9,64 @@ import SwiftUI
 
 struct SignInView: View {
     @Environment(AppState.self) var appState
-    @State private var email = ""
-    @State private var password = ""
-    @State private var showForgotPasswordField = false
+    @State var viewModel =  ViewModel()
     @Environment(\.dismiss) var dismiss
     var body: some View {
-        TextField("Email", text: $email)
-        SecureField("Password", text: $password)
-        Button {
-            Task{
-                try await appState.signIn(email: email, password: password)
+        NavigationStack{
+            VStack(){
+                Group{
+                    VStack(alignment: .leading){
+                        EntryFieldView(textBinding: $viewModel.email, placeholderString: "Email", iconImagename: "envelope.fill")
+//                        ErrorFooterView(invalidField: viewModel.invalidInputs)
+//                            .padding(.leading, 5)
+                        
+                        EntryFieldView(textBinding: $viewModel.password, placeholderString: "Password", isSecureField: true, iconImagename: "lock.fill")
+//                        ErrorFooterView(invalidField: viewModel.invalidInputs)
+//                            .padding(.leading, 5)
+                    }
+                    Button {
+                        Task{
+                            try await appState.signIn(email: viewModel.email, password: viewModel.password)
+                        }
+                    } label: {
+                        Text("Sign In")
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 50)
+                            .overlay (
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(.secondary)
+                            )
+                    }
+                    .disabled(viewModel.invalidInputs)
+                    .buttonStyle(.plain)
+                    
+                    Button {
+                        Task{
+                            try await appState.resetPassword(email: viewModel.email)
+                        }
+                    } label: {
+                        Text("Forgot Password?")
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 50)
+                            .overlay (
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(.secondary)
+                            )
+                    }
+                    .disabled(viewModel.invalidInputs)
+                    .buttonStyle(.plain)
+                }
+                .padding(.horizontal, 15)
+                .padding(.bottom, 5)
+                Spacer()
             }
-        } label: {
-            Text("Sign In")
-        }
-        
-        Button {
-            Task{
-                try await appState.resetPassword(email: email)
-            }
-        } label: {
-            Text("Forgot password?")
+            .navigationTitle("Sign In")
         }
     }
 }
 
 #Preview {
     SignInView()
+        .environment(AppState())
+        .preferredColorScheme(.dark)
 }

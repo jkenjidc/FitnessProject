@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct WelcomeView: View {
     @Environment(AppState.self) var appState
+    @State private var showGuestModeAlert = false
     var welcomeLabelFontsize: CGFloat {
         if UIScreen.main.bounds.width < 380 {
             return CGFloat(30)
@@ -24,9 +25,7 @@ struct WelcomeView: View {
                 HStack{
                     Spacer()
                     Button{
-                        Task {
-                            try await appState.signInAnonymous()
-                        }
+                        showGuestModeAlert.toggle()
                     } label: {
                         Label("Guest Sign In", systemImage: "person.crop.square")
                     }
@@ -81,6 +80,18 @@ struct WelcomeView: View {
                 .buttonStyle(.plain)
                 
                 
+            }
+            .alert("Guest Mode", isPresented: $showGuestModeAlert ){
+//                Button("cancel", role: .none){}
+                Button(role: .destructive){
+                    Task {
+                        try await appState.signInAnonymous()
+                    }
+                } label: {
+                    Text("OK")
+                }
+            } message: {
+                Text("Any data created will be lost when the app is deleted, do you wish to proceed?")
             }
             .padding()
         }

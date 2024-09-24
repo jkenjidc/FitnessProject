@@ -9,11 +9,19 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(AppState.self) var appState
-    @State private var authUser: AuthDataResultModel? = nil
     var body: some View {
         NavigationStack{
-            VStack{
+            VStack(alignment: .center){
+                    
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width:180, height: 180)
                 if appState.isAnonymous{
+                    Text("Guest user")
+                    if let user = appState.authProfile {
+                        Text("User ID \(user.uid)")
+                    }
                     NavigationLink {
                         SignUpView()
                     } label: {
@@ -21,6 +29,7 @@ struct ProfileView: View {
                     }
                     
                 } else {
+                    Text("Name: \(appState.user.name)")
                     Button {
                         Task {
                             do {
@@ -48,6 +57,10 @@ struct ProfileView: View {
                     }
                 }
             }
+            .onAppear {
+                try? appState.loadAuthProfile()
+            }
+            .frame(maxWidth: .infinity)
             
             
         }
@@ -59,4 +72,5 @@ struct ProfileView: View {
 #Preview {
     ProfileView()
         .environment(AppState())
+        .preferredColorScheme(.dark)
 }

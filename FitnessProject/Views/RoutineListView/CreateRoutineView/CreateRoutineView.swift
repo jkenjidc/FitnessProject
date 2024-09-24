@@ -64,7 +64,8 @@ struct CreateRoutineView: View {
     }
     
     var routineNameView: some View {
-        return Section(header: Text("Routine Name"), footer: errorFooterView(invalidField: viewModel.isMissingRoutineName)){
+        return Section(header: Text("Routine Name"), footer: ErrorFooterView(invalidField: viewModel.isMissingRoutineName)
+){
             TextField("", text: $viewModel.routine.name)
                 .keyboardType(.asciiCapable)
                 .onChange(of: viewModel.routine.name) { _,_ in
@@ -95,17 +96,12 @@ struct CreateRoutineView: View {
     var addExerciseSheetView: some View {
         return VStack {
             VStack(alignment: .leading){
-                TextField("Exercise Name", text: $viewModel.newExerciseName)
-                    .padding()
-                    .overlay (
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(.secondary)
-                    )
+                EntryFieldView(textBinding: $viewModel.newExerciseName, placeholderString: "Exercise Name")
                     .padding(.horizontal, 15)
                     .onChange(of: viewModel.newExerciseName){ _,_ in
                         viewModel.isMissingExerciseName = viewModel.newExerciseName.isEmpty
                     }
-                errorFooterView(invalidField: viewModel.isMissingExerciseName)
+                ErrorFooterView(invalidField: viewModel.isMissingExerciseName)
                     .padding(.leading, 25)
             }
             Button {
@@ -121,16 +117,6 @@ struct CreateRoutineView: View {
     }
 }
 
-struct errorFooterView: View {
-    var invalidField: Bool
-    var body: some View {
-        if invalidField {
-            Text("Field can't be blank")
-                .foregroundStyle(.red)
-                .opacity(0.8)
-        }
-    }
-}
 
 struct alertBodyView: View {
     @Bindable var viewModel: CreateRoutineView.ViewModel
