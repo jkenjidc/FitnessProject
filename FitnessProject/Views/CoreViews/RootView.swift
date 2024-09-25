@@ -16,7 +16,11 @@ struct RootView: View {
             }
         }
         .onAppear {
-            AuthManager.shared.checkAuth()
+            do{
+                try AuthManager.shared.checkAuth()
+            } catch {
+                print(error)
+            }
         }
         .fullScreenCover(isPresented: AuthManager.shared.signOutBinding, content: {
             WelcomeView()

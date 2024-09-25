@@ -10,7 +10,7 @@ import FirebaseAuth
 
 struct WelcomeView: View {
     @Environment(AppState.self) var appState
-    @State private var showGuestModeAlert = false
+    @State private var viewModel = ViewModel()
     var welcomeLabelFontsize: CGFloat {
         if UIScreen.main.bounds.width < 380 {
             return CGFloat(30)
@@ -25,7 +25,7 @@ struct WelcomeView: View {
                 HStack{
                     Spacer()
                     Button{
-                        showGuestModeAlert.toggle()
+                        viewModel.showGuestModeAlert.toggle()
                     } label: {
                         Label("Guest Sign In", systemImage: "person.crop.square")
                     }
@@ -81,7 +81,7 @@ struct WelcomeView: View {
                 
                 
             }
-            .alert("Guest Mode", isPresented: $showGuestModeAlert ){
+            .alert("Guest Mode", isPresented: $viewModel.showGuestModeAlert ){
 //                Button("cancel", role: .none){}
                 Button(role: .destructive){
                     Task {

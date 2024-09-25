@@ -8,13 +8,8 @@
 import Foundation
 
 extension ProfileView {
-    
-    @MainActor
     @Observable
     class ViewModel {
-        private(set) var user: AuthDataResultModel? = nil
-        func loadCurrentUser() throws {
-            self.user =  try  AuthManager.shared.getAuthenticatedUser()
-        }
+    //
     }
 }

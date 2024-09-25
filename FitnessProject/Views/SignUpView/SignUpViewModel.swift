@@ -25,21 +25,13 @@ extension SignUpView {
             }
         }
         
-        func signUp(email: String, password: String) async throws {
-            guard !email.isEmpty, !password.isEmpty else {
-                print("No email or password found.")
-                return
-            }
-            do {
-                try await AuthManager.shared.createUser(email: email, password: password)
-            } catch {
-                print(error)
-            }
-
+        func signUp() async throws {
+            let user = try await AuthManager.shared.createUser(email: email, password: password)
+            try await DataManager.shared.createNewUser(auth: user)
         }
         
-        
-        
-        
+        func linkEmail() async throws {
+            try await AuthManager.shared.linkEmail(email: email, password: password)
+        }
     }
 }

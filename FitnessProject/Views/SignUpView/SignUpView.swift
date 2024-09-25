@@ -34,12 +34,10 @@ struct SignUpView: View {
             Button {
                 Task {
                     if AuthManager.shared.isAnonymous{
-                        try await AuthManager.shared.linkEmail(email: viewModel.email, password: viewModel.password)
-                        appState.user.name = viewModel.name
+                        try await viewModel.linkEmail()
                         dismiss()
                     } else {
-                        try await viewModel.signUp(email: viewModel.email, password: viewModel.password)
-                        appState.user.name = viewModel.name
+                        try await viewModel.signUp()
                     }
                 }
             } label: {

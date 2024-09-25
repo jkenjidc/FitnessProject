@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(AppState.self) var appState
+//    @State  var viewModel = ViewModel()
     var body: some View {
         NavigationStack{
             VStack(alignment: .center){
@@ -19,7 +20,7 @@ struct ProfileView: View {
                         .frame(width:180, height: 180)
                 if AuthManager.shared.isAnonymous{
                     Text("Guest user")
-                    if let user = appState.authProfile {
+                    if let user = AuthManager.shared.authProfile {
                         Text("User ID \(user.uid)")
                     }
                     NavigationLink {
@@ -33,7 +34,6 @@ struct ProfileView: View {
                             do {
                                 
                                 try AuthManager.shared.signOut()
-//                                appState.showsignInView = true
                             } catch {
                                 print(error)
                             }
@@ -69,9 +69,6 @@ struct ProfileView: View {
                         Text("Update password")
                     }
                 }
-            }
-            .onAppear {
-                try? AuthManager.shared.loadAuthProfile()
             }
             .frame(maxWidth: .infinity)
             

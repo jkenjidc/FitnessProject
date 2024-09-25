@@ -18,6 +18,8 @@
 		7A8A2D2F2CA1ED990087EE8B /* EntryFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D2E2CA1ED990087EE8B /* EntryFieldView.swift */; };
 		7A8A2D312CA32AFD0087EE8B /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D302CA32AFD0087EE8B /* SignInViewModel.swift */; };
 		7A8A2D342CA33C5A0087EE8B /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D332CA33C5A0087EE8B /* ProfileViewModel.swift */; };
+		7A8A2D362CA45F2D0087EE8B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D352CA45F2D0087EE8B /* DataManager.swift */; };
+		7A8A2D392CA462540087EE8B /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D382CA462540087EE8B /* WelcomeViewModel.swift */; };
 		7AF20F7F2C909B390057A100 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F7E2C909B390057A100 /* User.swift */; };
 		7AF20F832C909C2F0057A100 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F822C909C2F0057A100 /* Routine.swift */; };
 		7AF20F872C909CC00057A100 /* ExerciseSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F862C909CC00057A100 /* ExerciseSet.swift */; };
@@ -52,6 +54,8 @@
 		7A8A2D2E2CA1ED990087EE8B /* EntryFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryFieldView.swift; sourceTree = "<group>"; };
 		7A8A2D302CA32AFD0087EE8B /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		7A8A2D332CA33C5A0087EE8B /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		7A8A2D352CA45F2D0087EE8B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		7A8A2D382CA462540087EE8B /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		7AF20F7E2C909B390057A100 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7AF20F822C909C2F0057A100 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
 		7AF20F862C909CC00057A100 /* ExerciseSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSet.swift; sourceTree = "<group>"; };
@@ -150,9 +154,18 @@
 			children = (
 				7AF20FB32C9CCCCA0057A100 /* RootView.swift */,
 				7AF20F902C90C8EA0057A100 /* MainNavigationView.swift */,
-				7AF20F8E2C90BC770057A100 /* WelcomeView.swift */,
+				7A8A2D372CA462340087EE8B /* WelcomeView */,
 			);
 			path = CoreViews;
+			sourceTree = "<group>";
+		};
+		7A8A2D372CA462340087EE8B /* WelcomeView */ = {
+			isa = PBXGroup;
+			children = (
+				7AF20F8E2C90BC770057A100 /* WelcomeView.swift */,
+				7A8A2D382CA462540087EE8B /* WelcomeViewModel.swift */,
+			);
+			path = WelcomeView;
 			sourceTree = "<group>";
 		};
 		7AF20F792C8F4AD30057A100 /* Frameworks */ = {
@@ -181,6 +194,7 @@
 				7AF20FA92C9B64540057A100 /* AppState.swift */,
 				7AF20FAB2C9B70430057A100 /* Router.swift */,
 				7AF20FAD2C9CBA620057A100 /* AuthManager.swift */,
+				7A8A2D352CA45F2D0087EE8B /* DataManager.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -329,6 +343,7 @@
 				7A8A2D342CA33C5A0087EE8B /* ProfileViewModel.swift in Sources */,
 				7AF20FB22C9CBFA00057A100 /* AuthDataResult.swift in Sources */,
 				7AF20F892C909D140057A100 /* Stats.swift in Sources */,
+				7A8A2D392CA462540087EE8B /* WelcomeViewModel.swift in Sources */,
 				7AF20F972C90CAE70057A100 /* ProgressView.swift in Sources */,
 				7AF20F832C909C2F0057A100 /* Routine.swift in Sources */,
 				7AF20FB42C9CCCCA0057A100 /* RootView.swift in Sources */,
@@ -340,6 +355,7 @@
 				7AF20F8B2C909F920057A100 /* Exercise.swift in Sources */,
 				7AF20F8F2C90BC770057A100 /* WelcomeView.swift in Sources */,
 				7A8A2D2A2CA1E61C0087EE8B /* SignUpViewModel.swift in Sources */,
+				7A8A2D362CA45F2D0087EE8B /* DataManager.swift in Sources */,
 				7AF20FAA2C9B64540057A100 /* AppState.swift in Sources */,
 				7AF20FA52C9239AB0057A100 /* CreateRoutineViewModel.swift in Sources */,
 				7AF20FAC2C9B70430057A100 /* Router.swift in Sources */,
