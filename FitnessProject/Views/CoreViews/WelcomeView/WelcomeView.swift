@@ -85,7 +85,11 @@ struct WelcomeView: View {
 //                Button("cancel", role: .none){}
                 Button(role: .destructive){
                     Task {
-                        try await AuthManager.shared.signInAnonymously()
+                        do {
+                            try await viewModel.signInAnonymously()
+                        } catch {
+                            print(error)
+                        }
                     }
                 } label: {
                     Text("OK")

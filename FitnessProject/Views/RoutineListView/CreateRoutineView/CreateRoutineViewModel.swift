@@ -8,8 +8,7 @@
 import Foundation
 
 extension CreateRoutineView {
-    @Observable
-    class ViewModel: ObservableObject {
+    @Observable class ViewModel: ObservableObject {
         var routine: Routine = Routine()
         var showAddExerciseSheet = false
         var newExerciseName = ""

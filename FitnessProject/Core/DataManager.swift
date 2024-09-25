@@ -22,6 +22,9 @@ final class DataManager {
         if let photoUrl = auth.photoUrl {
             userData["photo_url"] = photoUrl
         }
-        try await Firestore.firestore().collection("users").document(auth.uid).setData(userData, merge: false)
+        try await Firestore.firestore()
+            .collection("users")
+            .document(auth.uid)
+            .setData(userData, merge: true)
     }
 }

@@ -8,8 +8,7 @@
 import Foundation
 
 extension SignUpView {
-    @Observable
-    class ViewModel {
+    @Observable class ViewModel {
         var email = ""
         var password = ""
         var passwordConfirmation = ""
