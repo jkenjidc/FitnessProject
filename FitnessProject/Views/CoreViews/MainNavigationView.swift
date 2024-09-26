@@ -25,7 +25,7 @@ struct MainNavigationView: View {
                 }
                 .tag(1)
             
-            ProgressView()
+            PersonalProgressView()
                 .tabItem {
                     Image(systemName: "chart.line.uptrend.xyaxis")
                 }

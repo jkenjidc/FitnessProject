@@ -9,20 +9,27 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(AppState.self) var appState
-//    @State  var viewModel = ViewModel()
+    @State  var viewModel = ViewModel()
     var body: some View {
         NavigationStack{
             VStack(alignment: .center){
+                
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width:180, height: 180)
+                Text("Guest user")
+//                if let user = AuthManager.shared.authProfile {
+//                    Text("User ID \(user.uid)")
+//                    
+//                }
+                
+                if let user = viewModel.user {
+                    Text("User ID \(user.userId)")
                     
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width:180, height: 180)
+                }
+                
                 if AuthManager.shared.isAnonymous{
-                    Text("Guest user")
-                    if let user = AuthManager.shared.authProfile {
-                        Text("User ID \(user.uid)")
-                    }
                     NavigationLink {
                         SignUpView()
                     } label: {
@@ -70,13 +77,18 @@ struct ProfileView: View {
                     }
                 }
             }
-            .frame(maxWidth: .infinity)
-            
-            
+        }
+        .frame(maxWidth: .infinity)
+        .onAppear {
+            Task {
+                try? await viewModel.loadCurrentUser()
+            }
         }
         
         
     }
+    
+    
 }
 
 #Preview {

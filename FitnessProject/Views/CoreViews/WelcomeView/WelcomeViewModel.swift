@@ -15,6 +15,7 @@ extension WelcomeView {
         func signInAnonymously() async throws {
             let authDataResult =  try await AuthManager.shared.signInAnonymously()
             try await DataManager.shared.createNewUser(auth: authDataResult)
+            
         }
     }
 }

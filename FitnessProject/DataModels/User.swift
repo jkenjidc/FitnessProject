@@ -9,7 +9,7 @@ import Foundation
 
 
 struct CurrentUser: Identifiable, Hashable {
-    var id = UUID().uuidString
+    var id: String = ""
     var name: String = ""
     var userName: String = ""
     var routines: [Routine] = []
