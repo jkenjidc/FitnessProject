@@ -76,6 +76,11 @@ struct ProfileView: View {
                         Text("Update password")
                     }
                 }
+                Button {
+                    viewModel.togglePremiumStatus()
+                }label: {
+                    Text("User is premium: \((viewModel.user?.isPremium ?? false).description.capitalized)")
+                }
             }
         }
         .frame(maxWidth: .infinity)
