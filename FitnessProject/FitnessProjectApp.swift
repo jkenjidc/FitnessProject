@@ -15,7 +15,6 @@ struct FitnessProjectApp: App {
     @State var appState = AppState()
     init() {
         FirebaseApp.configure()
-//        appState.loadDb()
     }
     var body: some Scene {
         WindowGroup {

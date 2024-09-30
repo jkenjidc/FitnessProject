@@ -31,6 +31,7 @@ extension SignUpView {
         
         func linkEmail() async throws {
             try await AuthManager.shared.linkEmail(email: email, password: password)
+            try await DataManager.shared.loadUser()
         }
     }
 }

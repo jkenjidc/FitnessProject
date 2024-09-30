@@ -74,13 +74,6 @@ struct ProfileView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .onAppear {
-            Task {
-                try? await viewModel.loadCurrentUser()
-            }
-        }
-        
-        
     }
     
     

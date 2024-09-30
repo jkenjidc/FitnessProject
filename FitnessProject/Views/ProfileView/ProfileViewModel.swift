@@ -11,10 +11,5 @@ import Foundation
 extension ProfileView {
     @Observable
     class ViewModel {
-        private(set) var user: CurrentUser? = nil
-        
-        func loadCurrentUser() async throws {
-            self.user = try await DataManager.shared.getUser(userId: AuthManager.shared.authProfile?.uid ?? "")
-        }
     }
 }
