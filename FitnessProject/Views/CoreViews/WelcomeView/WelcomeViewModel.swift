@@ -17,8 +17,6 @@ extension WelcomeView {
             let user = CurrentUser(auth: authDataResult)
             try await DataManager.shared.createNewUser(user: user)
             try await DataManager.shared.loadUser()
-//            try await DataManager.shared.createNewUser(auth: authDataResult)
-            
         }
     }
 }

@@ -82,7 +82,6 @@ struct WelcomeView: View {
                 
             }
             .alert("Guest Mode", isPresented: $viewModel.showGuestModeAlert ){
-//                Button("cancel", role: .none){}
                 Button(role: .destructive){
                     Task {
                         do {

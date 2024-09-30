@@ -26,7 +26,7 @@ struct SignInView: View {
                     }
                     Button {
                         Task{
-                            try await AuthManager.shared.signInUser(email: viewModel.email, password: viewModel.password)
+                            try await viewModel.signIn()
                         }
                     } label: {
                         Text("Sign In")

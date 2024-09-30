@@ -16,16 +16,6 @@ import FirebaseFirestore
 class AppState{
     var user = CurrentUser()
     var router = Router()
-//    var db: Any? = nil
-    
-//    func loadDb() {
-//        db  = Firestore.firestore()
-//    }
-    
-//    func loadUser() async throws {
-//        user = try await DataManager.shared.getUser(userId: AuthManager.shared.authProfile?.uid ?? "")
-//    }
-//    
     var hasHitRoutineLimit: Bool {
         return user.routines.count == 5
     }

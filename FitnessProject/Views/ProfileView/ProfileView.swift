@@ -19,11 +19,6 @@ struct ProfileView: View {
                     .scaledToFit()
                     .frame(width:180, height: 180)
                 Text("Guest user")
-//                if let user = AuthManager.shared.authProfile {
-//                    Text("User ID \(user.uid)")
-//                    
-//                }
-                
                 let user = DataManager.shared.user
                 Text("User ID \(user.id)")
                     
@@ -76,11 +71,6 @@ struct ProfileView: View {
                         Text("Update password")
                     }
                 }
-//                Button {
-//                    viewModel.togglePremiumStatus()
-//                }label: {
-//                    Text("User is premium: \((viewModel.user?.isPremium ?? false).description.capitalized)")
-//                }
             }
         }
         .frame(maxWidth: .infinity)
