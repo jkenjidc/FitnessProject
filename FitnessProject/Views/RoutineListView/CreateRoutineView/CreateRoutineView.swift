@@ -50,7 +50,9 @@ struct CreateRoutineView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         if viewModel.validInputs {
-                            appState.addRoutine(routine: viewModel.routine)
+                            Task {
+                                try await DataManager.shared.addRoutine(routine: viewModel.routine)
+                            }
                             dismiss()
                         } else {
                             viewModel.checkInputs()

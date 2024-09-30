@@ -14,7 +14,8 @@ struct RoutineListView: View {
     var body: some View {
         NavigationStack{
             VStack {
-                if appState.user.routines.isEmpty {
+                let user = DataManager.shared.user
+                if user.routines.isEmpty {
                     ContentUnavailableView{
                         Image(systemName: "figure.flexibility")
                             .resizable()
@@ -26,7 +27,7 @@ struct RoutineListView: View {
                     .navigationTitle("Routines")
                 } else {
                     List{
-                        ForEach(appState.user.routines){ routine in
+                        ForEach(user.routines){ routine in
                             RoutineListCellView(title: routine.name)
                         }
                         .onDelete(perform: { indexSet in

@@ -24,10 +24,10 @@ struct ProfileView: View {
 //                    
 //                }
                 
-                if let user = viewModel.user {
-                    Text("User ID \(user.userId)")
+                let user = DataManager.shared.user
+                Text("User ID \(user.id)")
                     
-                }
+                
                 
                 if AuthManager.shared.isAnonymous{
                     NavigationLink {
@@ -50,7 +50,7 @@ struct ProfileView: View {
                     }
                     
                 } else {
-                    Text("Name: \(appState.user.name)")
+                    Text("Name: \(user.name)")
                     Button {
                         Task {
                             do {
@@ -76,11 +76,11 @@ struct ProfileView: View {
                         Text("Update password")
                     }
                 }
-                Button {
-                    viewModel.togglePremiumStatus()
-                }label: {
-                    Text("User is premium: \((viewModel.user?.isPremium ?? false).description.capitalized)")
-                }
+//                Button {
+//                    viewModel.togglePremiumStatus()
+//                }label: {
+//                    Text("User is premium: \((viewModel.user?.isPremium ?? false).description.capitalized)")
+//                }
             }
         }
         .frame(maxWidth: .infinity)

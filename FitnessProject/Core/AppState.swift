@@ -22,9 +22,14 @@ class AppState{
 //        db  = Firestore.firestore()
 //    }
     
+//    func loadUser() async throws {
+//        user = try await DataManager.shared.getUser(userId: AuthManager.shared.authProfile?.uid ?? "")
+//    }
+//    
     var hasHitRoutineLimit: Bool {
         return user.routines.count == 5
     }
+    
 
     func addRoutine(routine: Routine) {
         user.routines.append(routine)

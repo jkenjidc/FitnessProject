@@ -79,6 +79,7 @@ final class AuthManager {
     func signInAnonymously() async throws -> AuthDataResultModel {
        let authDataResult =  try await Auth.auth().signInAnonymously()
         try checkAuth()
+        
         return AuthDataResultModel(user: authDataResult.user)
     }
     

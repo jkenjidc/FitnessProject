@@ -14,8 +14,9 @@ extension WelcomeView {
         var showGuestModeAlert = false
         func signInAnonymously() async throws {
             let authDataResult =  try await AuthManager.shared.signInAnonymously()
-            let user = DBUser(auth: authDataResult)
+            let user = CurrentUser(auth: authDataResult)
             try await DataManager.shared.createNewUser(user: user)
+            try await DataManager.shared.loadUser()
 //            try await DataManager.shared.createNewUser(auth: authDataResult)
             
         }
