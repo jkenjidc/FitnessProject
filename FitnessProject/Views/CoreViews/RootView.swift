@@ -25,7 +25,7 @@ struct RootView: View {
                 }
             }
         }
-        .fullScreenCover(isPresented: AuthManager.shared.signOutBinding, content: {
+        .fullScreenCover(isPresented:  AuthManager.shared.signOutBinding, content: {
             WelcomeView()
         })
             

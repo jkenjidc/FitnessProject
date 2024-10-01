@@ -18,7 +18,7 @@ struct ProfileView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width:180, height: 180)
-                Text("Guest user")
+//                Text("Guest user")
                 let user = DataManager.shared.user
                 Text("User ID \(user.id)")
                     

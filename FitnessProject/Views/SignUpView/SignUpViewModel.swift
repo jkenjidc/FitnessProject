@@ -25,8 +25,12 @@ extension SignUpView {
         }
         
         func signUp() async throws {
-            let user = try await AuthManager.shared.createUser(email: email, password: password)
-            try await DataManager.shared.createNewUser(user: CurrentUser(auth: user))
+            do {
+                let user = try await AuthManager.shared.createUser(email: email, password: password)
+                try await DataManager.shared.createNewUser(user: CurrentUser(auth: user))
+            } catch {
+                print(error.localizedDescription)
+            }
         }
         
         func linkEmail() async throws {

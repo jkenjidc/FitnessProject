@@ -15,6 +15,8 @@ final class AuthManager {
     static let shared = AuthManager()
     private(set) var authProfile: AuthDataResultModel? = nil
     private init() {}
+    
+//initalized to false because of full screen cover binding, logically this should be true but the full screen cover behaves not as intended when set as true
     var isSignedOut = false
     var isAnonymous = false
     var signOutBinding: Binding<Bool> {
@@ -77,6 +79,7 @@ final class AuthManager {
     
     @discardableResult
     func signInAnonymously() async throws -> AuthDataResultModel {
+        
        let authDataResult =  try await Auth.auth().signInAnonymously()
         try checkAuth()
         
@@ -103,6 +106,15 @@ final class AuthManager {
         } catch {
             print(error)
         }
+    }
+    
+    func deleteAccount() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw URLError(.badURL)
+        }
+        
+        try await user.delete()
+        isSignedOut = true
     }
     
     //    func updateEmail(email: String) async throws {

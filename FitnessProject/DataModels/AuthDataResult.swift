@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-struct AuthDataResultModel {
+struct AuthDataResultModel: Equatable {
     let uid: String
     let email: String?
     let photoUrl: String?
