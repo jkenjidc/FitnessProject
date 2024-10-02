@@ -22,6 +22,7 @@
 		7A8A2D392CA462540087EE8B /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D382CA462540087EE8B /* WelcomeViewModel.swift */; };
 		7A8A2D412CAC6BC90087EE8B /* FitnessProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D402CAC6BC90087EE8B /* FitnessProjectTests.swift */; };
 		7A8A2D482CAC6C240087EE8B /* AuthManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D472CAC6C240087EE8B /* AuthManagerTests.swift */; };
+		7A8A2D4A2CADD4A60087EE8B /* RoutineCreationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */; };
 		7AF20F7F2C909B390057A100 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F7E2C909B390057A100 /* User.swift */; };
 		7AF20F832C909C2F0057A100 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F822C909C2F0057A100 /* Routine.swift */; };
 		7AF20F872C909CC00057A100 /* ExerciseSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F862C909CC00057A100 /* ExerciseSet.swift */; };
@@ -71,6 +72,7 @@
 		7A8A2D3E2CAC6BC90087EE8B /* FitnessProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitnessProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A8A2D402CAC6BC90087EE8B /* FitnessProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessProjectTests.swift; sourceTree = "<group>"; };
 		7A8A2D472CAC6C240087EE8B /* AuthManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerTests.swift; sourceTree = "<group>"; };
+		7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineCreationTests.swift; sourceTree = "<group>"; };
 		7AF20F7E2C909B390057A100 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7AF20F822C909C2F0057A100 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
 		7AF20F862C909CC00057A100 /* ExerciseSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSet.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				7A8A2D402CAC6BC90087EE8B /* FitnessProjectTests.swift */,
+				7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */,
 				7A8A2D472CAC6C240087EE8B /* AuthManagerTests.swift */,
 			);
 			path = FitnessProjectTests;
@@ -437,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A8A2D412CAC6BC90087EE8B /* FitnessProjectTests.swift in Sources */,
+				7A8A2D4A2CADD4A60087EE8B /* RoutineCreationTests.swift in Sources */,
 				7A8A2D482CAC6C240087EE8B /* AuthManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
