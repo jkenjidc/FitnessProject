@@ -13,7 +13,7 @@ import FirebaseFirestore
 final class DataManager {
     private let userCollection = Firestore.firestore()
         .collection("users")
-    static let shared = DataManager()
+    @MainActor static let shared = DataManager()
     private init() {}
     
     var user = CurrentUser()
@@ -50,5 +50,10 @@ final class DataManager {
     func addRoutine(routine: Routine) async throws {
         user.routines.append(routine)
         try userDocument(userId: user.id).setData(from: user, merge: true)
+    }
+    
+    func updateUser(user: CurrentUser) async throws {
+        try userCollection.document(user.id).setData(from: user, merge: false)
+        try await loadUser()
     }
 }

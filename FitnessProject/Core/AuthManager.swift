@@ -115,6 +115,7 @@ final class AuthManager {
         
         try await user.delete()
         isSignedOut = true
+        authProfile = nil
     }
     
     //    func updateEmail(email: String) async throws {

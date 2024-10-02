@@ -13,17 +13,17 @@ struct ProfileView: View {
     var body: some View {
         NavigationStack{
             VStack(alignment: .center){
-                
+                Spacer()
                 Image(systemName: "person.circle.fill")
                     .resizable()
                     .scaledToFit()
                     .frame(width:180, height: 180)
-//                Text("Guest user")
                 let user = DataManager.shared.user
+                if user.isAnonymous {
+                    Text("Guest user")
+                }
                 Text("User ID \(user.id)")
-                    
-                
-                
+                    .padding(.bottom, 25)
                 if AuthManager.shared.isAnonymous{
                     NavigationLink {
                         SignUpView()
@@ -34,7 +34,6 @@ struct ProfileView: View {
                     Button {
                         Task {
                             do {
-                                
                                 try AuthManager.shared.signOut()
                             } catch {
                                 print(error)
@@ -45,32 +44,40 @@ struct ProfileView: View {
                     }
                     
                 } else {
-                    Text("Name: \(user.name)")
-                    Button {
-                        Task {
-                            do {
-                                
-                                try AuthManager.shared.signOut()
-                            } catch {
-                                print(error)
+                    HStack{
+                        Button {
+                            Task {
+                                do {
+                                    try AuthManager.shared.signOut()
+                                } catch {
+                                    print(error)
+                                }
                             }
+                        } label: {
+                            Text("log out")
+                                .foregroundStyle(.red)
                         }
-                    } label: {
-                        Text("log out")
-                    }
-                    Button {
-                        
-                        Task {
-                            do {
-                                try await AuthManager.shared.updatePassword(password: "test1243")
-                            } catch {
-                                print(error)
+                        .buttonStyle(.plain)
+                        Spacer()
+                        Button {
+                            
+                            Task {
+                                do {
+                                    try await AuthManager.shared.updatePassword(password: "test1243")
+                                } catch {
+                                    print(error)
+                                }
                             }
+                        } label: {
+                            Text("Update password")
                         }
-                    } label: {
-                        Text("Update password")
                     }
+                    .padding(.horizontal, 45)
                 }
+                Spacer()
+                Spacer()
+                Spacer()
+                Spacer()
             }
         }
         .frame(maxWidth: .infinity)

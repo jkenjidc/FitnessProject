@@ -25,7 +25,14 @@ struct CurrentUser: Identifiable, Hashable, Codable {
         self.dateCreated =  Date()
     }
     
-    init () {
+    init (auth: AuthDataResultModel, name: String) {
+        self.id = auth.uid
+        self.isAnonymous  = auth.isAnonymous
+        self.email = auth.email ?? ""
+        self.dateCreated =  Date()
+        self.name = name
         
     }
+    
+    init() {}
 }

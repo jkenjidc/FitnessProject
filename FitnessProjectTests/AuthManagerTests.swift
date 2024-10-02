@@ -27,12 +27,8 @@ final class AuthManagerTests: XCTestCase {
     
     @discardableResult
     func signUpWithInvalidCredentials() async throws -> AuthDataResultModel {
-        
         return try await AuthManager.shared.createUser(email: invalidEmail, password: invalidPassword)
     }
-    
-    
-    
     
     func testAnonymousSignIn() async throws {
         let authResult = try await self.signInAnonmously()
@@ -67,7 +63,10 @@ final class AuthManagerTests: XCTestCase {
     
     //reformat make tests independent
     override func tearDown() async throws{
-        try await AuthManager.shared.deleteAccount()
+        if await AuthManager.shared.authProfile != nil {
+            try await AuthManager.shared.deleteAccount()
+        }
     }
+    
 
 }
