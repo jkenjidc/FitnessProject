@@ -56,4 +56,9 @@ final class DataManager {
         try userCollection.document(user.id).setData(from: user, merge: false)
         try await loadUser()
     }
+    
+    func deleteUser(user: CurrentUser) async throws {
+        try await userCollection.document(user.id).delete()
+        self.user = CurrentUser()
+    }
 }

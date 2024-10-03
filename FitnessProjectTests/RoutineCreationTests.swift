@@ -14,7 +14,8 @@ final class RoutineCreationTests: XCTestCase {
     
     override func setUp() async throws {
         try await super.setUp()
-        try await AuthManager.shared.signInUser(email: testEmail, password: password)
+        let user = try await AuthManager.shared.createUser(email: testEmail, password: password)
+        try await DataManager.shared.createNewUser(user: CurrentUser(auth: user))
         try await DataManager.shared.loadUser()
     }
     
@@ -28,9 +29,12 @@ final class RoutineCreationTests: XCTestCase {
         XCTAssertFalse(user.routines.isEmpty)
     }
 //    
-//    override func tearDown() async throws{
-//        
-//    }
+    override func tearDown() async throws{
+        if await AuthManager.shared.authProfile != nil {
+            try await DataManager.shared.deleteUser(user: DataManager.shared.user)
+            try await AuthManager.shared.deleteAccount()
+        }
+    }
     
     
 

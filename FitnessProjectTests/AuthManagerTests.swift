@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import FirebaseAuth
 @testable import FitnessProject
 
 final class AuthManagerTests: XCTestCase {
