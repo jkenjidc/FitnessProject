@@ -23,6 +23,20 @@ struct CreateRoutineView: View {
                 Text("Add Exercise")
                     .frame(maxWidth: .infinity)
             }
+            
+            Button {
+                router.push(destination: .sampleScreen(routine: Routine.example[0]))
+            } label: {
+                Text("Add Exercise")
+                    .frame(maxWidth: .infinity)
+            }
+            
+            Button {
+                router.push(destination: .sampleScreen(routine: nil))
+            } label: {
+                Text("Add Exercise")
+                    .frame(maxWidth: .infinity)
+            }
         }
         .scrollBounceBehavior(.basedOnSize)
         .navigationBarBackButtonHidden(true)

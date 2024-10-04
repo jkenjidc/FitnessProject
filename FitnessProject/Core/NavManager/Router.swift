@@ -60,6 +60,8 @@ class Router {
             WelcomeView()
         case .createRoutineScreen:
             CreateRoutineView()
+        case .sampleScreen(let routine):
+            SampleView(routine: routine)
         }
     }
     
