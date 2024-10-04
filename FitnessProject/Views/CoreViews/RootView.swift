@@ -13,10 +13,10 @@ struct RootView: View {
     var body: some View {
         @Bindable var router = router
         ZStack{
-            let initialScreen = (!AuthManager.shared.isSignedOut ? Router.Destination.mainNavigationScreen : Router.Destination.welcomeScreen)
+            let initialScreen = (!AuthManager.shared.isSignedOut ? Destination.mainNavigationScreen : Destination.welcomeScreen)
             NavigationStack(path: $router.path){
                 router.build(destination: initialScreen)
-                    .navigationDestination(for: Router.Destination.self) { destination in
+                    .navigationDestination(for: Destination.self) { destination in
                         router.build(destination: destination)
                     }
                     .sheet(item: $router.sheet){ sheet in

@@ -11,17 +11,12 @@ import FirebaseFirestore
 @MainActor
 @Observable
 final class DataManager {
-    private let userCollection = Firestore.firestore()
-        .collection("users")
+    var user = CurrentUser()
+    private let userCollection = Firestore.firestore().collection("users")
     @MainActor static let shared = DataManager()
     private init() {}
     
-    var user = CurrentUser()
-    
-    func loadUser() async throws {
-        user = try await getUser(userId: AuthManager.shared.authProfile?.uid ?? "")
-    }
-    
+    // MARK: DB HELPERS
     private let encoder: Firestore.Encoder = {
         let encoder = Firestore.Encoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
@@ -33,18 +28,25 @@ final class DataManager {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
     }()
+    
     func userDocument(userId: String) -> DocumentReference {
         userCollection.document(userId)
     }
     
-    func createNewUser(user: CurrentUser) async throws {
-        try userDocument(userId: user.id).setData(from: user, merge: false, encoder: encoder)
-        try await DataManager.shared.loadUser()
+    // MARK: Loading users
+    func loadUser() async throws {
+        user = try await getUser(userId: AuthManager.shared.authProfile?.uid ?? "")
     }
-      
+    
     func getUser(userId: String) async throws -> CurrentUser {
         try await userDocument(userId: userId).getDocument(as: CurrentUser.self, decoder: decoder)
         
+    }
+    
+    // MARK: Data creation and updating
+    func createNewUser(user: CurrentUser) async throws {
+        try userDocument(userId: user.id).setData(from: user, merge: false, encoder: encoder)
+        try await DataManager.shared.loadUser()
     }
     
     func addRoutine(routine: Routine) async throws {
@@ -57,6 +59,7 @@ final class DataManager {
         try await loadUser()
     }
     
+    // MARK: User Deletion
     func deleteUser(user: CurrentUser) async throws {
         try await userCollection.document(user.id).delete()
         self.user = CurrentUser()

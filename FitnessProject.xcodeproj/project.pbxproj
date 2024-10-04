@@ -20,10 +20,12 @@
 		7A8A2D342CA33C5A0087EE8B /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D332CA33C5A0087EE8B /* ProfileViewModel.swift */; };
 		7A8A2D362CA45F2D0087EE8B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D352CA45F2D0087EE8B /* DataManager.swift */; };
 		7A8A2D392CA462540087EE8B /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D382CA462540087EE8B /* WelcomeViewModel.swift */; };
-		7A8A2D412CAC6BC90087EE8B /* FitnessProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D402CAC6BC90087EE8B /* FitnessProjectTests.swift */; };
 		7A8A2D482CAC6C240087EE8B /* AuthManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D472CAC6C240087EE8B /* AuthManagerTests.swift */; };
 		7A8A2D4A2CADD4A60087EE8B /* RoutineCreationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */; };
 		7A8A2D4C2CAF17B40087EE8B /* AddExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D4B2CAF17B40087EE8B /* AddExerciseView.swift */; };
+		7A8A2D4F2CB079AC0087EE8B /* Destinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D4E2CB079AC0087EE8B /* Destinations.swift */; };
+		7A8A2D512CB079C80087EE8B /* Sheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D502CB079C80087EE8B /* Sheets.swift */; };
+		7A8A2D532CB07A200087EE8B /* FullScreenCovers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D522CB07A200087EE8B /* FullScreenCovers.swift */; };
 		7AF20F7F2C909B390057A100 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F7E2C909B390057A100 /* User.swift */; };
 		7AF20F832C909C2F0057A100 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F822C909C2F0057A100 /* Routine.swift */; };
 		7AF20F872C909CC00057A100 /* ExerciseSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F862C909CC00057A100 /* ExerciseSet.swift */; };
@@ -71,10 +73,12 @@
 		7A8A2D352CA45F2D0087EE8B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		7A8A2D382CA462540087EE8B /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		7A8A2D3E2CAC6BC90087EE8B /* FitnessProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitnessProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A8A2D402CAC6BC90087EE8B /* FitnessProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessProjectTests.swift; sourceTree = "<group>"; };
 		7A8A2D472CAC6C240087EE8B /* AuthManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerTests.swift; sourceTree = "<group>"; };
 		7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineCreationTests.swift; sourceTree = "<group>"; };
 		7A8A2D4B2CAF17B40087EE8B /* AddExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseView.swift; sourceTree = "<group>"; };
+		7A8A2D4E2CB079AC0087EE8B /* Destinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destinations.swift; sourceTree = "<group>"; };
+		7A8A2D502CB079C80087EE8B /* Sheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sheets.swift; sourceTree = "<group>"; };
+		7A8A2D522CB07A200087EE8B /* FullScreenCovers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenCovers.swift; sourceTree = "<group>"; };
 		7AF20F7E2C909B390057A100 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7AF20F822C909C2F0057A100 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
 		7AF20F862C909CC00057A100 /* ExerciseSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSet.swift; sourceTree = "<group>"; };
@@ -199,11 +203,21 @@
 		7A8A2D3F2CAC6BC90087EE8B /* FitnessProjectTests */ = {
 			isa = PBXGroup;
 			children = (
-				7A8A2D402CAC6BC90087EE8B /* FitnessProjectTests.swift */,
 				7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */,
 				7A8A2D472CAC6C240087EE8B /* AuthManagerTests.swift */,
 			);
 			path = FitnessProjectTests;
+			sourceTree = "<group>";
+		};
+		7A8A2D4D2CB079830087EE8B /* NavManager */ = {
+			isa = PBXGroup;
+			children = (
+				7AF20FAB2C9B70430057A100 /* Router.swift */,
+				7A8A2D4E2CB079AC0087EE8B /* Destinations.swift */,
+				7A8A2D502CB079C80087EE8B /* Sheets.swift */,
+				7A8A2D522CB07A200087EE8B /* FullScreenCovers.swift */,
+			);
+			path = NavManager;
 			sourceTree = "<group>";
 		};
 		7AF20F792C8F4AD30057A100 /* Frameworks */ = {
@@ -230,7 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				7AF20FA92C9B64540057A100 /* AppState.swift */,
-				7AF20FAB2C9B70430057A100 /* Router.swift */,
+				7A8A2D4D2CB079830087EE8B /* NavManager */,
 				7AF20FAD2C9CBA620057A100 /* AuthManager.swift */,
 				7A8A2D352CA45F2D0087EE8B /* DataManager.swift */,
 			);
@@ -424,9 +438,12 @@
 				7AF20F8B2C909F920057A100 /* Exercise.swift in Sources */,
 				7AF20F8F2C90BC770057A100 /* WelcomeView.swift in Sources */,
 				7A8A2D2A2CA1E61C0087EE8B /* SignUpViewModel.swift in Sources */,
+				7A8A2D4F2CB079AC0087EE8B /* Destinations.swift in Sources */,
+				7A8A2D512CB079C80087EE8B /* Sheets.swift in Sources */,
 				7A8A2D362CA45F2D0087EE8B /* DataManager.swift in Sources */,
 				7AF20FAA2C9B64540057A100 /* AppState.swift in Sources */,
 				7AF20FA52C9239AB0057A100 /* CreateRoutineViewModel.swift in Sources */,
+				7A8A2D532CB07A200087EE8B /* FullScreenCovers.swift in Sources */,
 				7AF20FAC2C9B70430057A100 /* Router.swift in Sources */,
 				7AF20F912C90C8EA0057A100 /* MainNavigationView.swift in Sources */,
 				7AF20F7F2C909B390057A100 /* User.swift in Sources */,
@@ -443,7 +460,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A8A2D412CAC6BC90087EE8B /* FitnessProjectTests.swift in Sources */,
 				7A8A2D4A2CADD4A60087EE8B /* RoutineCreationTests.swift in Sources */,
 				7A8A2D482CAC6C240087EE8B /* AuthManagerTests.swift in Sources */,
 			);

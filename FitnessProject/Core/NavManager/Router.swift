@@ -10,35 +10,11 @@ import SwiftUI
 
 @Observable
 class Router {
-    public enum Destination: Codable, Hashable {
-        case signInScreen
-        case signUpScreen
-        case mainNavigationScreen
-        case welcomeScreen
-        case createRoutineScreen
-    }
-    
-    public enum Sheet: Identifiable {
-        case addExerciseSheet(viewModel: Binding<CreateRoutineView.ViewModel>)
-        var id: Int {
-            switch self {
-            case .addExerciseSheet: return 0
-            }
-            
-        }
-    }
-    
-    public enum FullScreenCover: String, Identifiable {
-        var id: String {
-            self.rawValue
-        }
-        
-        case welcomeView
-    }
     var path: NavigationPath = NavigationPath()
     var sheet: Sheet?
     var fullScreenCover: FullScreenCover?
     
+    // MARK: Router functions for navigation
     func push(destination: Destination) {
         path.append(destination)
     }
@@ -51,6 +27,7 @@ class Router {
         path.removeLast(path.count)
     }
     
+    // MARK: Presentation functions
     func presentSheet(_ sheet: Sheet){
         self.sheet = sheet
     }
@@ -59,6 +36,7 @@ class Router {
         self.fullScreenCover = cover
     }
     
+    //MARK: Dismisall Functions
     func dismissSheet() {
         self.sheet = nil
     }
@@ -67,6 +45,8 @@ class Router {
         self.fullScreenCover = nil
     }
     
+    
+    // MARK: Builder functions
     @ViewBuilder
     func build(destination: Destination) -> some View {
         switch destination {

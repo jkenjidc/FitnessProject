@@ -1,0 +1,19 @@
+//
+//  Sheets.swift
+//  FitnessProject
+//
+//  Created by Kenji Dela Cruz on 10/4/24.
+//
+
+import Foundation
+import SwiftUI
+
+enum Sheet: Identifiable {
+    case addExerciseSheet(viewModel: Binding<CreateRoutineView.ViewModel>)
+    public var id: Int {
+        switch self {
+        case .addExerciseSheet: return 0
+        }
+        
+    }
+}
