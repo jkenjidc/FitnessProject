@@ -19,7 +19,6 @@ struct EntryFieldView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 18, height: 18)
-//                    .font(.system(size: 20, weight: .regular, design: .monospaced))
             }
             if let showSecureField = isSecureField, !showSecureField {
                 TextField(placeholderString, text: $textBinding)

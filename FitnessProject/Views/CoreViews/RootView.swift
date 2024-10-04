@@ -19,6 +19,9 @@ struct RootView: View {
                     .navigationDestination(for: Router.Destination.self) { destination in
                         router.build(destination: destination)
                     }
+                    .sheet(item: $router.sheet){ sheet in
+                        router.buildSheet(sheet: sheet)
+                    }
                     .fullScreenCover(item: $router.fullScreenCover){ cover in
                         router.buildCover(cover: cover)
                     }
@@ -33,7 +36,7 @@ struct RootView: View {
                     print(error)
                 }
             }
-        }            
+        }
     }
 }
 

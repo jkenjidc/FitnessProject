@@ -15,13 +15,17 @@ class Router {
         case signUpScreen
         case mainNavigationScreen
         case welcomeScreen
+        case createRoutineScreen
     }
     
-    public enum Sheet: String, Identifiable {
-        var id: String {
-            self.rawValue
+    public enum Sheet: Identifiable {
+        case addExerciseSheet(viewModel: Binding<CreateRoutineView.ViewModel>)
+        var id: Int {
+            switch self {
+            case .addExerciseSheet: return 0
+            }
+            
         }
-        case addExercise
     }
     
     public enum FullScreenCover: String, Identifiable {
@@ -74,14 +78,16 @@ class Router {
             MainNavigationView()
         case .welcomeScreen:
             WelcomeView()
+        case .createRoutineScreen:
+            CreateRoutineView()
         }
     }
     
     @ViewBuilder
-    func buildSheet(sheet: Sheet, viewModel: AnyObject) -> some View {
+    func buildSheet(sheet: Sheet) -> some View {
         switch sheet {
-        case .addExercise:
-            AddExerciseView(viewModel: viewModel as! Binding<CreateRoutineView.ViewModel>)
+        case .addExerciseSheet(let viewModel):
+            AddExerciseView(viewModel: viewModel)
         }
     }
     

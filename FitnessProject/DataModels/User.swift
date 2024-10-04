@@ -21,7 +21,6 @@ struct CurrentUser: Identifiable, Hashable, Codable {
         self.id = auth.uid
         self.isAnonymous  = auth.isAnonymous
         self.email = auth.email ?? ""
-//        self.photoUrl = auth.photoUrl
         self.dateCreated =  Date()
     }
     

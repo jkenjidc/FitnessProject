@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddExerciseView: View {
+    @Environment(Router.self) var router
     @Binding var viewModel: CreateRoutineView.ViewModel
     var body: some View {
         VStack {
@@ -21,7 +22,12 @@ struct AddExerciseView: View {
                     .padding(.leading, 25)
             }
             Button {
-                !viewModel.newExerciseName.isEmpty ? viewModel.saveExercise() : viewModel.checkInputs()
+                if !viewModel.newExerciseName.isEmpty { viewModel.saveExercise()
+                    router.dismissSheet()
+                } else {
+                    viewModel.checkExerciseName()
+                }
+                    
             } label: {
                 Text("Add Exercise")
             }

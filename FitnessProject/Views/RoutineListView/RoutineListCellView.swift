@@ -30,20 +30,6 @@ struct RoutineListCellView: View {
             }
             .buttonStyle(.plain)
         }
-//        DisclosureGroup(
-//            isExpanded: $isExpanded,
-//            content: {
-//                VStack(alignment: .leading){
-//                    Text(title)
-//                    Image(systemName: "list.bullet.rectangle.portrait.fill")
-//                        .resizable()
-//                        .frame(width: 100, height:150)
-//                }
-//            },
-//            label: {
-//                Text(title)
-//            }
-//        )
         .padding()
     }
 }

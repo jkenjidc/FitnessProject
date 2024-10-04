@@ -22,7 +22,6 @@ struct WelcomeView: View {
     }
     var body: some View {
         @Bindable var router = router
-//        NavigationStack(path: $router.path){
             VStack{
                 HStack{
                     Spacer()
@@ -103,7 +102,6 @@ struct WelcomeView: View {
         }
         
     }
-//}
 
 #Preview {
     WelcomeView()

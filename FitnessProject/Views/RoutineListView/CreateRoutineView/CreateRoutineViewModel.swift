@@ -8,9 +8,8 @@
 import Foundation
 
 extension CreateRoutineView {
-    @Observable class ViewModel: ObservableObject {
+    @Observable class ViewModel {
         var routine: Routine = Routine()
-        var showAddExerciseSheet = false
         var newExerciseName = ""
         var showAlert = false
         var alertMessage = ""
@@ -26,7 +25,6 @@ extension CreateRoutineView {
         func saveExercise() {
             let exercise = Exercise(name: newExerciseName, description: "", stats: Stats.example, sets: [ExerciseSet(weight: 0, reps: 0)])
             routine.exercises.append(exercise)
-            showAddExerciseSheet.toggle()
             newExerciseName = ""
         }
         
@@ -37,12 +35,12 @@ extension CreateRoutineView {
             cancellationAlert = true
         }
         
-        func checkInputs() {
-            if showAddExerciseSheet {
-                isMissingExerciseName = newExerciseName.isEmpty
-            } else {
-                isMissingRoutineName = (routine.name.isEmpty && !cancellationAlert)
-            }
+        func checkExerciseName() {
+            isMissingExerciseName = newExerciseName.isEmpty
+        }
+        
+        func checkRoutineName() {
+            isMissingRoutineName = (routine.name.isEmpty && !cancellationAlert)
         }
     }
 }

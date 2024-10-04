@@ -17,12 +17,7 @@ struct SignInView: View {
                 Group{
                     VStack(alignment: .leading){
                         EntryFieldView(textBinding: $viewModel.email, placeholderString: "Email", iconImagename: "envelope.fill")
-//                        ErrorFooterView(invalidField: viewModel.invalidInputs)
-//                            .padding(.leading, 5)
-                        
                         EntryFieldView(textBinding: $viewModel.password, placeholderString: "Password", isSecureField: true, iconImagename: "lock.fill")
-//                        ErrorFooterView(invalidField: viewModel.invalidInputs)
-//                            .padding(.leading, 5)
                     }
                     Button {
                         Task{
