@@ -11,9 +11,17 @@ struct RootView: View {
     @Environment(AppState.self) var appState
     @Environment(Router.self) var router
     var body: some View {
+        @Bindable var router = router
         ZStack{
-            NavigationStack{
-                MainNavigationView()
+            let initialScreen = (!AuthManager.shared.isSignedOut ? Router.Destination.mainNavigationScreen : Router.Destination.welcomeScreen)
+            NavigationStack(path: $router.path){
+                router.build(destination: initialScreen)
+                    .navigationDestination(for: Router.Destination.self) { destination in
+                        router.build(destination: destination)
+                    }
+                    .fullScreenCover(item: $router.fullScreenCover){ cover in
+                        router.buildCover(cover: cover)
+                    }
             }
         }
         .onAppear {
@@ -25,11 +33,7 @@ struct RootView: View {
                     print(error)
                 }
             }
-        }
-        .fullScreenCover(isPresented:  AuthManager.shared.signOutBinding, content: {
-            WelcomeView()
-        })
-            
+        }            
     }
 }
 

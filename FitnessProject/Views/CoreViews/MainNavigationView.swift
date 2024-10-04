@@ -19,7 +19,6 @@ struct MainNavigationView: View {
         }
     }
     var body: some View {
-        NavigationStack{
             TabView(selection: $selectedTab) {
                 ProfileView()
                     .tabItem {
@@ -41,8 +40,8 @@ struct MainNavigationView: View {
                 
                 
             }
-        }
         .navigationTitle(navTitle)
+        .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
     }
 }

@@ -14,6 +14,7 @@ class Router {
         case signInScreen
         case signUpScreen
         case mainNavigationScreen
+        case welcomeScreen
     }
     
     public enum Sheet: String, Identifiable {
@@ -30,7 +31,7 @@ class Router {
         
         case welcomeView
     }
-    var path = NavigationPath()
+    var path: NavigationPath = NavigationPath()
     var sheet: Sheet?
     var fullScreenCover: FullScreenCover?
     
@@ -71,6 +72,8 @@ class Router {
             SignUpView()
         case .mainNavigationScreen:
             MainNavigationView()
+        case .welcomeScreen:
+            WelcomeView()
         }
     }
     

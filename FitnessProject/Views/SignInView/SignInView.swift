@@ -10,9 +10,9 @@ import SwiftUI
 struct SignInView: View {
     @Environment(AppState.self) var appState
     @State var viewModel =  ViewModel()
+    @Environment(Router.self) var router
     @Environment(\.dismiss) var dismiss
     var body: some View {
-        NavigationStack{
             VStack(){
                 Group{
                     VStack(alignment: .leading){
@@ -27,6 +27,7 @@ struct SignInView: View {
                     Button {
                         Task{
                             try await viewModel.signIn()
+                            router.push(destination: .mainNavigationScreen)
                         }
                     } label: {
                         Text("Sign In")
@@ -63,7 +64,6 @@ struct SignInView: View {
             .navigationTitle("Sign In")
         }
     }
-}
 
 #Preview {
     SignInView()

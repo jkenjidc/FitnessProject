@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(AppState.self) var appState
+    @Environment(Router.self) var router
     @State  var viewModel = ViewModel()
     var body: some View {
         NavigationStack{
@@ -25,8 +26,8 @@ struct ProfileView: View {
                 Text("User ID \(user.id)")
                     .padding(.bottom, 25)
                 if AuthManager.shared.isAnonymous{
-                    NavigationLink {
-                        SignUpView()
+                    Button {
+                        router.push(destination: .signUpScreen)
                     } label: {
                         Text("Create account")
                     }
@@ -39,6 +40,7 @@ struct ProfileView: View {
                                 print(error)
                             }
                         }
+
                     } label: {
                         Text("log out")
                     }
@@ -49,6 +51,7 @@ struct ProfileView: View {
                             Task {
                                 do {
                                     try AuthManager.shared.signOut()
+                                    router.popToRoot()
                                 } catch {
                                     print(error)
                                 }

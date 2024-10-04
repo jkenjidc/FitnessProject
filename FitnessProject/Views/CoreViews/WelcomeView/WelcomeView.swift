@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct WelcomeView: View {
     @Environment(AppState.self) var appState
+    @Environment(Router.self) var router
     @State private var viewModel = ViewModel()
     var welcomeLabelFontsize: CGFloat {
         if UIScreen.main.bounds.width < 380 {
@@ -20,7 +21,8 @@ struct WelcomeView: View {
         }
     }
     var body: some View {
-        NavigationStack{
+        @Bindable var router = router
+//        NavigationStack(path: $router.path){
             VStack{
                 HStack{
                     Spacer()
@@ -50,8 +52,8 @@ struct WelcomeView: View {
                 }
                 Spacer()
                 Spacer()
-                NavigationLink {
-                    SignInView()
+                Button {
+                    router.push(destination: .signInScreen)
                 } label: {
                     Text("Log In")
                         .font(.system(size: 30))
@@ -65,8 +67,8 @@ struct WelcomeView: View {
                 .buttonStyle(.plain)
                 .padding(.bottom, 15)
                 
-                NavigationLink {
-                    SignUpView()
+                Button {
+                    router.push(destination: .signUpScreen)
                 } label: {
                     Text("Sign Up")
                         .font(.system(size: 30))
@@ -86,6 +88,7 @@ struct WelcomeView: View {
                     Task {
                         do {
                             try await viewModel.signInAnonymously()
+                            router.push(destination: .mainNavigationScreen)
                         } catch {
                             print(error)
                         }
@@ -100,7 +103,7 @@ struct WelcomeView: View {
         }
         
     }
-}
+//}
 
 #Preview {
     WelcomeView()
