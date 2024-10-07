@@ -53,23 +53,21 @@ struct RoutineListView: View {
                         .frame(width: 50, height: 50)
                         .padding()
                 }
-                .disabled(appState.hasHitRoutineLimit)
+                .disabled(viewModel.hasHitLimit)
                 .buttonStyle(.plain)
                 .onTapGesture {
-                    if appState.hasHitRoutineLimit {
+                    if viewModel.hasHitLimit {
                         viewModel.showRoutineLimitAlert = true
                     }
+                }
+                .onChange(of: dataManager.user.routines) { _, _ in
+                    viewModel.hasHitLimit = dataManager.user.routines.count == 5
                 }
                 .alert("You can only make 5 routines", isPresented: $viewModel.showRoutineLimitAlert) {
                     Button("Ok") {}
                 }
             }
         }
-//        .onAppear {
-//            Task {
-//                await viewModel.loadData()
-//            }
-//        }
         .navigationTitle("Routines")
     }
 }

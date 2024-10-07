@@ -26,8 +26,6 @@
 		7A8A2D4F2CB079AC0087EE8B /* Destinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D4E2CB079AC0087EE8B /* Destinations.swift */; };
 		7A8A2D512CB079C80087EE8B /* Sheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D502CB079C80087EE8B /* Sheets.swift */; };
 		7A8A2D532CB07A200087EE8B /* FullScreenCovers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D522CB07A200087EE8B /* FullScreenCovers.swift */; };
-		7A8A2D5B2CB097CC0087EE8B /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D5A2CB097CC0087EE8B /* SampleView.swift */; };
-		7A8A2D5D2CB097DB0087EE8B /* SampleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D5C2CB097DB0087EE8B /* SampleViewModel.swift */; };
 		7A8A2D612CB477AF0087EE8B /* RoutineListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D602CB477AF0087EE8B /* RoutineListViewModel.swift */; };
 		7AF20F7F2C909B390057A100 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F7E2C909B390057A100 /* User.swift */; };
 		7AF20F832C909C2F0057A100 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F822C909C2F0057A100 /* Routine.swift */; };
@@ -82,8 +80,6 @@
 		7A8A2D4E2CB079AC0087EE8B /* Destinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destinations.swift; sourceTree = "<group>"; };
 		7A8A2D502CB079C80087EE8B /* Sheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sheets.swift; sourceTree = "<group>"; };
 		7A8A2D522CB07A200087EE8B /* FullScreenCovers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenCovers.swift; sourceTree = "<group>"; };
-		7A8A2D5A2CB097CC0087EE8B /* SampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleView.swift; sourceTree = "<group>"; };
-		7A8A2D5C2CB097DB0087EE8B /* SampleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewModel.swift; sourceTree = "<group>"; };
 		7A8A2D602CB477AF0087EE8B /* RoutineListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineListViewModel.swift; sourceTree = "<group>"; };
 		7AF20F7E2C909B390057A100 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7AF20F822C909C2F0057A100 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
@@ -226,13 +222,13 @@
 			path = NavManager;
 			sourceTree = "<group>";
 		};
-		7A8A2D572CB097850087EE8B /* SampleView */ = {
+		7A8A2D622CB48E400087EE8B /* AddExerciseView */ = {
 			isa = PBXGroup;
 			children = (
-				7A8A2D5A2CB097CC0087EE8B /* SampleView.swift */,
-				7A8A2D5C2CB097DB0087EE8B /* SampleViewModel.swift */,
+				7A8A2D4B2CAF17B40087EE8B /* AddExerciseView.swift */,
+				7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */,
 			);
-			path = SampleView;
+			path = AddExerciseView;
 			sourceTree = "<group>";
 		};
 		7AF20F792C8F4AD30057A100 /* Frameworks */ = {
@@ -311,11 +307,9 @@
 		7AF20FA32C9239910057A100 /* CreateRoutineView */ = {
 			isa = PBXGroup;
 			children = (
-				7A8A2D572CB097850087EE8B /* SampleView */,
 				7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */,
 				7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */,
-				7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */,
-				7A8A2D4B2CAF17B40087EE8B /* AddExerciseView.swift */,
+				7A8A2D622CB48E400087EE8B /* AddExerciseView */,
 			);
 			path = CreateRoutineView;
 			sourceTree = "<group>";
@@ -447,7 +441,6 @@
 				7AF20F972C90CAE70057A100 /* ProgressView.swift in Sources */,
 				7AF20F832C909C2F0057A100 /* Routine.swift in Sources */,
 				7AF20FB42C9CCCCA0057A100 /* RootView.swift in Sources */,
-				7A8A2D5B2CB097CC0087EE8B /* SampleView.swift in Sources */,
 				7AF20FB72C9DE9D80057A100 /* SignInView.swift in Sources */,
 				7AF20F932C90C9610057A100 /* RoutineListView.swift in Sources */,
 				7A8A2D2D2CA1EB580087EE8B /* ErrorFooterView.swift in Sources */,
@@ -462,7 +455,6 @@
 				7A8A2D362CA45F2D0087EE8B /* DataManager.swift in Sources */,
 				7AF20FAA2C9B64540057A100 /* AppState.swift in Sources */,
 				7AF20FA52C9239AB0057A100 /* CreateRoutineViewModel.swift in Sources */,
-				7A8A2D5D2CB097DB0087EE8B /* SampleViewModel.swift in Sources */,
 				7A8A2D532CB07A200087EE8B /* FullScreenCovers.swift in Sources */,
 				7AF20FAC2C9B70430057A100 /* Router.swift in Sources */,
 				7AF20F912C90C8EA0057A100 /* MainNavigationView.swift in Sources */,

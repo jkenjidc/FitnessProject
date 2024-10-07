@@ -10,8 +10,7 @@ import Foundation
 extension RoutineListView {
     @MainActor
     @Observable class ViewModel {
-        var user = DataManager.shared.user 
-        var action: Int? = 0
+        var hasHitLimit = false
         var showRoutineLimitAlert = false
         
     }

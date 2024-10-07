@@ -20,23 +20,8 @@ struct CreateRoutineView: View {
             routineNameView
             routineDescriptionView
             exercisesEmbeddedListView
-            
             Button {
                 router.presentSheet(.addExerciseSheet(viewModel: $viewModel))
-            } label: {
-                Text("Add Exercise")
-                    .frame(maxWidth: .infinity)
-            }
-            
-            Button {
-                router.push(destination: .sampleScreen(routine: Routine.example[0]))
-            } label: {
-                Text("Add Exercise")
-                    .frame(maxWidth: .infinity)
-            }
-            
-            Button {
-                router.push(destination: .sampleScreen(routine: nil))
             } label: {
                 Text("Add Exercise")
                     .frame(maxWidth: .infinity)
