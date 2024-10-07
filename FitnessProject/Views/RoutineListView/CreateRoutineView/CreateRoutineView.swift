@@ -11,12 +11,15 @@ struct CreateRoutineView: View {
     @Environment(AppState.self) var appState
     @Environment(Router.self) var router
     @State var viewModel = ViewModel()
+    
+    init(routine: Routine? = nil) {
+        _viewModel = State(initialValue: ViewModel(routine: routine))
+    }
     var body: some View {
         Form {
             routineNameView
             routineDescriptionView
             exercisesEmbeddedListView
-            
             Button {
                 router.presentSheet(.addExerciseSheet(viewModel: $viewModel))
             } label: {
@@ -46,7 +49,7 @@ struct CreateRoutineView: View {
                 Button {
                     if viewModel.validInputs {
                         Task {
-                            try await DataManager.shared.addRoutine(routine: viewModel.routine)
+                            await viewModel.saveRoutine()
                         }
                         router.pop()
                     } else {

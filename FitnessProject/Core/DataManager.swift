@@ -50,12 +50,19 @@ final class DataManager {
     }
     
     func addRoutine(routine: Routine) async throws {
-        user.routines.append(routine)
-        try userDocument(userId: user.id).setData(from: user, merge: true)
+        if !user.routines.contains(routine){
+            user.routines.append(routine)
+        } else {
+            if let index = user.routines.firstIndex(where: {$0.id == routine.id}){
+                user.routines[index] = routine
+            }
+        }
+        try userDocument(userId: user.id).setData(from: user, merge: true, encoder: encoder)
+        try await self.loadUser()
     }
     
     func updateUser(user: CurrentUser) async throws {
-        try userCollection.document(user.id).setData(from: user, merge: false)
+        try userCollection.document(user.id).setData(from: user, merge: false, encoder: encoder)
         try await loadUser()
     }
     
