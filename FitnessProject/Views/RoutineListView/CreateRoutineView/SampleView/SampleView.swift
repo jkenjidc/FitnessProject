@@ -13,8 +13,18 @@ struct SampleView: View {
         _viewModel = State(initialValue: ViewModel(routine: routine))
     }
     var body: some View {
-        Text(viewModel.routine!.name)
+        Form{
+            Section(header: Text("Routine Name"), footer: ErrorFooterView(invalidField: false)
+            ){
+                TextField("", text: $viewModel.routine.name)
+                    .keyboardType(.asciiCapable)
+                //                .onChange(of: viewModel.routine.name) { _,_ in
+                //                    viewModel.checkRoutineName()
+                //                }
+            }
+        }
     }
+
 }
 
 #Preview {

@@ -58,8 +58,8 @@ class Router {
             MainNavigationView()
         case .welcomeScreen:
             WelcomeView()
-        case .createRoutineScreen:
-            CreateRoutineView()
+        case .createRoutineScreen(let routine):
+            CreateRoutineView(routine: routine)
         case .sampleScreen(let routine):
             SampleView(routine: routine)
         }

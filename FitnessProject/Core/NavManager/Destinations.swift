@@ -12,6 +12,6 @@ enum Destination: Codable, Hashable {
     case signUpScreen
     case mainNavigationScreen
     case welcomeScreen
-    case createRoutineScreen
+    case createRoutineScreen(routine: Routine?)
     case sampleScreen(routine: Routine?)
 }

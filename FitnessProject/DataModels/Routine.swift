@@ -7,13 +7,17 @@
 
 import Foundation
 
-struct Routine: Identifiable, Codable, Hashable {
+struct Routine: Identifiable, Codable, Hashable, Equatable {
     var id = UUID().uuidString
     var description: String = ""
     var name: String = ""
     var daysToDo: [String] = []
     var datesDone: [Date] = []
     var exercises: [Exercise] = []
+    
+    static func == (lhs: Routine, rhs: Routine) -> Bool {
+        return lhs.id == rhs.id
+    }
     
     init() {
         id = UUID().uuidString

@@ -7,15 +7,15 @@
 
 import SwiftUI
 
+@MainActor
 struct RoutineListView: View {
     @Environment(AppState.self) var appState
     @Environment(Router.self) var router
-    @State private var action: Int? = 0
-    @State private var showRoutineLimitAlert = false
+    @State private var viewModel = ViewModel()
+    @Bindable var dataManager = DataManager.shared
     var body: some View {
         VStack {
-            let user = DataManager.shared.user
-            if user.routines.isEmpty {
+            if dataManager.user.routines.isEmpty {
                 ContentUnavailableView{
                     Image(systemName: "figure.flexibility")
                         .resizable()
@@ -27,8 +27,13 @@ struct RoutineListView: View {
                 .navigationTitle("Routines")
             } else {
                 List{
-                    ForEach(user.routines){ routine in
-                        RoutineListCellView(title: routine.name)
+                    ForEach($dataManager.user.routines){ $routine in
+                        Button{
+                            router.push(destination: .createRoutineScreen(routine: routine))
+                        } label: {
+                            RoutineListCellView(title: routine.name)
+                        }
+                        .buttonStyle(.plain)
                     }
                     .onDelete(perform: { indexSet in
                         appState.deleteRoutine(at: indexSet)
@@ -41,7 +46,7 @@ struct RoutineListView: View {
                 Spacer()
                 
                 Button {
-                    router.push(destination: .createRoutineScreen)
+                    router.push(destination: .createRoutineScreen(routine: nil))
                 } label: {
                     Image(systemName: "plus.circle")
                         .resizable()
@@ -52,14 +57,19 @@ struct RoutineListView: View {
                 .buttonStyle(.plain)
                 .onTapGesture {
                     if appState.hasHitRoutineLimit {
-                        showRoutineLimitAlert = true
+                        viewModel.showRoutineLimitAlert = true
                     }
                 }
-                .alert("You can only make 5 routines", isPresented: $showRoutineLimitAlert) {
+                .alert("You can only make 5 routines", isPresented: $viewModel.showRoutineLimitAlert) {
                     Button("Ok") {}
                 }
             }
         }
+//        .onAppear {
+//            Task {
+//                await viewModel.loadData()
+//            }
+//        }
         .navigationTitle("Routines")
     }
 }

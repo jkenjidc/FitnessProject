@@ -18,6 +18,14 @@ extension CreateRoutineView {
         var isMissingRoutineName: Bool = false
         var isMissingExerciseName: Bool = false
         
+        init(routine: Routine? = nil) {
+             if let unwroutine = routine {
+                 self.routine = unwroutine
+             } else {
+                 self.routine.name = ""
+             }
+         }
+        
         var validInputs: Bool {
             return !routine.name.isEmpty
         }
@@ -41,6 +49,14 @@ extension CreateRoutineView {
         
         func checkRoutineName() {
             isMissingRoutineName = (routine.name.isEmpty && !cancellationAlert)
+        }
+        
+        func saveRoutine() async {
+            do {
+                try await DataManager.shared.addRoutine(routine: routine)
+            } catch {
+                print("error")
+            }
         }
     }
 }

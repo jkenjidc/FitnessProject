@@ -9,14 +9,21 @@ import Foundation
 
 extension SampleView {
     @Observable class ViewModel {
-        var routine: Routine?
+        var routine = Routine()
         init(routine: Routine? = nil) {
              if let unwroutine = routine {
                  self.routine = unwroutine
              } else {
-                 self.routine = Routine()
-                 self.routine!.name = "Empty Routine"
+                 self.routine.name = ""
              }
          }
+        
+        var routineName: String {
+            if routine.name.isEmpty {
+                return "Routine Name"
+            } else {
+                return routine.name
+            }
+        }
     }
 }
