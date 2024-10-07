@@ -19,10 +19,8 @@ extension CreateRoutineView {
         var isMissingExerciseName: Bool = false
         
         init(routine: Routine? = nil) {
-             if let unwroutine = routine {
-                 self.routine = unwroutine
-             } else {
-                 self.routine.name = ""
+             if let unwrappedRoutine = routine {
+                 self.routine = unwrappedRoutine
              }
          }
         
