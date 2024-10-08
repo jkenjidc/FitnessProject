@@ -34,7 +34,7 @@ struct Routine: Identifiable, Codable, Hashable, Equatable {
         self.exercises = exercises
     }
     
-    static let example = [Routine(name: "Routine 1", daysToDo: ["monday","thursday"], datesDone: [.now, .now + 1], exercises: []),Routine(name: "Routine 2", daysToDo: ["monday","thursday"], datesDone: [.now, .now + 3], exercises: []),Routine(name: "Routine 3", daysToDo: ["monday","thursday"], datesDone: [.now, .now + 3], exercises: [])]
+    static let example = [Routine(name: "Routine 1", daysToDo: ["monday","thursday"], datesDone: [.now, .now + 1], exercises: []),Routine(name: "Routine 2", daysToDo: ["monday","thursday"], datesDone: [.now, .now + 3], exercises: [Exercise.example, Exercise.example, Exercise.example]),Routine(name: "Routine 3", daysToDo: ["monday","thursday"], datesDone: [.now, .now + 3], exercises: [])]
     
     
 }

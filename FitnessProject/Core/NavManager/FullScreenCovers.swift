@@ -7,9 +7,11 @@
 
 import Foundation
 
-enum FullScreenCover: String, Identifiable {
-    var id: String {
-        self.rawValue
+enum FullScreenCover: Identifiable {
+    var id: Int {
+        switch self {
+        case .welcomeView: return 0
+        }
     }
     
     case welcomeView
