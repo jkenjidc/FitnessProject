@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import Firebase
 
 @MainActor
 @Observable
@@ -66,9 +67,16 @@ final class DataManager {
         try await loadUser()
     }
     
-    // MARK: User Deletion
+    // MARK: Data deletions
     func deleteUser(user: CurrentUser) async throws {
         try await userCollection.document(user.id).delete()
         self.user = CurrentUser()
+    }
+    
+    func deleteRoutine(at index: IndexSet) async throws {
+        user.routines.remove(atOffsets: index)
+        var encodedRoutines = try user.routines.map { try encoder.encode($0)}
+        
+        try await userCollection.document(user.id).updateData(["routines": encodedRoutines])
     }
 }

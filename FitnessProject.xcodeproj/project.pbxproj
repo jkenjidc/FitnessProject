@@ -231,6 +231,13 @@
 			path = AddExerciseView;
 			sourceTree = "<group>";
 		};
+		7A8A2D632CB5A25F0087EE8B /* RoutineCardDetailView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = RoutineCardDetailView;
+			sourceTree = "<group>";
+		};
 		7AF20F792C8F4AD30057A100 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,6 +272,7 @@
 		7AF20F8D2C90B9BF0057A100 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7A8A2D632CB5A25F0087EE8B /* RoutineCardDetailView */,
 				7A8A2D322CA3377D0087EE8B /* CoreViews */,
 				7A8A2D2B2CA1EB400087EE8B /* ComponentViews */,
 				7A8A2D282CA1E6040087EE8B /* SignUpView */,
