@@ -36,7 +36,9 @@ struct RoutineListView: View {
                         .buttonStyle(.plain)
                     }
                     .onDelete(perform: { indexSet in
-                        appState.deleteRoutine(at: indexSet)
+                        Task{
+                            await viewModel.deleteRoutine(at: indexSet)
+                        }
                     })
                 }
             }

@@ -13,6 +13,14 @@ extension RoutineListView {
         var hasHitLimit = false
         var showRoutineLimitAlert = false
         
+        func deleteRoutine(at index: IndexSet) async {
+            do {
+                try await DataManager.shared.deleteRoutine(at: index)
+            } catch {
+                print(error)
+            }
+        }
+        
     }
     
     
