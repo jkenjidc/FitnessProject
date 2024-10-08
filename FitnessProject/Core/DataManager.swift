@@ -75,7 +75,7 @@ final class DataManager {
     
     func deleteRoutine(at index: IndexSet) async throws {
         user.routines.remove(atOffsets: index)
-        var encodedRoutines = try user.routines.map { try encoder.encode($0)}
+        let encodedRoutines = try user.routines.map { try encoder.encode($0)}
         
         try await userCollection.document(user.id).updateData(["routines": encodedRoutines])
     }

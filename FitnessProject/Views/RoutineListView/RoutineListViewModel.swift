@@ -12,6 +12,8 @@ extension RoutineListView {
     @Observable class ViewModel {
         var hasHitLimit = false
         var showRoutineLimitAlert = false
+        var presentDialogueView = false
+        var selectedRoutine = Routine()
         
         func deleteRoutine(at index: IndexSet) async {
             do {
@@ -19,6 +21,11 @@ extension RoutineListView {
             } catch {
                 print(error)
             }
+        }
+        
+        func presentRoutineDetailCard(routine: Routine) {
+            selectedRoutine = routine
+            presentDialogueView = true
         }
         
     }

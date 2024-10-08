@@ -14,60 +14,66 @@ struct RoutineListView: View {
     @State private var viewModel = ViewModel()
     @Bindable var dataManager = DataManager.shared
     var body: some View {
-        VStack {
-            if dataManager.user.routines.isEmpty {
-                ContentUnavailableView{
-                    Image(systemName: "figure.flexibility")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .foregroundStyle(.secondary)
-                } description: {
-                    Text("No routines added")
-                }
-                .navigationTitle("Routines")
-            } else {
-                List{
-                    ForEach($dataManager.user.routines){ $routine in
-                        Button{
-                            router.push(destination: .createRoutineScreen(routine: routine))
-                        } label: {
-                            RoutineListCellView(title: routine.name)
-                        }
-                        .buttonStyle(.plain)
+        ZStack{
+            VStack {
+                if dataManager.user.routines.isEmpty {
+                    ContentUnavailableView{
+                        Image(systemName: "figure.flexibility")
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                            .foregroundStyle(.secondary)
+                    } description: {
+                        Text("No routines added")
                     }
-                    .onDelete(perform: { indexSet in
-                        Task{
-                            await viewModel.deleteRoutine(at: indexSet)
+                    .navigationTitle("Routines")
+                } else {
+                    List{
+                        ForEach($dataManager.user.routines){ $routine in
+                            Button{
+                                viewModel.presentRoutineDetailCard(routine: routine)
+                            } label: {
+                                RoutineListCellView(title: routine.name)
+                            }
+                            .buttonStyle(.plain)
                         }
-                    })
+                        .onDelete(perform: { indexSet in
+                            Task{
+                                await viewModel.deleteRoutine(at: indexSet)
+                            }
+                        })
+                    }
+                }
+                
+                
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        router.push(destination: .createRoutineScreen(routine: nil))
+                    } label: {
+                        Image(systemName: "plus.circle")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .padding()
+                    }
+                    .disabled(viewModel.hasHitLimit)
+                    .buttonStyle(.plain)
+                    .onTapGesture {
+                        if viewModel.hasHitLimit {
+                            viewModel.showRoutineLimitAlert = true
+                        }
+                    }
+                    .onChange(of: dataManager.user.routines) { _, _ in
+                        viewModel.hasHitLimit = dataManager.user.routines.count == 5
+                    }
+                    .alert("You can only make 5 routines", isPresented: $viewModel.showRoutineLimitAlert) {
+                        Button("Ok") {}
+                    }
                 }
             }
             
-            
-            HStack {
-                Spacer()
-                
-                Button {
-                    router.push(destination: .createRoutineScreen(routine: nil))
-                } label: {
-                    Image(systemName: "plus.circle")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .padding()
-                }
-                .disabled(viewModel.hasHitLimit)
-                .buttonStyle(.plain)
-                .onTapGesture {
-                    if viewModel.hasHitLimit {
-                        viewModel.showRoutineLimitAlert = true
-                    }
-                }
-                .onChange(of: dataManager.user.routines) { _, _ in
-                    viewModel.hasHitLimit = dataManager.user.routines.count == 5
-                }
-                .alert("You can only make 5 routines", isPresented: $viewModel.showRoutineLimitAlert) {
-                    Button("Ok") {}
-                }
+            if viewModel.presentDialogueView {
+                RoutineCardDetailView(routine: viewModel.selectedRoutine, presentDetailView: $viewModel.presentDialogueView)
             }
         }
         .navigationTitle("Routines")
@@ -76,5 +82,6 @@ struct RoutineListView: View {
 #Preview {
     RoutineListView()
         .environment(AppState())
+        .environment(Router())
         .preferredColorScheme(.dark)
 }
