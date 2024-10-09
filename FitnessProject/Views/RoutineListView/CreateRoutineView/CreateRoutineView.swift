@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CreateRoutineView: View {
-    @Environment(AppState.self) var appState
     @Environment(Router.self) var router
     @State var viewModel = ViewModel()
     
@@ -112,5 +111,5 @@ struct alertBodyView: View {
 #Preview {
     @State var routines = Routine.example
     return CreateRoutineView()
-        .environment(AppState())
+        .environment(Router())
 }

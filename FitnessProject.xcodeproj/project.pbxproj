@@ -42,7 +42,6 @@
 		7AF20FA22C92137E0057A100 /* CreateRoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */; };
 		7AF20FA52C9239AB0057A100 /* CreateRoutineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */; };
 		7AF20FA72C94B33A0057A100 /* ExerciseListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */; };
-		7AF20FAA2C9B64540057A100 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FA92C9B64540057A100 /* AppState.swift */; };
 		7AF20FAC2C9B70430057A100 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FAB2C9B70430057A100 /* Router.swift */; };
 		7AF20FAE2C9CBA620057A100 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FAD2C9CBA620057A100 /* AuthManager.swift */; };
 		7AF20FB02C9CBE210057A100 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20FAF2C9CBE210057A100 /* SignUpView.swift */; };
@@ -97,7 +96,6 @@
 		7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoutineView.swift; sourceTree = "<group>"; };
 		7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoutineViewModel.swift; sourceTree = "<group>"; };
 		7AF20FA62C94B33A0057A100 /* ExerciseListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListCellView.swift; sourceTree = "<group>"; };
-		7AF20FA92C9B64540057A100 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		7AF20FAB2C9B70430057A100 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		7AF20FAD2C9CBA620057A100 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		7AF20FAF2C9CBE210057A100 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -264,7 +262,6 @@
 		7AF20F8C2C90B91F0057A100 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				7AF20FA92C9B64540057A100 /* AppState.swift */,
 				7A8A2D4D2CB079830087EE8B /* NavManager */,
 				7AF20FAD2C9CBA620057A100 /* AuthManager.swift */,
 				7A8A2D352CA45F2D0087EE8B /* DataManager.swift */,
@@ -466,7 +463,6 @@
 				7A8A2D4F2CB079AC0087EE8B /* Destinations.swift in Sources */,
 				7A8A2D512CB079C80087EE8B /* Sheets.swift in Sources */,
 				7A8A2D362CA45F2D0087EE8B /* DataManager.swift in Sources */,
-				7AF20FAA2C9B64540057A100 /* AppState.swift in Sources */,
 				7AF20FA52C9239AB0057A100 /* CreateRoutineViewModel.swift in Sources */,
 				7A8A2D532CB07A200087EE8B /* FullScreenCovers.swift in Sources */,
 				7AF20FAC2C9B70430057A100 /* Router.swift in Sources */,

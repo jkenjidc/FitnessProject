@@ -24,18 +24,22 @@ extension SignUpView {
             }
         }
         
-        func signUp() async throws {
+        func signUp() async {
             do {
                 let user = try await AuthManager.shared.createUser(email: email, password: password)
-                try await DataManager.shared.createNewUser(user: CurrentUser(auth: user))
+                try await DataManager.shared.createNewUser(user: CurrentUser(auth: user, name: name))
             } catch {
                 print(error.localizedDescription)
             }
         }
         
-        func linkEmail() async throws {
-            try await AuthManager.shared.linkEmail(email: email, password: password)
-            try await DataManager.shared.updateUser(user: CurrentUser(auth: AuthManager.shared.getAuthenticatedUser(), name: name))
+        func linkEmail() async {
+            do {
+                try await AuthManager.shared.linkEmail(email: email, password: password)
+                try await DataManager.shared.updateUser(user: CurrentUser(auth: AuthManager.shared.getAuthenticatedUser(), name: name))
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
 }

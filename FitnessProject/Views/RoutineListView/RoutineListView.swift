@@ -9,7 +9,6 @@ import SwiftUI
 
 @MainActor
 struct RoutineListView: View {
-    @Environment(AppState.self) var appState
     @Environment(Router.self) var router
     @State private var viewModel = ViewModel()
     @Bindable var dataManager = DataManager.shared
@@ -81,7 +80,6 @@ struct RoutineListView: View {
 }
 #Preview {
     RoutineListView()
-        .environment(AppState())
         .environment(Router())
         .preferredColorScheme(.dark)
 }

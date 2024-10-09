@@ -11,11 +11,11 @@ struct RoutineCardDetailView: View {
     var routine: Routine
     @Binding var presentDetailView: Bool
     @Environment(Router.self) var router
-    @State private var offset = 1000.0
+    @State private var scale = 0.0
     var body: some View {
         ZStack {
             Color(.gray)
-                .opacity(0.1)
+                .opacity(0.2)
                 .onTapGesture {
                     close()
                 }
@@ -28,8 +28,15 @@ struct RoutineCardDetailView: View {
                 
                 VStack {
                     ForEach(routine.exercises){ exercise in
-                        Text(exercise.name)
-                            .foregroundStyle(.white)
+                        HStack{
+                            Text("\(String(exercise.sets.count)) x \(exercise.name)")
+                                .foregroundStyle(.white)
+                            Spacer()
+                            let index = String( (routine.exercises.firstIndex(where: {exercise.id == $0.id}) ?? 0) + 1)
+                            Text(index)
+                                .foregroundStyle(.white)
+                        }
+                        .padding(.horizontal)
                     }
                 }
                 ZStack{
@@ -37,7 +44,7 @@ struct RoutineCardDetailView: View {
                         close()
                     } label: {
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundStyle(.red)
+                            .foregroundStyle(.secondary)
                     }
                     
                     Text("Start Routine")
@@ -49,12 +56,11 @@ struct RoutineCardDetailView: View {
             }
             .fixedSize(horizontal: false, vertical: true)
             .padding()
-            .background(.secondary)
+            .background(.black)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay {
                 VStack{
                     HStack{
-                        Spacer()
                         Button {
                             close()
                         } label: {
@@ -62,7 +68,18 @@ struct RoutineCardDetailView: View {
                                 .font(.title2)
                                 .fontWeight(.bold)
                         }
-                        .tint(.black)
+                        .tint(.white)
+                        Spacer()
+                        
+                        Button{
+                            close()
+                            router.push(destination: .createRoutineScreen(routine: routine))
+                        } label: {
+                            Image(systemName: "pencil")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                        }
+                        .tint(.white)
                     }
                     Spacer()
                 }
@@ -70,22 +87,21 @@ struct RoutineCardDetailView: View {
             }
             .shadow(radius: 20)
             .padding(30)
-            .offset(x: 0, y: offset)
-            .onAppear {
-                withAnimation(.spring()) {
-                    offset = 0
-                }
-        }
+            .scaleEffect(scale)
         }
         .ignoresSafeArea()
+        .onAppear {
+            withAnimation(.linear(duration: 0.2)) {
+                scale = 1.0
+            }
+            
+        }
     }
     
     func close() {
-        withAnimation(.spring()) {
-            offset = 1000
-            router.dismissCover()
+        withAnimation(.linear(duration: 0.15)) {
+            scale = 0.0
             presentDetailView = false
-            
         }
     }
 }

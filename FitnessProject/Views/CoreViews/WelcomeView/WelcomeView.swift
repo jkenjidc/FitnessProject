@@ -9,7 +9,6 @@ import SwiftUI
 import FirebaseAuth
 
 struct WelcomeView: View {
-    @Environment(AppState.self) var appState
     @Environment(Router.self) var router
     @State private var viewModel = ViewModel()
     var welcomeLabelFontsize: CGFloat {
@@ -87,7 +86,6 @@ struct WelcomeView: View {
                     Task {
                         do {
                             try await viewModel.signInAnonymously()
-                            router.push(destination: .mainNavigationScreen)
                         } catch {
                             print(error)
                         }
@@ -105,6 +103,5 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView()
-        .environment(AppState())
         .preferredColorScheme(.dark)
 }
