@@ -20,22 +20,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7ECBBBB8-AD50-4F34-8FB6-51D73AC1EF89"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FitnessProject/Views/RoutineListView/CreateRoutineView/CreateRoutineViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "saveExercise()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "FB4209DC-E3EA-4F2F-95FE-5089EB3762B5"
             shouldBeEnabled = "No"
             ignoreCount = "0"

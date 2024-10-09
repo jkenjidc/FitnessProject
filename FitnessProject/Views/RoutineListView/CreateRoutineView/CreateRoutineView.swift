@@ -74,23 +74,23 @@ struct CreateRoutineView: View {
     }
     
     var dayOfTheWeekPicker: some View {
-        let daysOfTheWeek = ["M", "T", "W", "T", "F", "S", "S"]
-        return Section("Days to do") {
+        return Section(header: Text("Days to do"), footer: Text(viewModel.selectedDaysFooterText)) {
             HStack(spacing: 10){
                 Spacer()
-                ForEach(0..<daysOfTheWeek.count, id: \.self){ index in
+                ForEach(0..<7, id: \.self){ index in
                     Button {
+                        viewModel.selectDay(index: index)
                     } label: {
                         ZStack {
                             Circle()
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(viewModel.selectedDays[index] ? .green : .secondary)
                                 .opacity(0.5)
                             
-                            Text(daysOfTheWeek[index])
+                            Text(viewModel.daysOfTheWeek[index].first!.description)
                                 .font(.system(size: 15))
                                 .foregroundStyle(.white)
                         }
-                        .frame(width: 35, height: 35)
+                        .frame(width: 38, height: 38)
                     }
                     .buttonStyle(.plain)
                     
@@ -112,9 +112,10 @@ struct CreateRoutineView: View {
         return !viewModel.routine.exercises.isEmpty ?
         ScrollView{
             ForEach($viewModel.routine.exercises) { $exercise in
-                ExerciseListCellView(exercise: $exercise)
+                ExerciseListCellView(exercise: $exercise, exercises: $viewModel.routine.exercises)
             }
         }
+        .scrollBounceBehavior(.basedOnSize)
         :
         nil
     }

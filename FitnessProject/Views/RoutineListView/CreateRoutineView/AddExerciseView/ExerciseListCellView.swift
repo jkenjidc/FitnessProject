@@ -32,6 +32,7 @@ struct exerciseSetListRowView: View {
 
 struct ExerciseListCellView: View {
     @Binding var exercise: Exercise
+    @Binding var exercises: [Exercise]
     
     let columns = [
         GridItem(.fixed(80)),
@@ -42,8 +43,21 @@ struct ExerciseListCellView: View {
     
     
     var body: some View {
-        VStack(spacing: 0){
-            Text(exercise.name)
+        VStack(alignment: .leading, spacing: 0){
+            ZStack(alignment: .leading){
+                Button{
+                    //TODO: fix crash
+//                    exercises.removeAll(where: {$0.id == exercise.id})
+                } label: {
+                    Image(systemName: "trash.fill")
+                        .tint(.red)
+                }
+                .padding(.leading, 30)
+                Text(exercise.name)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+
+            }
             LazyVGrid(columns: columns){
                 Text("Sets")
                 Text("lbs")
@@ -67,6 +81,7 @@ struct ExerciseListCellView: View {
             .buttonStyle(.plain)
 
         }
+        .padding(.bottom, 5)
     }
     
     func addSet() {
@@ -79,6 +94,6 @@ struct ExerciseListCellView: View {
 
 #Preview {
     @State var exercise = Exercise(name: "Exercise 1", sets: [ExerciseSet(weight: 0, reps: 0)])
-    return ExerciseListCellView(exercise: $exercise)
+    return ExerciseListCellView(exercise: $exercise, exercises: .constant([Exercise.example]))
         .preferredColorScheme(.dark)
 }
