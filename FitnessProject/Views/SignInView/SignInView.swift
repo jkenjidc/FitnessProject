@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SignInView: View {
-    @Environment(AppState.self) var appState
     @State var viewModel =  ViewModel()
     @Environment(Router.self) var router
     @Environment(\.dismiss) var dismiss
@@ -62,6 +61,5 @@ struct SignInView: View {
 
 #Preview {
     SignInView()
-        .environment(AppState())
         .preferredColorScheme(.dark)
 }

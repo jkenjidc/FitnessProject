@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @Environment(AppState.self) var appState
     @Environment(Router.self) var router
     @State private var viewModel = ViewModel()
     @Environment(\.dismiss) var dismiss
     var body: some View {
-        @Bindable var router = router
         VStack(alignment: .leading){
             Group{
                 EntryFieldView(textBinding: $viewModel.name, placeholderString: "Name", iconImagename: "person.fill")
@@ -35,11 +33,11 @@ struct SignUpView: View {
         Button {
             Task {
                 if AuthManager.shared.isAnonymous{
-                    try await viewModel.linkEmail()
-                    dismiss()
+                    await viewModel.linkEmail()
+                    router.push(destination: .mainNavigationScreen)
                 } else {
-                    try await viewModel.signUp()
-                    
+                    await viewModel.signUp()
+                    router.push(destination: .mainNavigationScreen)
                 }
             }
         } label: {
@@ -61,6 +59,5 @@ struct SignUpView: View {
 
 #Preview {
     SignUpView()
-        .environment(AppState())
         .preferredColorScheme(.dark)
 }

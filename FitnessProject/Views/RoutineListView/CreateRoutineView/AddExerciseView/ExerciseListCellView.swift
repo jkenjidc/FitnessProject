@@ -78,7 +78,7 @@ struct ExerciseListCellView: View {
 }
 
 #Preview {
-    @State var exercise = Exercise(name: "Exercise 1",stats: Stats.example, sets: [ExerciseSet(weight: 0, reps: 0)])
+    @State var exercise = Exercise(name: "Exercise 1", sets: [ExerciseSet(weight: 0, reps: 0)])
     return ExerciseListCellView(exercise: $exercise)
         .preferredColorScheme(.dark)
 }

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @Environment(AppState.self) var appState
     @Environment(Router.self) var router
     @State  var viewModel = ViewModel()
     var body: some View {
@@ -35,6 +34,7 @@ struct ProfileView: View {
                     Task {
                         do {
                             try AuthManager.shared.signOut()
+                            router.popToRoot()
                         } catch {
                             print(error)
                         }
@@ -87,6 +87,5 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
-        .environment(AppState())
         .preferredColorScheme(.dark)
 }

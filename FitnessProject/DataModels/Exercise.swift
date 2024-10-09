@@ -23,5 +23,14 @@ struct Exercise: Identifiable, Codable, Hashable {
            sets.removeAll(where: { $0.id == exerciseSet.id})
     }
     
-    static let example = Exercise(name: "Test 1")
+    init() {
+        
+    }
+    
+    init(name: String, sets: [ExerciseSet]) {
+        self.name = name
+        self.sets = sets
+    }
+    
+    static let example = Exercise(name: "Test 1", sets: ExerciseSet.example)
 }

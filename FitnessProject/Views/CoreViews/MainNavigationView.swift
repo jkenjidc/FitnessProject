@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MainNavigationView: View {
-    @Environment(AppState.self) var appState
     @State private var selectedTab = 1
     private var tabBarFontSize = CGFloat(25)
     @MainActor var navTitle: String {
@@ -48,6 +47,5 @@ struct MainNavigationView: View {
 
 #Preview {
     MainNavigationView()
-        .environment(AppState())
         .preferredColorScheme(.dark)
 }

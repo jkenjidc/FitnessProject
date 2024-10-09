@@ -29,7 +29,7 @@ extension CreateRoutineView {
         }
         
         func saveExercise() {
-            let exercise = Exercise(name: newExerciseName, description: "", stats: Stats.example, sets: [ExerciseSet(weight: 0, reps: 0)])
+            let exercise = Exercise(name: newExerciseName, sets: [ExerciseSet(weight: 0, reps: 0)])
             routine.exercises.append(exercise)
             newExerciseName = ""
         }

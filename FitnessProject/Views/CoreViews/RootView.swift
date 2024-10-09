@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RootView: View {
-    @Environment(AppState.self) var appState
     @Environment(Router.self) var router
     var body: some View {
         @Bindable var router = router

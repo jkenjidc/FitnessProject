@@ -10,9 +10,7 @@ import Firebase
 import FirebaseFirestore
 
 @main
-@MainActor
 struct FitnessProjectApp: App {
-    @State var appState = AppState()
     @State var router = Router()
     init() {
         FirebaseApp.configure()
@@ -20,7 +18,6 @@ struct FitnessProjectApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-                .environment(appState)
                 .environment(router)
                 .preferredColorScheme(.dark)
         }
