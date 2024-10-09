@@ -32,7 +32,7 @@ struct AddExerciseView: View {
                 Text("Add Exercise")
             }
             .onDisappear(perform: {
-                viewModel.isMissingExerciseName = false
+                viewModel.newExerciseName = ""
             })
         }
         .presentationDetents([.fraction(0.4), .medium], selection: .constant(.fraction(0.4)))
