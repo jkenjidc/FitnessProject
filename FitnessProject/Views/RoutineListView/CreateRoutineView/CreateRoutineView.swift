@@ -17,8 +17,10 @@ struct CreateRoutineView: View {
     var body: some View {
         Form {
             routineNameView
+            dayOfTheWeekPicker
             routineDescriptionView
             exercisesEmbeddedListView
+            
             Button {
                 router.presentSheet(.addExerciseSheet(viewModel: $viewModel))
             } label: {
@@ -71,10 +73,38 @@ struct CreateRoutineView: View {
         }
     }
     
+    var dayOfTheWeekPicker: some View {
+        let daysOfTheWeek = ["M", "T", "W", "T", "F", "S", "S"]
+        return Section("Days to do") {
+            HStack(spacing: 10){
+                Spacer()
+                ForEach(0..<daysOfTheWeek.count, id: \.self){ index in
+                    Button {
+                    } label: {
+                        ZStack {
+                            Circle()
+                                .foregroundStyle(.secondary)
+                                .opacity(0.5)
+                            
+                            Text(daysOfTheWeek[index])
+                                .font(.system(size: 15))
+                                .foregroundStyle(.white)
+                        }
+                        .frame(width: 35, height: 35)
+                    }
+                    .buttonStyle(.plain)
+                    
+                }
+                Spacer()
+            }
+        }
+        .listRowBackground(Color(UIColor.systemGroupedBackground))
+    }
+    
     var routineDescriptionView: some View {
         return Section("Routine Description"){
             TextEditor(text: $viewModel.routine.description)
-                .frame(height: 75)
+                .frame(height: 65)
         }
     }
     
