@@ -14,6 +14,7 @@ struct MainNavigationView: View {
         switch(selectedTab) {
         case 0: "Welcome \(DataManager.shared.user.name.isEmpty ? "Guest" : DataManager.shared.user.name)"
         case 1: "Routines"
+        case 2: "Start Routine"
         default:"Progress"
         }
     }
@@ -31,11 +32,17 @@ struct MainNavigationView: View {
                     }
                     .tag(1)
                 
+                StartRoutineView()
+                    .tabItem {
+                        Image(systemName: "play.circle")
+                    }
+                    .tag(2)
+                
                 PersonalProgressView()
                     .tabItem {
                         Image(systemName: "chart.line.uptrend.xyaxis")
                     }
-                    .tag(2)
+                    .tag(3)
                 
                 
             }
@@ -45,7 +52,7 @@ struct MainNavigationView: View {
     }
 }
 
-#Preview {
-    MainNavigationView()
-        .preferredColorScheme(.dark)
-}
+//#Preview {
+//    MainNavigationView()
+//        .preferredColorScheme(.dark)
+//}
