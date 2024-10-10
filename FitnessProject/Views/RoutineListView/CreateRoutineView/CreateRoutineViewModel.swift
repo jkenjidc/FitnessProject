@@ -60,6 +60,14 @@ extension CreateRoutineView {
             cancellationAlert = true
         }
         
+        func deleteExercise(index: IndexSet) {
+            routine.exercises.remove(atOffsets: index)
+        }
+        
+        func deleteExercise(exercise: Exercise) {
+            routine.exercises.remove(at: routine.exercises.firstIndex(of: exercise) ?? 0)
+        }
+        
         func checkExerciseName() {
             isMissingExerciseName = newExerciseName.isEmpty
         }

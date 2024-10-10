@@ -110,10 +110,14 @@ struct CreateRoutineView: View {
     
     var exercisesEmbeddedListView: some View {
         return !viewModel.routine.exercises.isEmpty ?
-        ScrollView{
+        List{
             ForEach($viewModel.routine.exercises) { $exercise in
                 ExerciseListCellView(exercise: $exercise, exercises: $viewModel.routine.exercises)
+                    .listRowSeparator(.hidden)
             }
+            .onDelete(perform: { indexSet in
+                viewModel.deleteExercise(index: indexSet)
+            })
         }
         .scrollBounceBehavior(.basedOnSize)
         :
