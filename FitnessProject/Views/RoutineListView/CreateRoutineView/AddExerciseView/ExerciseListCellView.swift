@@ -33,6 +33,9 @@ struct exerciseSetListRowView: View {
 struct ExerciseListCellView: View {
     @Binding var exercise: Exercise
     @Binding var exercises: [Exercise]
+    var indexOfExercise: Int {
+        return exercises.firstIndex(of: exercise) ?? 0
+    }
     
     let columns = [
         GridItem(.fixed(80)),
@@ -46,8 +49,9 @@ struct ExerciseListCellView: View {
         VStack(alignment: .leading, spacing: 0){
             ZStack(alignment: .leading){
                 Button{
-                    //TODO: fix crash
-//                    exercises.removeAll(where: {$0.id == exercise.id})
+                    withAnimation(.linear(duration: 0.30)) {
+                        _ = self.exercises.remove(at: indexOfExercise)
+                    }
                 } label: {
                     Image(systemName: "trash.fill")
                         .tint(.red)
