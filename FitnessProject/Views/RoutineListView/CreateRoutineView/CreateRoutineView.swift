@@ -20,7 +20,6 @@ struct CreateRoutineView: View {
             dayOfTheWeekPicker
             routineDescriptionView
             exercisesEmbeddedListView
-            
             Button {
                 router.presentSheet(.addExerciseSheet(viewModel: $viewModel))
             } label: {
@@ -112,11 +111,14 @@ struct CreateRoutineView: View {
         return !viewModel.routine.exercises.isEmpty ?
         List{
             ForEach($viewModel.routine.exercises) { $exercise in
-                ExerciseListCellView(exercise: $exercise, exercises: $viewModel.routine.exercises)
+                ExerciseListCellView(exercise: $exercise, deleteExercise: self.viewModel.deleteExercise)
+                    .transition(.move(edge: .top))
                     .listRowSeparator(.hidden)
             }
             .onDelete(perform: { indexSet in
-                viewModel.deleteExercise(index: indexSet)
+                withAnimation{
+                    viewModel.deleteExercise(index: indexSet)
+                }
             })
         }
         .scrollBounceBehavior(.basedOnSize)
