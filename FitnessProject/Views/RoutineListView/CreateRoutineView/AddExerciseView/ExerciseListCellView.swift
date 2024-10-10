@@ -32,10 +32,7 @@ struct exerciseSetListRowView: View {
 
 struct ExerciseListCellView: View {
     @Binding var exercise: Exercise
-    @Binding var exercises: [Exercise]
-    var indexOfExercise: Int {
-        return exercises.firstIndex(of: exercise) ?? 0
-    }
+    var deleteExercise: (Exercise) -> Void
     
     let columns = [
         GridItem(.fixed(80)),
@@ -48,13 +45,12 @@ struct ExerciseListCellView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             ZStack(alignment: .leading){
-                Button{
-                    withAnimation(.linear(duration: 0.30)) {
-                        _ = self.exercises.remove(at: indexOfExercise)
+                Button(role: .destructive){
+                    withAnimation{
+                        self.deleteExercise(exercise)
                     }
                 } label: {
                     Image(systemName: "trash.fill")
-                        .tint(.red)
                 }
                 .padding(.leading, 30)
                 Text(exercise.name)
@@ -98,6 +94,7 @@ struct ExerciseListCellView: View {
 
 #Preview {
     @State var exercise = Exercise(name: "Exercise 1", sets: [ExerciseSet(weight: 0, reps: 0)])
-    return ExerciseListCellView(exercise: $exercise, exercises: .constant([Exercise.example]))
+    func dummyfunc(exerise: Exercise){}
+    return ExerciseListCellView(exercise: $exercise, deleteExercise: dummyfunc.self )
         .preferredColorScheme(.dark)
 }
