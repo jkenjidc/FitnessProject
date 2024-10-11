@@ -34,14 +34,19 @@ extension CreateRoutineView {
                 return ""
             }
         }
+        var timerMode = false
         
-        init(routine: Routine? = nil) {
+        init(routine: Routine? = nil, timerMode: Bool? = false) {
              if let unwrappedRoutine = routine {
                  self.routine = unwrappedRoutine
                  self.selectedDays = self.selectedDays.enumerated().map{index, element in
                      unwrappedRoutine.daysToDo.contains(daysOfTheWeek[index])
                  }
              }
+            
+            if let unwrappedTimerMode = timerMode {
+                self.timerMode = unwrappedTimerMode
+            }
          }
         
         var validInputs: Bool {
