@@ -34,19 +34,25 @@ extension CreateRoutineView {
                 return ""
             }
         }
-        var timerMode = false
+        var currentScreenMode = ScreenMode.creation
+        var timerMode: Bool {
+            return currentScreenMode == .timer
+        }
+        var elapsedTime = 0
+        let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+        var isTimerActive = true
         
-        init(routine: Routine? = nil, timerMode: Bool? = false) {
+        init(routine: Routine? = nil, screenMode: ScreenMode? = .creation) {
              if let unwrappedRoutine = routine {
                  self.routine = unwrappedRoutine
                  self.selectedDays = self.selectedDays.enumerated().map{index, element in
                      unwrappedRoutine.daysToDo.contains(daysOfTheWeek[index])
                  }
+                 self.currentScreenMode = screenMode ?? .creation
+                 isTimerActive = timerMode
              }
             
-            if let unwrappedTimerMode = timerMode {
-                self.timerMode = unwrappedTimerMode
-            }
+            
          }
         
         var validInputs: Bool {
@@ -93,6 +99,7 @@ extension CreateRoutineView {
         }
         
         func saveRoutine() async {
+            isTimerActive = false
             do {
                 try await DataManager.shared.addRoutine(routine: routine)
             } catch {

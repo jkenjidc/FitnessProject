@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct CreateRoutineView: View {
+    @Environment(\.scenePhase) var scenePhase
     @Environment(Router.self) var router
     @State var viewModel = ViewModel()
     
-    init(routine: Routine? = nil, timerMode: Bool? = false) {
-        _viewModel = State(initialValue: ViewModel(routine: routine, timerMode: timerMode))
+    init(routine: Routine? = nil, screenMode: ScreenMode? = .creation) {
+        _viewModel = State(initialValue: ViewModel(routine: routine, screenMode: screenMode))
     }
     var body: some View {
         Form {
             routineNameView
             dayOfTheWeekPicker
+            timerDisplay
             routineDescriptionView
             exercisesEmbeddedListView
             Button {
@@ -109,6 +111,31 @@ struct CreateRoutineView: View {
         nil
     }
     
+    var timerDisplay: some View {
+        return viewModel.timerMode ?
+        HStack{
+            Spacer()
+            Text("\(viewModel.elapsedTime)")
+                .font(.system(size: 45))
+                .multilineTextAlignment(.center)
+                .onReceive(viewModel.timer){ timer in
+                    guard viewModel.isTimerActive else { return }
+                    viewModel.elapsedTime += 1
+                }
+                .onChange(of: scenePhase){
+                    if scenePhase == .active {
+                        viewModel.isTimerActive = true
+                    } else {
+                        viewModel.isTimerActive = false
+                    }
+                }
+            Spacer()
+        }
+        :
+        nil
+            
+    }
+    
     var routineDescriptionView: some View {
         return !(viewModel.timerMode && viewModel.routine.description.isEmpty) ?
             Section("Routine Description"){
@@ -126,11 +153,6 @@ struct CreateRoutineView: View {
                     .transition(.move(edge: .top))
                     .listRowSeparator(.hidden)
             }
-            .onDelete(perform: { indexSet in
-                withAnimation{
-                    viewModel.deleteExercise(index: indexSet)
-                }
-            })
         }
         .scrollBounceBehavior(.basedOnSize)
         :
@@ -146,6 +168,7 @@ struct alertBodyView: View {
         if viewModel.cancellationAlert {
             Button("Cancel", role: .cancel){
                 viewModel.cancellationAlert = false
+                viewModel.isTimerActive = false
             }
         }
         Button("OK", role: (viewModel.cancellationAlert ? .destructive : .none)){

@@ -82,9 +82,6 @@ struct ExerciseListCellView: View {
 
         }
         .padding(.bottom, 5)
-        .onTapGesture {
-            print("clicked")
-        }
     }
     
     func addSet() {
@@ -101,3 +98,4 @@ struct ExerciseListCellView: View {
     return ExerciseListCellView(exercise: $exercise, deleteExercise: dummyfunc.self )
         .preferredColorScheme(.dark)
 }
+

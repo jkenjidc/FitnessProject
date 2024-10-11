@@ -73,7 +73,7 @@ struct RoutineCardDetailView: View {
                         
                         Button{
                             close()
-                            router.push(destination: .createRoutineScreen(routine: routine, timerMode: false))
+                            router.push(destination: .createRoutineScreen(routine: routine, screenMode: .editing))
                         } label: {
                             Image(systemName: "pencil")
                                 .font(.title2)

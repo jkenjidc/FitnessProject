@@ -42,7 +42,7 @@ struct StartRoutineCircleGraphic: View{
     var routine: Routine
     var body: some View {
         Button {
-            router.push(destination: .createRoutineScreen(routine: routine, timerMode: true))
+            router.push(destination: .createRoutineScreen(routine: routine, screenMode: .timer))
         } label: {
             startButtonlabel
         }
