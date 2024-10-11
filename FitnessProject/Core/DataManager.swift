@@ -9,12 +9,11 @@ import Foundation
 import FirebaseFirestore
 import Firebase
 
-@MainActor
 @Observable
 final class DataManager {
     var user = CurrentUser()
     private let userCollection = Firestore.firestore().collection("users")
-    @MainActor static let shared = DataManager()
+    static let shared = DataManager()
     private init() {}
     
     // MARK: DB HELPERS

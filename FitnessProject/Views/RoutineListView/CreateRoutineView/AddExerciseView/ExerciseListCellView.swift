@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@MainActor
 struct exerciseSetListRowView: View {
     @Binding var exercise: Exercise
     @Binding var exerciseSet: ExerciseSet

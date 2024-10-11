@@ -7,34 +7,37 @@
 
 import SwiftUI
 
-@MainActor
 struct StartRoutineView: View {
     @State private var viewModel = ViewModel()
     var body: some View {
-        ScrollView(.horizontal){
+        ScrollView(.horizontal, showsIndicators: false){
             HStack(alignment: .center){
-                Spacer()
                 ForEach(viewModel.routinesForTheDay) { routine in
                     StartRoutineCircleGraphic(routine: routine)
                 }
-                Spacer()
             }
-            .background(.yellow)
+            .scrollTargetLayout()
         }
+        .transition(.scale)
+        .scrollTargetBehavior(.paging)
         .scrollBounceBehavior(.basedOnSize)
-        .background(.orange)
+
         
     }
 }
 
 struct StartRoutineCircleGraphic: View{
+    @Environment(Router.self) var router
     var routine: Routine
     var body: some View {
         Button {
+            router.push(destination: .createRoutineScreen(routine: routine))
         } label: {
             startButtonlabel
         }
         .buttonStyle(.plain)
+        .containerRelativeFrame(.horizontal)
+        
     }
     
     var startButtonlabel: some View {
@@ -51,6 +54,7 @@ struct StartRoutineCircleGraphic: View{
                     .font(.system(size: 45))
                     .foregroundStyle(.white)
             }
+            .transition(.opacity)
         }
         .frame(width: 300, height: 300)
     }
@@ -58,4 +62,5 @@ struct StartRoutineCircleGraphic: View{
 
 #Preview {
     StartRoutineCircleGraphic(routine: Routine.example[0])
+        .environment(Router())
 }

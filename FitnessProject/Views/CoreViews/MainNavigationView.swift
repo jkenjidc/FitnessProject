@@ -10,7 +10,7 @@ import SwiftUI
 struct MainNavigationView: View {
     @State private var selectedTab = 1
     private var tabBarFontSize = CGFloat(25)
-    @MainActor var navTitle: String {
+    var navTitle: String {
         switch(selectedTab) {
         case 0: "Welcome \(DataManager.shared.user.name.isEmpty ? "Guest" : DataManager.shared.user.name)"
         case 1: "Routines"
