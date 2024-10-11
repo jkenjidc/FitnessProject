@@ -8,7 +8,6 @@
 import Foundation
 
 extension RoutineListView {
-    @MainActor
     @Observable class ViewModel {
         var hasHitLimit = false
         var showRoutineLimitAlert = false

@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 extension WelcomeView {
     @Observable
     class ViewModel {

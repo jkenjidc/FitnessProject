@@ -10,7 +10,6 @@ import SwiftUI
 
 
 extension StartRoutineView {
-    @MainActor
     @Observable class ViewModel {
         var dataManager = DataManager.shared
         

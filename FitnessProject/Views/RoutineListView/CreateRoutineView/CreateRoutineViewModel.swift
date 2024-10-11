@@ -81,7 +81,6 @@ extension CreateRoutineView {
                 routine.daysToDo.append(daysOfTheWeek[index])
             }
             routine.daysToDo.sort(by: {daysOfTheWeek.firstIndex(of: $0) ?? 7 < daysOfTheWeek.firstIndex(of: $1) ?? 7})
-            print(routine.daysToDo)
         }
         
         func checkRoutineName() {
