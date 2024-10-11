@@ -44,17 +44,19 @@ struct ExerciseListCellView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             ZStack(alignment: .leading){
+                Image(systemName: "trash.fill")
+                    .foregroundStyle(.red)
+                    .onTapGesture {
+                        withAnimation{
+                            self.deleteExercise(exercise)
+                        }
+                    }
+                    .padding(.leading, 30)
+
                 Text(exercise.name)
                     .frame(maxWidth: .infinity)
                     .padding()
-                Button(role: .destructive){
-                    withAnimation{
-                        self.deleteExercise(exercise)
-                    }
-                } label: {
-                    Image(systemName: "trash.fill")
-                }
-                .padding(.leading, 30)
+                
             }
             LazyVGrid(columns: columns){
                 Text("Sets")
