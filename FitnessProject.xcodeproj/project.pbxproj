@@ -30,6 +30,7 @@
 		7A8A2D652CB5A3EE0087EE8B /* RoutineCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D642CB5A3ED0087EE8B /* RoutineCardDetailView.swift */; };
 		7A8A2D682CB864E20087EE8B /* StartRoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D672CB864E20087EE8B /* StartRoutineView.swift */; };
 		7A8A2D6C2CB865060087EE8B /* StartRoutineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D6B2CB865060087EE8B /* StartRoutineViewModel.swift */; };
+		7A8A2D6E2CB9C1520087EE8B /* ScreenModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D6D2CB9C1520087EE8B /* ScreenModes.swift */; };
 		7AF20F7F2C909B390057A100 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F7E2C909B390057A100 /* User.swift */; };
 		7AF20F832C909C2F0057A100 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F822C909C2F0057A100 /* Routine.swift */; };
 		7AF20F872C909CC00057A100 /* ExerciseSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F862C909CC00057A100 /* ExerciseSet.swift */; };
@@ -86,6 +87,7 @@
 		7A8A2D642CB5A3ED0087EE8B /* RoutineCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineCardDetailView.swift; sourceTree = "<group>"; };
 		7A8A2D672CB864E20087EE8B /* StartRoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRoutineView.swift; sourceTree = "<group>"; };
 		7A8A2D6B2CB865060087EE8B /* StartRoutineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRoutineViewModel.swift; sourceTree = "<group>"; };
+		7A8A2D6D2CB9C1520087EE8B /* ScreenModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenModes.swift; sourceTree = "<group>"; };
 		7AF20F7E2C909B390057A100 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7AF20F822C909C2F0057A100 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
 		7AF20F862C909CC00057A100 /* ExerciseSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSet.swift; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 				7AF20FA12C92137E0057A100 /* CreateRoutineView.swift */,
 				7AF20FA42C9239AB0057A100 /* CreateRoutineViewModel.swift */,
 				7A8A2D622CB48E400087EE8B /* AddExerciseView */,
+				7A8A2D6D2CB9C1520087EE8B /* ScreenModes.swift */,
 			);
 			name = CreateRoutineView;
 			path = RoutineListView/CreateRoutineView;
@@ -489,6 +492,7 @@
 				7AF20F952C90C97A0057A100 /* ProfileView.swift in Sources */,
 				7A8A2D4C2CAF17B40087EE8B /* AddExerciseView.swift in Sources */,
 				7A8A2D6C2CB865060087EE8B /* StartRoutineViewModel.swift in Sources */,
+				7A8A2D6E2CB9C1520087EE8B /* ScreenModes.swift in Sources */,
 				7A4239F12C8B71BC00F34FC7 /* FitnessProjectApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
