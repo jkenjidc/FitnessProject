@@ -11,8 +11,8 @@ struct CreateRoutineView: View {
     @Environment(Router.self) var router
     @State var viewModel = ViewModel()
     
-    init(routine: Routine? = nil) {
-        _viewModel = State(initialValue: ViewModel(routine: routine))
+    init(routine: Routine? = nil, timerMode: Bool? = false) {
+        _viewModel = State(initialValue: ViewModel(routine: routine, timerMode: timerMode))
     }
     var body: some View {
         Form {
@@ -56,13 +56,18 @@ struct CreateRoutineView: View {
                         viewModel.checkRoutineName()
                     }
                 } label: {
-                    Text("Save")
+                    if viewModel.timerMode {
+                        Text("Finish")
+                            .tint(.green)
+                    } else {
+                        Text("Save")
+                    }
                 }
             }
         }
     }
     var routineNameView: some View {
-        return Section(header: Text("Routine Name"), footer: ErrorFooterView(invalidField: viewModel.isMissingRoutineName)
+        return !viewModel.timerMode ? Section(header: Text("Routine Name"), footer: ErrorFooterView(invalidField: viewModel.isMissingRoutineName)
         ){
             TextField("", text: $viewModel.routine.name)
                 .keyboardType(.asciiCapable)
@@ -70,10 +75,12 @@ struct CreateRoutineView: View {
                     viewModel.checkRoutineName()
                 }
         }
+        :
+        nil
     }
     
     var dayOfTheWeekPicker: some View {
-        return Section(header: Text("Days to do"), footer: Text(viewModel.selectedDaysFooterText)) {
+        return !viewModel.timerMode ? Section(header: Text("Days to do"), footer: Text(viewModel.selectedDaysFooterText)) {
             HStack(spacing: 10){
                 Spacer()
                 ForEach(0..<7, id: \.self){ index in
@@ -98,13 +105,17 @@ struct CreateRoutineView: View {
             }
         }
         .listRowBackground(Color(UIColor.systemGroupedBackground))
+        :
+        nil
     }
     
     var routineDescriptionView: some View {
-        return Section("Routine Description"){
+        return !(viewModel.timerMode && viewModel.routine.description.isEmpty) ?
+            Section("Routine Description"){
             TextEditor(text: $viewModel.routine.description)
                 .frame(height: 65)
         }
+        : nil
     }
     
     var exercisesEmbeddedListView: some View {

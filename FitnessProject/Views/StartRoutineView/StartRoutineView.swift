@@ -10,17 +10,28 @@ import SwiftUI
 struct StartRoutineView: View {
     @State private var viewModel = ViewModel()
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false){
-            HStack(alignment: .center){
-                ForEach(viewModel.routinesForTheDay) { routine in
-                    StartRoutineCircleGraphic(routine: routine)
+        if !viewModel.routinesForTheDay.isEmpty {
+            ScrollView(.horizontal, showsIndicators: false){
+                HStack(alignment: .center){
+                    ForEach(viewModel.routinesForTheDay) { routine in
+                        StartRoutineCircleGraphic(routine: routine)
+                    }
                 }
+                .scrollTargetLayout()
             }
-            .scrollTargetLayout()
+            .transition(.scale)
+            .scrollTargetBehavior(.paging)
+            .scrollBounceBehavior(.basedOnSize)
+        } else {
+            ContentUnavailableView {
+                Image(systemName: "play.slash.fill")
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .foregroundStyle(.secondary)
+            } description: {
+                Text("Create routines in the routines tab")
+            }
         }
-        .transition(.scale)
-        .scrollTargetBehavior(.paging)
-        .scrollBounceBehavior(.basedOnSize)
 
         
     }
@@ -31,7 +42,7 @@ struct StartRoutineCircleGraphic: View{
     var routine: Routine
     var body: some View {
         Button {
-            router.push(destination: .createRoutineScreen(routine: routine))
+            router.push(destination: .createRoutineScreen(routine: routine, timerMode: true))
         } label: {
             startButtonlabel
         }

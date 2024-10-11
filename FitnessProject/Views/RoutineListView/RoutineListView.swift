@@ -47,7 +47,7 @@ struct RoutineListView: View {
                     Spacer()
                     
                     Button {
-                        router.push(destination: .createRoutineScreen(routine: nil))
+                        router.push(destination: .createRoutineScreen(routine: nil, timerMode: false))
                     } label: {
                         Image(systemName: "plus.circle")
                             .resizable()

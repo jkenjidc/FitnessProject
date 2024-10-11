@@ -44,6 +44,9 @@ struct ExerciseListCellView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             ZStack(alignment: .leading){
+                Text(exercise.name)
+                    .frame(maxWidth: .infinity)
+                    .padding()
                 Button(role: .destructive){
                     withAnimation{
                         self.deleteExercise(exercise)
@@ -52,10 +55,6 @@ struct ExerciseListCellView: View {
                     Image(systemName: "trash.fill")
                 }
                 .padding(.leading, 30)
-                Text(exercise.name)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-
             }
             LazyVGrid(columns: columns){
                 Text("Sets")
@@ -81,6 +80,9 @@ struct ExerciseListCellView: View {
 
         }
         .padding(.bottom, 5)
+        .onTapGesture {
+            print("clicked")
+        }
     }
     
     func addSet() {
