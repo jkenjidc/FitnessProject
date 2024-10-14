@@ -112,16 +112,32 @@ struct CreateRoutineView: View {
     
     var timerDisplay: some View {
         return viewModel.timerMode ?
-        HStack{
-            Spacer()
-            Text("\(viewModel.timeString)")
-                .font(.system(size: 45))
-                .multilineTextAlignment(.center)
-                .onReceive(viewModel.timer){ timer in
-                    guard viewModel.isTimerActive else { return }
-                    viewModel.elapsedTime += 1
-                }
-            Spacer()
+        VStack(spacing: 5){
+            HStack{
+                Spacer()
+                Text("\(viewModel.timeString)")
+                    .font(.system(size: 45))
+                    .multilineTextAlignment(.center)
+                    .onReceive(viewModel.timer){ timer in
+                        guard viewModel.isTimerActive else { return }
+                        viewModel.elapsedTime += 1
+                    }
+                Spacer()
+            }
+            Button{
+                viewModel.isTimerActive.toggle()
+            } label: {
+                Image(systemName: viewModel.isTimerActive ? "pause.fill" : "play.fill")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .scaledToFit()
+                    .foregroundStyle(.black)
+                    .padding(5)
+                    .frame(maxWidth: .infinity)
+                    .background((viewModel.isTimerActive ? Color.secondary : Color.green))
+                    .clipShape(.capsule)
+            }
+            .padding(.horizontal)
         }
         :
         nil
@@ -141,7 +157,7 @@ struct CreateRoutineView: View {
         return !viewModel.routine.exercises.isEmpty ?
         List{
             ForEach($viewModel.routine.exercises) { $exercise in
-                ExerciseListCellView(exercise: $exercise, deleteExercise: self.viewModel.confirmDeleteExerise)
+                ExerciseListCellView(exercise: $exercise, screenMode: viewModel.currentScreenMode, deleteExercise: self.viewModel.confirmDeleteExerise)
                     .transition(.move(edge: .top))
                     .listRowSeparator(.hidden)
             }
