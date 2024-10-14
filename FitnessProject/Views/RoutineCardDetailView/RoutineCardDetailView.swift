@@ -42,6 +42,7 @@ struct RoutineCardDetailView: View {
                 ZStack{
                     Button {
                         close()
+                        router.push(destination: .createRoutineScreen(routine: routine, screenMode: .timer))
                     } label: {
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundStyle(.secondary)

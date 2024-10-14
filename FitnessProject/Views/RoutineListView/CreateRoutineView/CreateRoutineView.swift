@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CreateRoutineView: View {
-    @Environment(\.scenePhase) var scenePhase
     @Environment(Router.self) var router
     @State var viewModel = ViewModel()
     
@@ -19,8 +18,8 @@ struct CreateRoutineView: View {
         Form {
             routineNameView
             dayOfTheWeekPicker
-            timerDisplay
             routineDescriptionView
+            timerDisplay
             exercisesEmbeddedListView
             Button {
                 router.presentSheet(.addExerciseSheet(viewModel: $viewModel))
@@ -41,7 +40,7 @@ struct CreateRoutineView: View {
         .toolbar{
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    viewModel.cancelCreation()
+                    viewModel.confirmCancelCreation()
                 } label: {
                     Text("Cancel")
                         .foregroundStyle(.red)
@@ -115,19 +114,12 @@ struct CreateRoutineView: View {
         return viewModel.timerMode ?
         HStack{
             Spacer()
-            Text("\(viewModel.elapsedTime)")
+            Text("\(viewModel.timeString)")
                 .font(.system(size: 45))
                 .multilineTextAlignment(.center)
                 .onReceive(viewModel.timer){ timer in
                     guard viewModel.isTimerActive else { return }
                     viewModel.elapsedTime += 1
-                }
-                .onChange(of: scenePhase){
-                    if scenePhase == .active {
-                        viewModel.isTimerActive = true
-                    } else {
-                        viewModel.isTimerActive = false
-                    }
                 }
             Spacer()
         }
@@ -149,7 +141,7 @@ struct CreateRoutineView: View {
         return !viewModel.routine.exercises.isEmpty ?
         List{
             ForEach($viewModel.routine.exercises) { $exercise in
-                ExerciseListCellView(exercise: $exercise, deleteExercise: self.viewModel.deleteExercise)
+                ExerciseListCellView(exercise: $exercise, deleteExercise: self.viewModel.confirmDeleteExerise)
                     .transition(.move(edge: .top))
                     .listRowSeparator(.hidden)
             }
@@ -165,15 +157,17 @@ struct alertBodyView: View {
     @Bindable var viewModel: CreateRoutineView.ViewModel
     @Environment(Router.self) var router
     var body: some View {
-        if viewModel.cancellationAlert {
-            Button("Cancel", role: .cancel){
-                viewModel.cancellationAlert = false
-                viewModel.isTimerActive = false
-            }
-        }
-        Button("OK", role: (viewModel.cancellationAlert ? .destructive : .none)){
-            if viewModel.cancellationAlert {
+        Button("Cancel", role: .cancel){}
+        switch viewModel.currentAlertType {
+        case .cancelCreation:
+            Button("OK", role: (.destructive)){
                 router.pop()
+            }
+        case .exerciseDeletion:
+            Button("Delete", role: (.destructive)){
+                if let exercise = viewModel.currentExercise {
+                    viewModel.deleteExercise(exercise: exercise)
+                }
             }
         }
     }
