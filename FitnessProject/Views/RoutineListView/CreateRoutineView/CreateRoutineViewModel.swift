@@ -7,6 +7,11 @@
 
 import Foundation
 
+public enum AlertType {
+    case cancelCreation
+    case exerciseDeletion
+}
+
 extension CreateRoutineView {
     @Observable class ViewModel {
         var routine: Routine = Routine()
@@ -38,9 +43,19 @@ extension CreateRoutineView {
         var timerMode: Bool {
             return currentScreenMode == .timer
         }
-        var elapsedTime = 0
+        var elapsedTime: TimeInterval = 0
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         var isTimerActive = true
+        
+        var timeString: String {
+            let minutes = Int(elapsedTime) / 60
+            let seconds = Int(elapsedTime) % 60
+            let hour = Int(minutes) / 60
+            return String(format: "%02d.%02d.%02d", hour, minutes, seconds)
+        }
+        
+        var currentExercise: Exercise?
+        var currentAlertType: AlertType = .cancelCreation
         
         init(routine: Routine? = nil, screenMode: ScreenMode? = .creation) {
              if let unwrappedRoutine = routine {
@@ -64,13 +79,20 @@ extension CreateRoutineView {
             routine.exercises.append(exercise)
         }
         
-        func cancelCreation() {
+        func confirmCancelCreation() {
             showAlert.toggle()
             alertTitle = "Confirm Cancellation"
             alertMessage = "All unsaved information will be lost"
-            cancellationAlert = true
+            currentAlertType = .cancelCreation
         }
         
+        func confirmDeleteExerise(exercise: Exercise) {
+            alertTitle = "Delete Exercise"
+            alertMessage = "Are you sure you want to permanently remove this exercise?"
+            currentExercise = exercise
+            currentAlertType = .exerciseDeletion
+            showAlert.toggle()
+        }
         func deleteExercise(index: IndexSet) {
             routine.exercises.remove(atOffsets: index)
         }
