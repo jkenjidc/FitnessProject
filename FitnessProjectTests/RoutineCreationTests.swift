@@ -23,14 +23,14 @@ final class RoutineCreationTests: XCTestCase {
     func testRoutineCreation() async throws {
         let set = ExerciseSet(weight: 50, reps: 8)
         let exercise = Exercise(name: "Sample Exercise", sets: [set])
-        let routine = Routine(name: "Test Routine", daysToDo: [], datesDone: [], exercises: [exercise])
+        let routine = Routine(name: "Test Routine", daysToDo: [], datesDone: [:], exercises: [exercise])
         try await DataManager.shared.addRoutine(routine: routine)
-        let user = await DataManager.shared.user
+        let user =  DataManager.shared.user
         XCTAssertFalse(user.routines.isEmpty)
     }
 //    
     override func tearDown() async throws{
-        if await AuthManager.shared.authProfile != nil {
+        if  AuthManager.shared.authProfile != nil {
             try await DataManager.shared.deleteUser(user: DataManager.shared.user)
             try await AuthManager.shared.deleteAccount()
         }

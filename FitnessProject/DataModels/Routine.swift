@@ -12,7 +12,7 @@ struct Routine: Identifiable, Codable, Hashable, Equatable {
     var description: String = ""
     var name: String = ""
     var daysToDo: [String] = []
-    var datesDone: [Date] = []
+    var datesDone: [String:Int] = [:]
     var exercises: [Exercise] = []
     
     static func == (lhs: Routine, rhs: Routine) -> Bool {
@@ -23,20 +23,21 @@ struct Routine: Identifiable, Codable, Hashable, Equatable {
         id = UUID().uuidString
         name = ""
         daysToDo = []
-        datesDone = []
+        datesDone = [:]
         exercises = []
     }
-    init(id: String = UUID().uuidString, name: String, daysToDo: [String], datesDone: [Date], exercises: [Exercise]) {
+    init(id: String = UUID().uuidString, name: String, daysToDo: [String], datesDone: [String:Int], exercises: [Exercise]) {
         self.id = id
         self.name = name
         self.daysToDo = daysToDo
         self.datesDone = datesDone
         self.exercises = exercises
     }
+    static let dateString = Date.now.formatted(date: .numeric, time: .omitted)
     
-    static let example = [Routine(name: "Routine 1", daysToDo: ["monday","thursday"], datesDone: [.now, .now + 1], exercises: []),
-                          Routine(name: "Routine 2", daysToDo: ["monday","thursday"], datesDone: [.now, .now + 3], exercises: [Exercise.example, Exercise.example, Exercise.example]),
-                          Routine(name: "Routine 3", daysToDo: ["monday","thursday"], datesDone: [.now, .now + 3], exercises: [])]
+    static let example = [Routine(name: "Routine 1", daysToDo: ["monday","thursday"], datesDone: [dateString : 4, dateString : 5], exercises: []),
+                          Routine(name: "Routine 2", daysToDo: ["monday","thursday"], datesDone: [dateString : 4, dateString : 5], exercises: [Exercise.example, Exercise.example, Exercise.example]),
+                          Routine(name: "Routine 3", daysToDo: ["monday","thursday"], datesDone: [dateString : 4, dateString : 6], exercises: [])]
     
     
 }

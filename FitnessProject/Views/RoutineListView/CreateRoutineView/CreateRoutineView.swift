@@ -48,21 +48,10 @@ struct CreateRoutineView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    if viewModel.validInputs {
-                        Task {
-                            await viewModel.saveRoutine()
-                        }
-                        router.pop()
-                    } else {
-                        viewModel.checkRoutineName()
-                    }
+                    viewModel.trailingTabBarItemAction(action: self.router.pop)
                 } label: {
-                    if viewModel.timerMode {
-                        Text("Finish")
-                            .tint(.green)
-                    } else {
-                        Text("Save")
-                    }
+                    Text(viewModel.timerMode ? "Finish" : "Save")
+                        .tint(viewModel.timerMode ? .green : nil)
                 }
             }
         }
@@ -184,6 +173,13 @@ struct alertBodyView: View {
                 if let exercise = viewModel.currentExercise {
                     viewModel.deleteExercise(exercise: exercise)
                 }
+            }
+        case .routineCompletion:
+            Button(){
+                viewModel.finishRoutine()
+                router.pop()
+            } label: {
+                Text("Finish")
             }
         }
     }
