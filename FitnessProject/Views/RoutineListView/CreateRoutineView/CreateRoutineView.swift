@@ -14,6 +14,7 @@ struct CreateRoutineView: View {
     init(routine: Routine? = nil, screenMode: ScreenMode? = .creation) {
         _viewModel = State(initialValue: ViewModel(routine: routine, screenMode: screenMode))
     }
+    
     var body: some View {
         Form {
             routineNameView
@@ -21,13 +22,10 @@ struct CreateRoutineView: View {
             routineDescriptionView
             timerDisplay
             exercisesEmbeddedListView
-            Button {
-                router.presentSheet(.addExerciseSheet(viewModel: $viewModel))
-            } label: {
-                Text("Add Exercise")
-                    .frame(maxWidth: .infinity)
-            }
+            addExerciseButton
         }
+        .navigationTitle($viewModel.routine.name)
+        .navigationBarTitleDisplayMode(.inline)
         .scrollBounceBehavior(.basedOnSize)
         .navigationBarBackButtonHidden(true)
         .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
@@ -35,8 +33,6 @@ struct CreateRoutineView: View {
         } message: {
             Text(viewModel.alertMessage)
         }
-        .navigationTitle($viewModel.routine.name)
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar{
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -57,8 +53,9 @@ struct CreateRoutineView: View {
         }
     }
     var routineNameView: some View {
-        return !viewModel.timerMode ? Section(header: Text("Routine Name"), footer: ErrorFooterView(invalidField: viewModel.isMissingRoutineName)
-        ){
+        return !viewModel.timerMode ? 
+        Section(header: Text("Routine Name"), 
+                footer: ErrorFooterView(invalidField: viewModel.isMissingRoutineName)){
             TextField("", text: $viewModel.routine.name)
                 .keyboardType(.asciiCapable)
                 .onChange(of: viewModel.routine.name) { _,_ in
@@ -70,7 +67,9 @@ struct CreateRoutineView: View {
     }
     
     var dayOfTheWeekPicker: some View {
-        return !viewModel.timerMode ? Section(header: Text("Days to do"), footer: Text(viewModel.selectedDaysFooterText)) {
+        return !viewModel.timerMode ? 
+        Section(header: Text("Days to do"),
+                footer: Text(viewModel.selectedDaysFooterText)) {
             HStack(spacing: 10){
                 Spacer()
                 ForEach(0..<7, id: \.self){ index in
@@ -97,6 +96,15 @@ struct CreateRoutineView: View {
         .listRowBackground(Color(UIColor.systemGroupedBackground))
         :
         nil
+    }
+    
+    var routineDescriptionView: some View {
+        return !(viewModel.timerMode && viewModel.routine.description.isEmpty) ?
+            Section("Routine Description"){
+            TextEditor(text: $viewModel.routine.description)
+                .frame(height: 65)
+        }
+        : nil
     }
     
     var timerDisplay: some View {
@@ -133,15 +141,6 @@ struct CreateRoutineView: View {
             
     }
     
-    var routineDescriptionView: some View {
-        return !(viewModel.timerMode && viewModel.routine.description.isEmpty) ?
-            Section("Routine Description"){
-            TextEditor(text: $viewModel.routine.description)
-                .frame(height: 65)
-        }
-        : nil
-    }
-    
     var exercisesEmbeddedListView: some View {
         return !viewModel.routine.exercises.isEmpty ?
         List{
@@ -154,6 +153,15 @@ struct CreateRoutineView: View {
         .scrollBounceBehavior(.basedOnSize)
         :
         nil
+    }
+    
+    var addExerciseButton: some View {
+        return Button {
+            router.presentSheet(.addExerciseSheet(viewModel: $viewModel))
+        } label: {
+            Text("Add Exercise")
+                .frame(maxWidth: .infinity)
+        }
     }
 }
 
