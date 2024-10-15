@@ -10,6 +10,7 @@ import Foundation
 public enum AlertType {
     case cancelCreation
     case exerciseDeletion
+    case routineCompletion
 }
 
 extension CreateRoutineView {
@@ -70,9 +71,26 @@ extension CreateRoutineView {
             
          }
         
+        func trailingTabBarItemAction(action: ()-> Void) {
+            switch currentScreenMode {
+            case .creation, .editing:
+                if validInputs {
+                    Task {
+                        await saveRoutine()
+                    }
+                    action()
+                } else {
+                    checkRoutineName()
+                }
+            case .timer:
+                confirmFinishExercise()
+            }
+        }
+        
         var validInputs: Bool {
             return !routine.name.isEmpty
         }
+        
         
         func saveExercise() {
             let exercise = Exercise(name: newExerciseName, sets: [ExerciseSet(weight: 0, reps: 0)])
@@ -91,6 +109,13 @@ extension CreateRoutineView {
             alertMessage = "Are you sure you want to permanently remove this exercise?"
             currentExercise = exercise
             currentAlertType = .exerciseDeletion
+            showAlert.toggle()
+        }
+        
+        func confirmFinishExercise() {
+            alertTitle = "Finish Routine"
+            alertMessage = "Complete routine and save progress?"
+            currentAlertType = .routineCompletion
             showAlert.toggle()
         }
         func deleteExercise(index: IndexSet) {
@@ -126,6 +151,14 @@ extension CreateRoutineView {
                 try await DataManager.shared.addRoutine(routine: routine)
             } catch {
                 print("error")
+            }
+        }
+        
+        func finishRoutine() {
+            let dateString  = Date.now.formatted(date: .numeric, time: .omitted)
+            routine.datesDone[dateString] = Int(elapsedTime)
+            Task {
+                await saveRoutine()
             }
         }
     }
