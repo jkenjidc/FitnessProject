@@ -15,14 +15,29 @@ public enum AlertType {
 
 extension CreateRoutineView {
     @Observable class ViewModel {
+        
+        //MARK: BEHAVIOR MODE
+        var currentScreenMode = ScreenMode.creation
+        var currentAlertType: AlertType = .cancelCreation
+
+        //MARK: INPUTS
         var routine: Routine = Routine()
+        var currentExercise: Exercise?
         var newExerciseName = ""
+        
+        //MARK: ALERT
         var showAlert = false
         var alertMessage = ""
         var alertTitle = ""
-        var cancellationAlert = false
-        var isMissingRoutineName: Bool = false
-        var isMissingExerciseName: Bool = false
+        
+        //MARK: VALIDATION
+        var isMissingRoutineName = false
+        var isMissingExerciseName = false
+        var validInputs: Bool {
+            return !routine.name.isEmpty
+        }
+        
+        //MARK: DAYS PICKER
         var selectedDays = Array(repeating: false, count: 7)
         let daysOfTheWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         var selectedDaysFooterText: String {
@@ -40,23 +55,20 @@ extension CreateRoutineView {
                 return ""
             }
         }
-        var currentScreenMode = ScreenMode.creation
-        var timerMode: Bool {
-            return currentScreenMode == .timer
-        }
+        
+        //MARK: TIMER
         var elapsedTime: TimeInterval = 0
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         var isTimerActive = true
-        
         var timeString: String {
             let minutes = Int(elapsedTime) / 60
             let seconds = Int(elapsedTime) % 60
             let hour = Int(minutes) / 60
             return String(format: "%02d.%02d.%02d", hour, minutes, seconds)
         }
-        
-        var currentExercise: Exercise?
-        var currentAlertType: AlertType = .cancelCreation
+        var timerMode: Bool {
+            return currentScreenMode == .timer
+        }
         
         init(routine: Routine? = nil, screenMode: ScreenMode? = .creation) {
              if let unwrappedRoutine = routine {
@@ -70,6 +82,37 @@ extension CreateRoutineView {
             
             
          }
+        
+        //MARK: DATA MANIPULATION
+        func saveExercise() {
+            let exercise = Exercise(name: newExerciseName, sets: [ExerciseSet(weight: 0, reps: 0)])
+            routine.exercises.append(exercise)
+        }
+        
+        func saveRoutine() async {
+            isTimerActive = false
+            do {
+                try await DataManager.shared.addRoutine(routine: routine)
+            } catch {
+                print("error")
+            }
+        }
+        
+        func finishRoutine() {
+            let dateString  = Date.now.formatted(date: .numeric, time: .omitted)
+            routine.datesDone[dateString] = Int(elapsedTime)
+            Task {
+                await saveRoutine()
+            }
+        }
+        
+        func deleteExercise(index: IndexSet) {
+            routine.exercises.remove(atOffsets: index)
+        }
+        
+        func deleteExercise(exercise: Exercise) {
+            routine.exercises.remove(at: routine.exercises.firstIndex(of: exercise) ?? 0)
+        }
         
         func trailingTabBarItemAction(action: ()-> Void) {
             switch currentScreenMode {
@@ -87,16 +130,18 @@ extension CreateRoutineView {
             }
         }
         
-        var validInputs: Bool {
-            return !routine.name.isEmpty
+        func selectDay(index: Int){
+            if selectedDays[index] {
+               selectedDays[index] = false
+                routine.daysToDo.removeAll(where: {$0 == daysOfTheWeek[index]})
+            } else {
+                selectedDays[index] = true
+                routine.daysToDo.append(daysOfTheWeek[index])
+            }
+            routine.daysToDo.sort(by: {daysOfTheWeek.firstIndex(of: $0) ?? 7 < daysOfTheWeek.firstIndex(of: $1) ?? 7})
         }
-        
-        
-        func saveExercise() {
-            let exercise = Exercise(name: newExerciseName, sets: [ExerciseSet(weight: 0, reps: 0)])
-            routine.exercises.append(exercise)
-        }
-        
+
+        //MARK: ALERT CONFIRMATIONS
         func confirmCancelCreation() {
             showAlert.toggle()
             alertTitle = "Confirm Cancellation"
@@ -118,48 +163,14 @@ extension CreateRoutineView {
             currentAlertType = .routineCompletion
             showAlert.toggle()
         }
-        func deleteExercise(index: IndexSet) {
-            routine.exercises.remove(atOffsets: index)
-        }
         
-        func deleteExercise(exercise: Exercise) {
-            routine.exercises.remove(at: routine.exercises.firstIndex(of: exercise) ?? 0)
-        }
-        
+        //MARK: INPUT VALIDATION
         func checkExerciseName() {
             isMissingExerciseName = newExerciseName.isEmpty
         }
         
-        func selectDay(index: Int){
-            if selectedDays[index] {
-               selectedDays[index] = false
-                routine.daysToDo.removeAll(where: {$0 == daysOfTheWeek[index]})
-            } else {
-                selectedDays[index] = true
-                routine.daysToDo.append(daysOfTheWeek[index])
-            }
-            routine.daysToDo.sort(by: {daysOfTheWeek.firstIndex(of: $0) ?? 7 < daysOfTheWeek.firstIndex(of: $1) ?? 7})
-        }
-        
         func checkRoutineName() {
-            isMissingRoutineName = (routine.name.isEmpty && !cancellationAlert)
-        }
-        
-        func saveRoutine() async {
-            isTimerActive = false
-            do {
-                try await DataManager.shared.addRoutine(routine: routine)
-            } catch {
-                print("error")
-            }
-        }
-        
-        func finishRoutine() {
-            let dateString  = Date.now.formatted(date: .numeric, time: .omitted)
-            routine.datesDone[dateString] = Int(elapsedTime)
-            Task {
-                await saveRoutine()
-            }
+            isMissingRoutineName = routine.name.isEmpty
         }
     }
 }
