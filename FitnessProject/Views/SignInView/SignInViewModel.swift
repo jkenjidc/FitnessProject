@@ -17,9 +17,21 @@ extension SignInView {
             return email.isEmpty && password.isEmpty
         }
         
-        func signIn() async throws {
-            try await AuthManager.shared.signInUser(email: email, password: password)
-            try await DataManager.shared.loadUser()
+        func signIn() async {
+            do {
+                try await AuthManager.shared.signInUser(email: email, password: password)
+                try await DataManager.shared.loadUser()
+            } catch {
+                print(error)
+            }
+        }
+        
+        func resetPassword() async {
+            do {
+                try await AuthManager.shared.resetPassword(email: email)
+            } catch {
+                print(error)
+            }
         }
     }
 }
