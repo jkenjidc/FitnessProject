@@ -20,9 +20,9 @@ struct SignInView: View {
                     }
                     Button {
                         Task{
-                            try await viewModel.signIn()
-                            router.push(destination: .mainNavigationScreen)
+                            await viewModel.signIn()
                         }
+                        router.push(destination: .mainNavigationScreen)
                     } label: {
                         Text("Sign In")
                             .padding(.vertical, 8)
@@ -37,7 +37,7 @@ struct SignInView: View {
                     
                     Button {
                         Task{
-                            try await AuthManager.shared.resetPassword(email: viewModel.email)
+                            await viewModel.resetPassword()
                         }
                     } label: {
                         Text("Forgot Password?")
