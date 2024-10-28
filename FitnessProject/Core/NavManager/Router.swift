@@ -60,6 +60,8 @@ class Router {
             WelcomeView()
         case .createRoutineScreen(let routine, let screenMode):
             CreateRoutineView(routine: routine, screenMode: screenMode)
+        case .settingsScreen:
+            SettingsView()
         }
     }
     

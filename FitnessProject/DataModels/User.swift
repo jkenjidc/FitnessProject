@@ -16,6 +16,7 @@ struct CurrentUser: Identifiable, Hashable, Codable {
     var isAnonymous: Bool = false
     var dateCreated: Date? = Date()
     var routines: [Routine] = []
+    var preferences: Preferences = Preferences()
     
     init(auth: AuthDataResultModel) {
         self.id = auth.uid

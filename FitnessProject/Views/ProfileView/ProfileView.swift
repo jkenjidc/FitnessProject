@@ -12,7 +12,17 @@ struct ProfileView: View {
     @State  var viewModel = ViewModel()
     var body: some View {
         VStack(alignment: .center){
-            Spacer()
+            HStack{
+                Spacer()
+                Button {
+                    router.push(destination: .settingsScreen)
+                } label: {
+                    Image(systemName: "gearshape.fill")
+                        .font(.system(size: 25))
+                }
+                .padding()
+                .buttonStyle(.plain)
+            }
             Image(systemName: "person.circle.fill")
                 .resizable()
                 .scaledToFit()
@@ -77,9 +87,6 @@ struct ProfileView: View {
                 .padding(.horizontal, 45)
             }
             Spacer()
-            Spacer()
-            Spacer()
-            Spacer()
         }
         .frame(maxWidth: .infinity)
     }
@@ -87,5 +94,6 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environment(Router())
         .preferredColorScheme(.dark)
 }
