@@ -13,4 +13,5 @@ enum Destination: Codable, Hashable {
     case mainNavigationScreen
     case welcomeScreen
     case createRoutineScreen(routine: Routine?, screenMode: ScreenMode?)
+    case settingsScreen
 }

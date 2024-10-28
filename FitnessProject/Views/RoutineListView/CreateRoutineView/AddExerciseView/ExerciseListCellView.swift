@@ -42,6 +42,7 @@ struct exerciseSetListRowView: View {
 
 struct ExerciseListCellView: View {
     @Binding var exercise: Exercise
+    @Bindable var dataManager = DataManager.shared
     var screenMode: ScreenMode
     var timerMode: Bool {
         return screenMode == .timer
@@ -76,7 +77,7 @@ struct ExerciseListCellView: View {
             LazyVGrid(columns: columns){
                 Text("")
                 Text("Sets")
-                Text("lbs")
+                Text("\(dataManager.user.preferences.usingImperialWeightUnits ? "lbs" : "kg")")
                 Text("Reps")
                 Text("")
                 ForEach($exercise.sets){ exerciseSet in

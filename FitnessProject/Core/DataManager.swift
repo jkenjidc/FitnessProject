@@ -9,6 +9,14 @@ import Foundation
 import FirebaseFirestore
 import Firebase
 
+extension Array {
+    mutating func mutatingForEach(_ body: (inout Element) throws -> Void) rethrows {
+        for index in indices {
+            try body(&self[index])
+        }
+    }
+}
+
 @Observable
 final class DataManager {
     var user = CurrentUser()
@@ -64,6 +72,18 @@ final class DataManager {
     func updateUser(user: CurrentUser) async throws {
         try userCollection.document(user.id).setData(from: user, merge: false, encoder: encoder)
         try await loadUser()
+    }
+    
+    func switchWeightUnits() async throws {
+        user.routines.mutatingForEach { routine in
+            routine.exercises.mutatingForEach { exercise in
+                exercise.sets.mutatingForEach { exerciseSet in
+                    exerciseSet.weight = user.preferences.usingImperialWeightUnits ? exerciseSet.weight / 2.2 : exerciseSet.weight * 2.2
+                }
+            }
+        }
+        try await updateUser(user: self.user)
+        
     }
     
     // MARK: Data deletions

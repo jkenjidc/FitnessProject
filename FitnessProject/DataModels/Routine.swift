@@ -12,7 +12,7 @@ struct Routine: Identifiable, Codable, Hashable, Equatable {
     var description: String = ""
     var name: String = ""
     var daysToDo: [String] = []
-    var datesDone: [String:Int] = [:]
+    var datesDone: [String:Int] = [:]   //[DateStringDone : DurationOfRoutine]
     var exercises: [Exercise] = []
     
     static func == (lhs: Routine, rhs: Routine) -> Bool {
