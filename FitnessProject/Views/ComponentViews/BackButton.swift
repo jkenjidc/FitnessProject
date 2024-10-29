@@ -19,9 +19,9 @@ struct BackButton: View {
                     Text("Back")
                 }
             }
-            .padding(.leading)
             Spacer()
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

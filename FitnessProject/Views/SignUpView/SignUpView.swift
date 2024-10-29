@@ -59,5 +59,6 @@ struct SignUpView: View {
 
 #Preview {
     SignUpView()
+        .environment(Router())
         .preferredColorScheme(.dark)
 }

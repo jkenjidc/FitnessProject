@@ -12,8 +12,6 @@ struct SettingsView: View {
     @Bindable var dataManager = DataManager.shared
     var body: some View {
         VStack{
-            BackButton()
-            Spacer()
             List {
                 HStack {
                     Toggle("Imperial Weight Unit", isOn: $dataManager.user.preferences.usingImperialWeightUnits)
@@ -26,7 +24,12 @@ struct SettingsView: View {
             }
             Spacer()
         }
-        .navigationBarBackButtonHidden(true)
+        .navigationTitle("Settings")
+        .toolbar {
+            ToolbarItem(placement:.topBarLeading){
+                BackButton()
+            }
+        }
     }
 }
 

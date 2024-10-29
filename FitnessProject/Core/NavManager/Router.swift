@@ -62,6 +62,8 @@ class Router {
             CreateRoutineView(routine: routine, screenMode: screenMode)
         case .settingsScreen:
             SettingsView()
+        case .updatePasswordScreen:
+            UpdatePasswordView()
         }
     }
     
