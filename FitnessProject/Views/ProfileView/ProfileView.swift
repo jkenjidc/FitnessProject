@@ -18,18 +18,9 @@ struct ProfileView: View {
                 .scaledToFit()
                 .frame(width:180, height: 180)
                 .padding(.top, 15)
-            if dataManager.user.isAnonymous {
-                Text("Guest user")
-            }
             Text("User ID \(dataManager.user.id)")
                 .padding(.bottom, 25)
-            if dataManager.user.isAnonymous {
-                Button {
-                    router.push(destination: .signUpScreen)
-                } label: {
-                    Text("Create account")
-                }
-                //Need to delete this since user must not be able to log out when anonymous
+            HStack{
                 Button {
                     viewModel.signOut {
                         router.popToRoot()
@@ -38,26 +29,34 @@ struct ProfileView: View {
                     Text("log out")
                         .foregroundStyle(.red)
                 }
-                
-            } else {
-                HStack{
-                    Button {
-                        viewModel.signOut {
-                            router.popToRoot()
-                        }
-                    } label: {
-                        Text("log out")
-                            .foregroundStyle(.red)
-                    }
-                    .buttonStyle(.plain)
-                    Spacer()
-                    Button {
-                        router.push(destination: .updatePasswordScreen)
-                    } label: {
-                        Text("Update password")
-                    }
+                .buttonStyle(.plain)
+                Spacer()
+                Button {
+                    router.push(destination: dataManager.user.isAnonymous ?  .signUpScreen : .updatePasswordScreen)
+                } label: {
+                    Text( dataManager.user.isAnonymous ? "Create Acount" : "Update password")
                 }
-                .padding(.horizontal, 45)
+            }
+            .padding(.horizontal, 45)
+            if let previousRoutines = dataManager.user.routineHistory{
+                if !previousRoutines.isEmpty{
+                    List {
+                        Section{
+                            ForEach(previousRoutines){ routine in
+                                HStack{
+                                    Text(routine.nameOfRoutine)
+                                    Spacer()
+                                    Text("\(routine.dateDone.formatted(date: .numeric, time: .omitted))")
+                                }
+                            }
+                        } header: {
+                            Text("Routine History")
+                                .bold()
+                                .font(.headline)
+                        }
+                    }
+                    .scrollBounceBehavior(.basedOnSize)
+                }
             }
             Spacer()
             Button(role: .destructive) {
@@ -66,17 +65,17 @@ struct ProfileView: View {
                 Text("Delete Account")
             }
             .padding(.bottom, 25)
-        }
-        .alert("Delete account", isPresented: $viewModel.confirmAccountDeletion){
-            Button("OK", role: (.destructive)){
-                Task {
-                    await viewModel.deleteAccount {
-                        router.popToRoot()
+            .alert("Delete account", isPresented: $viewModel.confirmAccountDeletion){
+                Button("OK", role: (.destructive)){
+                    Task {
+                        await viewModel.deleteAccount {
+                            router.popToRoot()
+                        }
                     }
                 }
+            } message: {
+                Text("Are you sure you want to delete your account? This action can't be reversed")
             }
-        } message: {
-            Text("Are you sure you want to delete your account? This action can't be reversed")
         }
         .frame(maxWidth: .infinity)
     }

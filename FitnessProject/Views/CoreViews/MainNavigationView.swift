@@ -20,33 +20,31 @@ struct MainNavigationView: View {
         }
     }
     var body: some View {
-            TabView(selection: $selectedTab) {
-                ProfileView()
-                    .tabItem {
-                        Image(systemName: "person")
-                    }
-                    .tag(0)
-                
-                RoutineListView()
-                    .tabItem {
-                        Image(systemName: "dumbbell.fill")
-                    }
-                    .tag(1)
-                
-                StartRoutineView()
-                    .tabItem {
-                        Image(systemName: "play.circle")
-                    }
-                    .tag(2)
-                
-                PersonalProgressView()
-                    .tabItem {
-                        Image(systemName: "chart.line.uptrend.xyaxis")
-                    }
-                    .tag(3)
-                
-                
-            }
+        TabView(selection: $selectedTab) {
+            ProfileView()
+                .tabItem {
+                    Image(systemName: "person")
+                }
+                .tag(0)
+            
+            RoutineListView()
+                .tabItem {
+                    Image(systemName: "dumbbell.fill")
+                }
+                .tag(1)
+            
+            StartRoutineView()
+                .tabItem {
+                    Image(systemName: "play.circle")
+                }
+                .tag(2)
+            
+            PersonalProgressView()
+                .tabItem {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                }
+                .tag(3)
+        }
         .navigationTitle(navTitle)
         .toolbar {
             if selectedTab == 0 {

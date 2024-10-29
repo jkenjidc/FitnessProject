@@ -17,12 +17,14 @@ struct CurrentUser: Identifiable, Hashable, Codable {
     var dateCreated: Date? = Date()
     var routines: [Routine] = []
     var preferences: Preferences = Preferences()
+    var routineHistory: [RoutineHistoryRecord]? = []
     
     init(auth: AuthDataResultModel) {
         self.id = auth.uid
         self.isAnonymous  = auth.isAnonymous
         self.email = auth.email ?? ""
         self.dateCreated =  Date()
+        self.routineHistory = []
     }
     
     init (auth: AuthDataResultModel, name: String) {
@@ -31,6 +33,7 @@ struct CurrentUser: Identifiable, Hashable, Codable {
         self.email = auth.email ?? ""
         self.dateCreated =  Date()
         self.name = name
+        self.routineHistory = []
         
     }
     

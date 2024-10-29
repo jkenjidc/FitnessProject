@@ -54,7 +54,7 @@ final class DataManager {
     // MARK: Data creation and updating
     func createNewUser(user: CurrentUser) async throws {
         try userDocument(userId: user.id).setData(from: user, merge: false, encoder: encoder)
-        try await DataManager.shared.loadUser()
+        try await loadUser()
     }
     
     func addRoutine(routine: Routine) async throws {
@@ -69,7 +69,14 @@ final class DataManager {
         try await self.loadUser()
     }
     
+    //used for anonymous account linking
     func updateUser(user: CurrentUser) async throws {
+        try userCollection.document(user.id).setData(from: user, merge: false, encoder: encoder)
+        try await loadUser()
+    }
+    
+    //used for
+    func updateCurrentUser() async throws {
         try userCollection.document(user.id).setData(from: user, merge: false, encoder: encoder)
         try await loadUser()
     }
@@ -83,7 +90,7 @@ final class DataManager {
                 }
             }
         }
-        try await updateUser(user: self.user)
+        try await updateCurrentUser()
         
     }
     
