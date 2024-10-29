@@ -89,20 +89,23 @@ extension CreateRoutineView {
             routine.exercises.append(exercise)
         }
         
-        func saveRoutine() async {
+        func saveRoutineHistory() async {
             isTimerActive = false
             do {
                 try await DataManager.shared.addRoutine(routine: routine)
             } catch {
-                print("error")
+                print(error.localizedDescription)
             }
         }
         
         func finishRoutine() {
-            let dateString  = Date.now.formatted(date: .numeric, time: .omitted)
-            routine.datesDone[dateString] = Int(elapsedTime)
+            let historyRecord = RoutineHistoryRecord(nameOfRoutine: routine.name, durationOfRoutine: Int(elapsedTime), exercises: routine.exercises)
+            if var routineHistory = DataManager.shared.user.routineHistory {
+                routineHistory.insert(historyRecord, at: 0)
+                DataManager.shared.user.routineHistory = routineHistory
+            }
             Task {
-                await saveRoutine()
+                await saveRoutineHistory()
             }
         }
         
@@ -119,7 +122,7 @@ extension CreateRoutineView {
             case .creation, .editing:
                 if validInputs {
                     Task {
-                        await saveRoutine()
+                        await saveRoutineHistory()
                     }
                     action()
                 } else {

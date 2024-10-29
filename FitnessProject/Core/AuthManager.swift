@@ -15,7 +15,7 @@ final class AuthManager {
     private(set) var authProfile: AuthDataResultModel? = nil
     private init() {}
     
-//initalized to false because of full screen cover binding, logically this should be true but the full screen cover behaves not as intended when set as true
+//initalized to false because of full screen cover bindin g, logically this should be true but the full screen cover behaves not as intended when set as true
     var isSignedOut = false
     var isAnonymous = false
     var signOutBinding: Binding<Bool> {
