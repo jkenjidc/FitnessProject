@@ -11,11 +11,15 @@ extension WelcomeView {
     @Observable
     class ViewModel {
         var showGuestModeAlert = false
-        func signInAnonymously() async throws {
-            let authDataResult =  try await AuthManager.shared.signInAnonymously()
-            let user = CurrentUser(auth: authDataResult)
-            try await DataManager.shared.createNewUser(user: user)
-            try await DataManager.shared.loadUser()
+        func signInAnonymously() async {
+            do {
+                let authDataResult =  try await AuthManager.shared.signInAnonymously()
+                let user = CurrentUser(auth: authDataResult)
+                try await DataManager.shared.createNewUser(user: user)
+                try await DataManager.shared.loadUser()
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
 }
