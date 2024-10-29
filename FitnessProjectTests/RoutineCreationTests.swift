@@ -31,7 +31,7 @@ final class RoutineCreationTests: XCTestCase {
 //    
     override func tearDown() async throws{
         if  AuthManager.shared.authProfile != nil {
-            try await DataManager.shared.deleteUser(user: DataManager.shared.user)
+            try await DataManager.shared.deleteUser()
             try await AuthManager.shared.deleteAccount()
         }
     }

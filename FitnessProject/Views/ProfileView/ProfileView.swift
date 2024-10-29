@@ -10,60 +10,40 @@ import SwiftUI
 struct ProfileView: View {
     @Environment(Router.self) var router
     @State  var viewModel = ViewModel()
+    @Bindable var dataManager = DataManager.shared
     var body: some View {
         VStack(alignment: .center){
-            HStack{
-                Spacer()
-                Button {
-                    router.push(destination: .settingsScreen)
-                } label: {
-                    Image(systemName: "gearshape.fill")
-                        .font(.system(size: 25))
-                }
-                .padding()
-                .buttonStyle(.plain)
-            }
             Image(systemName: "person.circle.fill")
                 .resizable()
                 .scaledToFit()
                 .frame(width:180, height: 180)
-            let user = DataManager.shared.user
-            if user.isAnonymous {
+                .padding(.top, 15)
+            if dataManager.user.isAnonymous {
                 Text("Guest user")
             }
-            Text("User ID \(user.id)")
+            Text("User ID \(dataManager.user.id)")
                 .padding(.bottom, 25)
-            if AuthManager.shared.isAnonymous{
+            if dataManager.user.isAnonymous {
                 Button {
                     router.push(destination: .signUpScreen)
                 } label: {
                     Text("Create account")
                 }
-                
+                //Need to delete this since user must not be able to log out when anonymous
                 Button {
-                    Task {
-                        do {
-                            try AuthManager.shared.signOut()
-                            router.popToRoot()
-                        } catch {
-                            print(error)
-                        }
+                    viewModel.signOut {
+                        router.popToRoot()
                     }
-                    
                 } label: {
                     Text("log out")
+                        .foregroundStyle(.red)
                 }
                 
             } else {
                 HStack{
                     Button {
-                        Task {
-                            do {
-                                try AuthManager.shared.signOut()
-                                router.popToRoot()
-                            } catch {
-                                print(error)
-                            }
+                        viewModel.signOut {
+                            router.popToRoot()
                         }
                     } label: {
                         Text("log out")
@@ -72,14 +52,7 @@ struct ProfileView: View {
                     .buttonStyle(.plain)
                     Spacer()
                     Button {
-                        
-                        Task {
-                            do {
-                                try await AuthManager.shared.updatePassword(password: "test1243")
-                            } catch {
-                                print(error)
-                            }
-                        }
+                        router.push(destination: .updatePasswordScreen)
                     } label: {
                         Text("Update password")
                     }
@@ -87,6 +60,23 @@ struct ProfileView: View {
                 .padding(.horizontal, 45)
             }
             Spacer()
+            Button(role: .destructive) {
+                viewModel.confirmAccountDeletion.toggle()
+            } label: {
+                Text("Delete Account")
+            }
+            .padding(.bottom, 25)
+        }
+        .alert("Delete account", isPresented: $viewModel.confirmAccountDeletion){
+            Button("OK", role: (.destructive)){
+                Task {
+                    await viewModel.deleteAccount {
+                        router.popToRoot()
+                    }
+                }
+            }
+        } message: {
+            Text("Are you sure you want to delete your account? This action can't be reversed")
         }
         .frame(maxWidth: .infinity)
     }

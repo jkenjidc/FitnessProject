@@ -10,11 +10,12 @@ import SwiftUI
 struct ErrorFooterView: View {
     var invalidField: Bool
     var errorMessage: String?
+    var successType: Bool?
     var body: some View {
         if invalidField {
             Text(errorMessage ?? "Field can't be blank" )
                 .font(.subheadline)
-                .foregroundStyle(.red)
+                .foregroundStyle(successType ?? false ? .green : .red)
                 .opacity(0.8)
         }
     }

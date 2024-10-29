@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainNavigationView: View {
+    @Environment(Router.self) var router
     @State private var selectedTab = 1
     private var tabBarFontSize = CGFloat(25)
     var navTitle: String {
@@ -47,6 +48,20 @@ struct MainNavigationView: View {
                 
             }
         .navigationTitle(navTitle)
+        .toolbar {
+            if selectedTab == 0 {
+                ToolbarItem(placement: .topBarTrailing){
+                    Button {
+                        router.push(destination: .settingsScreen)
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .font(.system(size: 20))
+                    }
+                    .padding()
+                    .buttonStyle(.plain)
+                }
+            }
+        }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
     }

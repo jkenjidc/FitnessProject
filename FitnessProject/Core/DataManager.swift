@@ -75,10 +75,11 @@ final class DataManager {
     }
     
     func switchWeightUnits() async throws {
+        let switchValue = user.preferences.usingImperialWeightUnits ? 1/2.2 : 2.2
         user.routines.mutatingForEach { routine in
             routine.exercises.mutatingForEach { exercise in
                 exercise.sets.mutatingForEach { exerciseSet in
-                    exerciseSet.weight = user.preferences.usingImperialWeightUnits ? exerciseSet.weight / 2.2 : exerciseSet.weight * 2.2
+                    exerciseSet.weight = exerciseSet.weight * switchValue
                 }
             }
         }
@@ -87,7 +88,7 @@ final class DataManager {
     }
     
     // MARK: Data deletions
-    func deleteUser(user: CurrentUser) async throws {
+    func deleteUser() async throws {
         try await userCollection.document(user.id).delete()
         self.user = CurrentUser()
     }
