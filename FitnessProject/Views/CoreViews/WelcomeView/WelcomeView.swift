@@ -84,11 +84,7 @@ struct WelcomeView: View {
             .alert("Guest Mode", isPresented: $viewModel.showGuestModeAlert ){
                 Button(role: .destructive){
                     Task {
-                        do {
-                            try await viewModel.signInAnonymously()
-                        } catch {
-                            print(error)
-                        }
+                        await viewModel.signInAnonymously()
                     }
                 } label: {
                     Text("OK")
@@ -104,4 +100,5 @@ struct WelcomeView: View {
 #Preview {
     WelcomeView()
         .preferredColorScheme(.dark)
+        .environment(Router())
 }
