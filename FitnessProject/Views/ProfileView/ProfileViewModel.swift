@@ -43,7 +43,17 @@ extension ProfileView {
                 } else {
                     print("Error")
                 }
+                if let loadedData = try? await selectedItem?.loadTransferable(type: Data.self){
+                    guard let inputImage = UIImage(data: loadedData) else { return }
+                    try await DataManager.shared.uploadImage(image: inputImage)
+                }else {
+                    print("error")
+                }
             }
+        }
+        
+        func uploadPhoto() {
+            
         }
     }
 }

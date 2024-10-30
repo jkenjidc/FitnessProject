@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import Firebase
+import FirebaseStorage
 
 extension Array {
     mutating func mutatingForEach(_ body: (inout Element) throws -> Void) rethrows {
@@ -21,6 +22,8 @@ extension Array {
 final class DataManager {
     var user = CurrentUser()
     private let userCollection = Firestore.firestore().collection("users")
+    private let storageRef = Storage.storage().reference()
+    private let rootStoragePath = "profile_images"
     static let shared = DataManager()
     private init() {}
     
@@ -81,6 +84,20 @@ final class DataManager {
         try await loadUser()
     }
     
+    func uploadImage(image: UIImage) async throws {
+        let profileImageRef = storageRef.child("\(rootStoragePath)/\(UUID().uuidString).jpg")
+        let imageData = image.jpegData(compressionQuality: 0.8)
+        if let unwrappedImageData = imageData {
+            let uploadTask = profileImageRef.putData(unwrappedImageData, metadata: nil){ metadata, error in
+                if error == nil && metadata != nil {
+                    
+                } else {
+                    print(error?.localizedDescription ?? "")
+                }
+            }
+        }
+        
+    }
     func switchWeightUnits() async throws {
         let switchValue = user.preferences.usingImperialWeightUnits ? 1/2.2 : 2.2
         user.routines.mutatingForEach { routine in
