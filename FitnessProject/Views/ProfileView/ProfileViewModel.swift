@@ -6,11 +6,16 @@
 //
 
 import Foundation
+import SwiftUI
+import PhotosUI
+import CoreImage
 
 extension ProfileView {
     @Observable
     class ViewModel {
         var confirmAccountDeletion = false
+        var selectedItem: PhotosPickerItem?
+        var profileImage: Image?
         
         func signOut(pop: () -> Void) {
             do {
@@ -28,6 +33,16 @@ extension ProfileView {
                 pop()
             } catch {
                 print(error.localizedDescription)
+            }
+        }
+        
+        func loadImage() {
+            Task {
+                if let loaded = try? await selectedItem?.loadTransferable(type: Image.self){
+                    profileImage = loaded
+                } else {
+                    print("Error")
+                }
             }
         }
     }

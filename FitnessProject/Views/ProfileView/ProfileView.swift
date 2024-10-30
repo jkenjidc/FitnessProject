@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfileView: View {
     @Environment(Router.self) var router
@@ -13,11 +14,31 @@ struct ProfileView: View {
     @Bindable var dataManager = DataManager.shared
     var body: some View {
         VStack(alignment: .center){
-            Image(systemName: "person.circle.fill")
-                .resizable()
-                .scaledToFit()
-                .frame(width:180, height: 180)
-                .padding(.top, 15)
+            ZStack(alignment: .topTrailing){
+                if let profilePicture = viewModel.profileImage {
+                    profilePicture
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 180, height: 180)
+                        .clipShape(Circle())
+                        .padding(.top, 15)
+                } else {
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width:180, height: 180)
+                        .padding(.top, 15)
+                }
+                
+                
+                PhotosPicker(selection: $viewModel.selectedItem){
+                    Image(systemName: "pencil")
+                        .font(.system(size: 25))
+                }
+                .onChange(of: viewModel.selectedItem, viewModel.loadImage)
+                .buttonStyle(.plain)
+                .offset(x:5,y:20)
+            }
             Text("User ID \(dataManager.user.id)")
                 .padding(.bottom, 25)
             HStack{
