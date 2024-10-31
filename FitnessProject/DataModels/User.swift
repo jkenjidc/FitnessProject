@@ -18,6 +18,7 @@ struct CurrentUser: Identifiable, Hashable, Codable {
     var routines: [Routine] = []
     var preferences: Preferences = Preferences()
     var routineHistory: [RoutineHistoryRecord]? = []
+    var profileImageUrl: String? = ""
     
     init(auth: AuthDataResultModel) {
         self.id = auth.uid
@@ -25,6 +26,7 @@ struct CurrentUser: Identifiable, Hashable, Codable {
         self.email = auth.email ?? ""
         self.dateCreated =  Date()
         self.routineHistory = []
+        self.profileImageUrl = ""
     }
     
     init (auth: AuthDataResultModel, name: String) {
@@ -34,6 +36,7 @@ struct CurrentUser: Identifiable, Hashable, Codable {
         self.dateCreated =  Date()
         self.name = name
         self.routineHistory = []
+        self.profileImageUrl = ""
         
     }
     

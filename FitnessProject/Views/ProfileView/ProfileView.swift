@@ -98,6 +98,7 @@ struct ProfileView: View {
                 Text("Are you sure you want to delete your account? This action can't be reversed")
             }
         }
+        .onAppear(perform: viewModel.loadImageFromDirectory)
         .frame(maxWidth: .infinity)
     }
 }
