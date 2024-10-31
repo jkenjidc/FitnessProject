@@ -47,11 +47,30 @@ final class DataManager {
     // MARK: Loading users
     func loadUser() async throws {
         user = try await getUser(userId: AuthManager.shared.authProfile?.uid ?? "")
+        if let profileImageUrl = user.profileImageUrl {
+            try await getProfileImage(path: profileImageUrl)
+        }
     }
     
     func getUser(userId: String) async throws -> CurrentUser {
         try await userDocument(userId: userId).getDocument(as: CurrentUser.self, decoder: decoder)
         
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
+    
+    func getProfileImage(path: String) async throws{
+        let profileImageRef = storageRef.child(path)
+        profileImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+            if data != nil && error == nil {
+                let filename = self.getDocumentsDirectory().appendingPathComponent("profileImage.jpeg")
+                try? data?.write(to: filename)
+            }
+        }
     }
     
     // MARK: Data creation and updating
@@ -85,11 +104,18 @@ final class DataManager {
     }
     
     func uploadImage(image: UIImage) async throws {
-        let profileImageRef = storageRef.child("\(rootStoragePath)/\(UUID().uuidString).jpg")
+        //path of image in firebase storage
+        let path = "\(rootStoragePath)/\(user.id)/profile_image.jpeg"
+        let profileImageRef = storageRef.child(path)
         let imageData = image.jpegData(compressionQuality: 0.8)
         if let unwrappedImageData = imageData {
-            let uploadTask = profileImageRef.putData(unwrappedImageData, metadata: nil){ metadata, error in
+            _ = profileImageRef.putData(unwrappedImageData, metadata: nil){ metadata, error in
                 if error == nil && metadata != nil {
+                    //if upload is succesfull save path URL to user to have access for later
+                    self.user.profileImageUrl = path
+                    Task{
+                        try await self.updateCurrentUser()
+                    }
                     
                 } else {
                     print(error?.localizedDescription ?? "")
