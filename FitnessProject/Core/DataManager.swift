@@ -10,6 +10,10 @@ import FirebaseFirestore
 import Firebase
 import FirebaseStorage
 
+public enum FileNames: String {
+    case profileImage = "profileImage.jpeg"
+}
+
 extension Array {
     mutating func mutatingForEach(_ body: (inout Element) throws -> Void) rethrows {
         for index in indices {
@@ -44,6 +48,20 @@ final class DataManager {
         userCollection.document(userId)
     }
     
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
+    }
+    
+    func cacheImage(from inputImage: UIImage) throws {
+        if let data = inputImage.jpegData(compressionQuality: 0.8) {
+            let filename = DataManager.shared.getDocumentsDirectory().appendingPathComponent(FileNames.profileImage.rawValue)
+            try data.write(to: filename)
+            
+        }
+    }
+    
     // MARK: Loading users
     func loadUser() async throws {
         user = try await getUser(userId: AuthManager.shared.authProfile?.uid ?? "")
@@ -57,18 +75,14 @@ final class DataManager {
         
     }
     
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0]
-        return documentsDirectory
-    }
-    
     func getProfileImage(path: String) async throws{
-        let profileImageRef = storageRef.child(path)
-        profileImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
-            if data != nil && error == nil {
-                let filename = self.getDocumentsDirectory().appendingPathComponent("profileImage.jpeg")
-                try? data?.write(to: filename)
+        let filename = self.getDocumentsDirectory().appendingPathComponent(FileNames.profileImage.rawValue)
+        if !FileManager.default.fileExists(atPath: filename.path()){
+            let profileImageRef = storageRef.child(path)
+            profileImageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                if data != nil && error == nil {
+                    try? data?.write(to: filename)
+                }
             }
         }
     }
@@ -97,7 +111,7 @@ final class DataManager {
         try await loadUser()
     }
     
-    //used for
+    //used for updating current user 
     func updateCurrentUser() async throws {
         try userCollection.document(user.id).setData(from: user, merge: false, encoder: encoder)
         try await loadUser()

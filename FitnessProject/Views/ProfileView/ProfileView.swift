@@ -35,7 +35,7 @@ struct ProfileView: View {
                     Image(systemName: "pencil")
                         .font(.system(size: 25))
                 }
-                .onChange(of: viewModel.selectedItem, viewModel.loadImage)
+                .onChange(of: viewModel.selectedItem, viewModel.loadImageFromPicker)
                 .buttonStyle(.plain)
                 .offset(x:5,y:20)
             }
