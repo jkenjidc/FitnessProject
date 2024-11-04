@@ -37,6 +37,20 @@ extension CreateRoutineView {
             return !routine.name.isEmpty
         }
         
+        //MARK: INIT
+        init(routine: Routine? = nil, screenMode: ScreenMode? = .creation) {
+             if let unwrappedRoutine = routine {
+                 self.routine = unwrappedRoutine
+                 self.selectedDays = self.selectedDays.enumerated().map{index, element in
+                     unwrappedRoutine.daysToDo.contains(daysOfTheWeek[index])
+                 }
+                 self.currentScreenMode = screenMode ?? .creation
+                 isTimerActive = timerMode
+             }
+            
+            
+         }
+        
         //MARK: DAYS PICKER
         var selectedDays = Array(repeating: false, count: 7)
         let daysOfTheWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -56,6 +70,17 @@ extension CreateRoutineView {
             }
         }
         
+        func selectDay(index: Int){
+            if selectedDays[index] {
+               selectedDays[index] = false
+                routine.daysToDo.removeAll(where: {$0 == daysOfTheWeek[index]})
+            } else {
+                selectedDays[index] = true
+                routine.daysToDo.append(daysOfTheWeek[index])
+            }
+            routine.daysToDo.sort(by: {daysOfTheWeek.firstIndex(of: $0) ?? 7 < daysOfTheWeek.firstIndex(of: $1) ?? 7})
+        }
+        
         //MARK: TIMER
         var elapsedTime: TimeInterval = 0
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -70,26 +95,13 @@ extension CreateRoutineView {
             return currentScreenMode == .timer
         }
         
-        init(routine: Routine? = nil, screenMode: ScreenMode? = .creation) {
-             if let unwrappedRoutine = routine {
-                 self.routine = unwrappedRoutine
-                 self.selectedDays = self.selectedDays.enumerated().map{index, element in
-                     unwrappedRoutine.daysToDo.contains(daysOfTheWeek[index])
-                 }
-                 self.currentScreenMode = screenMode ?? .creation
-                 isTimerActive = timerMode
-             }
-            
-            
-         }
-        
         //MARK: DATA MANIPULATION
         func saveExercise() {
             let exercise = Exercise(name: newExerciseName, sets: [ExerciseSet(weight: 0, reps: 0)])
             routine.exercises.append(exercise)
         }
         
-        func saveRoutineHistory() async {
+        func saveRoutine() async {
             isTimerActive = false
             do {
                 try await DataManager.shared.addRoutine(routine: routine)
@@ -105,7 +117,7 @@ extension CreateRoutineView {
                 DataManager.shared.user.routineHistory = routineHistory
             }
             Task {
-                await saveRoutineHistory()
+                await saveRoutine()
             }
         }
         
@@ -122,7 +134,7 @@ extension CreateRoutineView {
             case .creation, .editing:
                 if validInputs {
                     Task {
-                        await saveRoutineHistory()
+                        await saveRoutine()
                     }
                     action()
                 } else {
@@ -131,17 +143,6 @@ extension CreateRoutineView {
             case .timer:
                 confirmFinishExercise()
             }
-        }
-        
-        func selectDay(index: Int){
-            if selectedDays[index] {
-               selectedDays[index] = false
-                routine.daysToDo.removeAll(where: {$0 == daysOfTheWeek[index]})
-            } else {
-                selectedDays[index] = true
-                routine.daysToDo.append(daysOfTheWeek[index])
-            }
-            routine.daysToDo.sort(by: {daysOfTheWeek.firstIndex(of: $0) ?? 7 < daysOfTheWeek.firstIndex(of: $1) ?? 7})
         }
 
         //MARK: ALERT CONFIRMATIONS
