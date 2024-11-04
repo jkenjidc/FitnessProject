@@ -25,7 +25,9 @@ extension Array {
 @Observable
 final class DataManager {
     var user = CurrentUser()
+    var routines = [Routine]()
     private let userCollection = Firestore.firestore().collection("users")
+    private let routineCollection = Firestore.firestore().collection("routines")
     private let storageRef = Storage.storage().reference()
     private let rootStoragePath = "profile_images"
     static let shared = DataManager()
@@ -46,6 +48,9 @@ final class DataManager {
     
     func userDocument(userId: String) -> DocumentReference {
         userCollection.document(userId)
+    }
+    func routineDocument(routineId: String) -> DocumentReference {
+        routineCollection.document(routineId)
     }
     
     func getDocumentsDirectory() -> URL {
@@ -70,8 +75,24 @@ final class DataManager {
         }
     }
     
+    func loadRoutines() async throws {
+        if let routineIDs = user.routineIDs {
+            routineIDs.forEach { routineID in
+                Task{
+                    self.routines.append(try await getRoutine(routineID: routineID))
+                }
+            }
+        }
+        print(routines)
+    }
+    
     func getUser(userId: String) async throws -> CurrentUser {
         try await userDocument(userId: userId).getDocument(as: CurrentUser.self, decoder: decoder)
+        
+    }
+    
+    func getRoutine(routineID: String) async throws -> Routine {
+        try await routineDocument(routineId: routineID).getDocument(as: Routine.self, decoder: decoder)
         
     }
     
@@ -93,6 +114,19 @@ final class DataManager {
         try await loadUser()
     }
     
+    func createNewRoutine(routine: Routine) async throws {
+        if user.routineIDs != nil {
+            user.routineIDs?.append(routine.id)
+        } else {
+            user.routineIDs = [routine.id]
+        }
+        print(user.routineIDs!)
+        try routineDocument(routineId: routine.id).setData(from: routine, merge: true, encoder: encoder)
+        try await self.loadRoutines()
+        
+    }
+    
+    //need to just add routine ID
     func addRoutine(routine: Routine) async throws {
         if !user.routines.contains(routine){
             user.routines.append(routine)
