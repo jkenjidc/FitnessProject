@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FirebaseFirestore
 
 struct Routine: Identifiable, Codable, Hashable, Equatable {
     var id = UUID().uuidString

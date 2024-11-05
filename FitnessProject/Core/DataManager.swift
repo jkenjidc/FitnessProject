@@ -75,16 +75,6 @@ final class DataManager {
         }
     }
     
-//    func loadRoutines() async throws {
-//        if let routineIDs = user.routineIDs {
-//            routineIDs.forEach { routineID in
-//                Task{
-//                    self.routines.append(try await getRoutine(routineID: routineID))
-//                }
-//            }
-//        }
-//        print(routines)
-//    }
     func loadRoutines() async throws{
         if let routineIDs = user.routineIDs {
             if !routineIDs.isEmpty{
@@ -101,11 +91,6 @@ final class DataManager {
     
     func getUser(userId: String) async throws -> CurrentUser {
         try await userDocument(userId: userId).getDocument(as: CurrentUser.self, decoder: decoder)
-        
-    }
-    
-    func getRoutine(routineID: String) async throws -> Routine {
-        try await routineDocument(routineId: routineID).getDocument(as: Routine.self, decoder: decoder)
         
     }
     
@@ -139,33 +124,20 @@ final class DataManager {
             user.routineIDs = [routine.id]
         }
         
-        //Send the routine to the firestore DB
+        //Sends the routine and user to the firestore DB
         try await updateRoutine(routine: routine)
         
     }
     
     func updateRoutine(routine: Routine) async throws {
-        //save any changes to any existing instance of the same routine
+        //save any changes to any existing instance of the same routine locally
         if let index = routines.firstIndex(where: {$0.id == routine.id}){
             routines[index] = routine
         }
         
-        //save to DB and update the current user to fetch any data
+        //save to DB and update the current user to fetch any data from user
         try routineDocument(routineId: routine.id).setData(from: routine, merge: true)
         try await updateCurrentUser()
-    }
-    
-    //need to just add routine ID
-    func addRoutine(routine: Routine) async throws {
-        if !user.routines.contains(routine){
-            user.routines.append(routine)
-        } else {
-            if let index = user.routines.firstIndex(where: {$0.id == routine.id}){
-                user.routines[index] = routine
-            }
-        }
-        try userDocument(userId: user.id).setData(from: user, merge: true, encoder: encoder)
-        try await self.loadUser()
     }
     
     //used for anonymous account linking
@@ -220,13 +192,6 @@ final class DataManager {
         self.user = CurrentUser()
     }
     
-//    func deleteRoutine(at index: IndexSet) async throws {
-//        user.routines.remove(atOffsets: index)
-//        let encodedRoutines = try user.routines.map { try encoder.encode($0)}
-//        
-//        try await userCollection.document(user.id).updateData(["routines": encodedRoutines])
-//    }
-    
     func deleteRoutine(at index: IndexSet) async throws {
         let beforeRemoval = Set(routines)
         routines.remove(atOffsets: index)
@@ -237,7 +202,6 @@ final class DataManager {
             user.routineIDs = routineIDs
             try await routineCollection.document("\(routineToDelete.id)").delete()
             try await updateCurrentUser()
-            try await loadRoutines()
         }
     }
 }
