@@ -101,23 +101,27 @@ extension CreateRoutineView {
             routine.exercises.append(exercise)
         }
         
-        func saveRoutineToDB() async {
-            isTimerActive = false
+        func saveRoutine() async {
             do {
-                try await DataManager.shared.createNewRoutine(routine: routine)
+                if currentScreenMode == .creation{
+                    try await DataManager.shared.createRoutine(routine: routine)
+                } else {
+                    try await DataManager.shared.updateRoutine(routine: routine)
+                }
             } catch {
                 print(error)
             }
         }
         
         func finishRoutine() {
+            isTimerActive = false
             let historyRecord = RoutineHistoryRecord(nameOfRoutine: routine.name, durationOfRoutine: Int(elapsedTime), exercises: routine.exercises)
             if var routineHistory = DataManager.shared.user.routineHistory {
                 routineHistory.insert(historyRecord, at: 0)
                 DataManager.shared.user.routineHistory = routineHistory
             }
             Task {
-                await saveRoutineToDB()
+                await saveRoutine()
             }
         }
         
@@ -134,7 +138,7 @@ extension CreateRoutineView {
             case .creation, .editing:
                 if validInputs {
                     Task {
-                        await saveRoutineToDB()
+                        await saveRoutine()
                     }
                     action()
                 } else {
