@@ -21,6 +21,7 @@ extension SignInView {
             do {
                 try await AuthManager.shared.signInUser(email: email, password: password)
                 try await DataManager.shared.loadUser()
+                try await DataManager.shared.loadRoutines()
             } catch {
                 print(error)
             }

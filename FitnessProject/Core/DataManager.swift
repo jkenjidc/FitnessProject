@@ -75,15 +75,26 @@ final class DataManager {
         }
     }
     
-    func loadRoutines() async throws {
+//    func loadRoutines() async throws {
+//        if let routineIDs = user.routineIDs {
+//            routineIDs.forEach { routineID in
+//                Task{
+//                    self.routines.append(try await getRoutine(routineID: routineID))
+//                }
+//            }
+//        }
+//        print(routines)
+//    }
+    func loadRoutines() async throws{
         if let routineIDs = user.routineIDs {
-            routineIDs.forEach { routineID in
-                Task{
-                    self.routines.append(try await getRoutine(routineID: routineID))
-                }
+            let snapshot = try await routineCollection.whereField("id", in: routineIDs).getDocuments()
+            var tempRoutines = [Routine]()
+            for document in snapshot.documents {
+                let routine = try document.data(as: Routine.self)
+                tempRoutines.append(routine)
             }
+            self.routines = tempRoutines
         }
-        print(routines)
     }
     
     func getUser(userId: String) async throws -> CurrentUser {
@@ -115,14 +126,14 @@ final class DataManager {
     }
     
     func createNewRoutine(routine: Routine) async throws {
+        routines.append(routine)
         if user.routineIDs != nil {
             user.routineIDs?.append(routine.id)
         } else {
             user.routineIDs = [routine.id]
         }
-        print(user.routineIDs!)
-        try routineDocument(routineId: routine.id).setData(from: routine, merge: true, encoder: encoder)
-        try await self.loadRoutines()
+        try routineDocument(routineId: routine.id).setData(from: routine, merge: true)
+        try await updateCurrentUser()
         
     }
     
@@ -197,4 +208,12 @@ final class DataManager {
         
         try await userCollection.document(user.id).updateData(["routines": encodedRoutines])
     }
+    
+//    func deleteRoutine(at index: IndexSet) async throws {
+//        routines.remove(atOffsets: index)
+////        let encodedRoutines = try user.routines.map { try encoder.encode($0)}
+//        
+////        try await userCollection.document(user.id).updateData(["routines": encodedRoutines])
+//        try await routineCollection.document()
+//    }
 }

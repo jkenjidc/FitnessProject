@@ -31,6 +31,7 @@ struct RootView: View {
                 do{
                     try AuthManager.shared.checkAuth()
                     try await DataManager.shared.loadUser()
+                    try await DataManager.shared.loadRoutines()
                 } catch {
                     print(error)
                 }
