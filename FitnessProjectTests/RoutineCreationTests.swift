@@ -22,9 +22,9 @@ final class RoutineCreationTests: XCTestCase {
     }
     
     func testRoutineCreation() async throws {
-        try await DataManager.shared.addRoutine(routine: sampleRoutine)
-        let user =  DataManager.shared.user
-        XCTAssertFalse(user.routines.isEmpty)
+        try await DataManager.shared.createNewRoutine(routine: sampleRoutine)
+        let routines =  DataManager.shared.routines
+        XCTAssertFalse(routines.isEmpty)
     }
     
     func testStartTimer() {

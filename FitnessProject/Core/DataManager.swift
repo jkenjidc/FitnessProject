@@ -87,13 +87,15 @@ final class DataManager {
 //    }
     func loadRoutines() async throws{
         if let routineIDs = user.routineIDs {
-            let snapshot = try await routineCollection.whereField("id", in: routineIDs).getDocuments()
-            var tempRoutines = [Routine]()
-            for document in snapshot.documents {
-                let routine = try document.data(as: Routine.self)
-                tempRoutines.append(routine)
+            if !routineIDs.isEmpty{
+                let snapshot = try await routineCollection.whereField("id", in: routineIDs).getDocuments()
+                var tempRoutines = [Routine]()
+                for document in snapshot.documents {
+                    let routine = try document.data(as: Routine.self)
+                    tempRoutines.append(routine)
+                }
+                self.routines = tempRoutines
             }
-            self.routines = tempRoutines
         }
     }
     
@@ -126,15 +128,35 @@ final class DataManager {
     }
     
     func createNewRoutine(routine: Routine) async throws {
-        routines.append(routine)
-        if user.routineIDs != nil {
-            user.routineIDs?.append(routine.id)
+        //Adds the routine to the apps's list of current routines or updates an existing one
+        if !routines.contains(routine){
+            routines.append(routine)
+        } else {
+            if let index = routines.firstIndex(where: {$0.id == routine.id}){
+                routines[index] = routine
+            }
+        }
+        //Add routine ID to routineIDs list of user
+        if var routineId = user.routineIDs {
+            if !routineId.contains(routine.id){
+                routineId.append(routine.id)
+                user.routineIDs = routineId
+            }
         } else {
             user.routineIDs = [routine.id]
         }
+        
         try routineDocument(routineId: routine.id).setData(from: routine, merge: true)
         try await updateCurrentUser()
         
+    }
+    
+    func updateRoutine(routine: Routine) async throws {
+        if let index = routines.firstIndex(where: {$0.id == routine.id}){
+            routines[index] = routine
+        }
+        try routineDocument(routineId: routine.id).setData(from: routine, merge: true)
+        try await updateCurrentUser()
     }
     
     //need to just add routine ID
@@ -185,7 +207,7 @@ final class DataManager {
     }
     func switchWeightUnits() async throws {
         let switchValue = user.preferences.usingImperialWeightUnits ? 1/2.2 : 2.2
-        user.routines.mutatingForEach { routine in
+        routines.mutatingForEach { routine in
             routine.exercises.mutatingForEach { exercise in
                 exercise.sets.mutatingForEach { exerciseSet in
                     exerciseSet.weight = exerciseSet.weight * switchValue
@@ -202,18 +224,24 @@ final class DataManager {
         self.user = CurrentUser()
     }
     
-    func deleteRoutine(at index: IndexSet) async throws {
-        user.routines.remove(atOffsets: index)
-        let encodedRoutines = try user.routines.map { try encoder.encode($0)}
-        
-        try await userCollection.document(user.id).updateData(["routines": encodedRoutines])
-    }
-    
 //    func deleteRoutine(at index: IndexSet) async throws {
-//        routines.remove(atOffsets: index)
-////        let encodedRoutines = try user.routines.map { try encoder.encode($0)}
+//        user.routines.remove(atOffsets: index)
+//        let encodedRoutines = try user.routines.map { try encoder.encode($0)}
 //        
-////        try await userCollection.document(user.id).updateData(["routines": encodedRoutines])
-//        try await routineCollection.document()
+//        try await userCollection.document(user.id).updateData(["routines": encodedRoutines])
 //    }
+    
+    func deleteRoutine(at index: IndexSet) async throws {
+        let beforeRemoval = Set(routines)
+        routines.remove(atOffsets: index)
+        let afterRemoval = Set(routines)
+        let removedItem = beforeRemoval.symmetricDifference(afterRemoval)
+        if let routineToDelete = removedItem.first, var routineIDs = user.routineIDs {
+            routineIDs.removeAll(where: { $0 == routineToDelete.id })
+            user.routineIDs = routineIDs
+            try await routineCollection.document("\(routineToDelete.id)").delete()
+            try await updateCurrentUser()
+            try await loadRoutines()
+        }
+    }
 }

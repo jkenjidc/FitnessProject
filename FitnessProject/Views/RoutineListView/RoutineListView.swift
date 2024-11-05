@@ -61,8 +61,8 @@ struct RoutineListView: View {
                             viewModel.showRoutineLimitAlert = true
                         }
                     }
-                    .onChange(of: dataManager.user.routines) { _, _ in
-                        viewModel.hasHitLimit = dataManager.user.routines.count == 5
+                    .onChange(of: dataManager.routines) { _, _ in
+                        viewModel.hasHitLimit = dataManager.routines.count == 5
                     }
                     .alert("You can only make 5 routines", isPresented: $viewModel.showRoutineLimitAlert) {
                         Button("Ok") {}

@@ -101,15 +101,6 @@ extension CreateRoutineView {
             routine.exercises.append(exercise)
         }
         
-        func saveRoutine() async {
-            isTimerActive = false
-            do {
-                try await DataManager.shared.addRoutine(routine: routine)
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        
         func saveRoutineToDB() async {
             isTimerActive = false
             do {
@@ -126,7 +117,7 @@ extension CreateRoutineView {
                 DataManager.shared.user.routineHistory = routineHistory
             }
             Task {
-                await saveRoutine()
+                await saveRoutineToDB()
             }
         }
         
