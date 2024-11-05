@@ -20,7 +20,7 @@ extension StartRoutineView {
         }
         
         var routinesForTheDay: [Routine] {
-            return dataManager.user.routines.filter({ $0.daysToDo.contains(currentDay)})
+            return dataManager.routines.filter({ $0.daysToDo.contains(currentDay)})
         }
         
     }
