@@ -122,39 +122,35 @@ final class DataManager {
     }
     
     // MARK: Data creation and updating
-    func createNewUser(user: CurrentUser) async throws {
+    func createUser(user: CurrentUser) async throws {
         try userDocument(userId: user.id).setData(from: user, merge: false, encoder: encoder)
         try await loadUser()
     }
     
-    func createNewRoutine(routine: Routine) async throws {
-        //Adds the routine to the apps's list of current routines or updates an existing one
-        if !routines.contains(routine){
-            routines.append(routine)
-        } else {
-            if let index = routines.firstIndex(where: {$0.id == routine.id}){
-                routines[index] = routine
-            }
-        }
+    func createRoutine(routine: Routine) async throws {
+        //Adds the routine to the apps's list of local routines
+        routines.append(routine)
+        
         //Add routine ID to routineIDs list of user
         if var routineId = user.routineIDs {
-            if !routineId.contains(routine.id){
-                routineId.append(routine.id)
-                user.routineIDs = routineId
-            }
+            routineId.append(routine.id)
+            user.routineIDs = routineId
         } else {
             user.routineIDs = [routine.id]
         }
         
-        try routineDocument(routineId: routine.id).setData(from: routine, merge: true)
-        try await updateCurrentUser()
+        //Send the routine to the firestore DB
+        try await updateRoutine(routine: routine)
         
     }
     
     func updateRoutine(routine: Routine) async throws {
+        //save any changes to any existing instance of the same routine
         if let index = routines.firstIndex(where: {$0.id == routine.id}){
             routines[index] = routine
         }
+        
+        //save to DB and update the current user to fetch any data
         try routineDocument(routineId: routine.id).setData(from: routine, merge: true)
         try await updateCurrentUser()
     }
