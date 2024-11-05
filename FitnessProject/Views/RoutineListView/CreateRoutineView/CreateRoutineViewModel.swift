@@ -115,7 +115,7 @@ extension CreateRoutineView {
             do {
                 try await DataManager.shared.createNewRoutine(routine: routine)
             } catch {
-                print(error.localizedDescription)
+                print(error)
             }
         }
         

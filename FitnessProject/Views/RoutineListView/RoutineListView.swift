@@ -14,7 +14,7 @@ struct RoutineListView: View {
     var body: some View {
         ZStack{
             VStack {
-                if dataManager.user.routines.isEmpty {
+                if dataManager.routines.isEmpty {
                     ContentUnavailableView{
                         Image(systemName: "figure.flexibility")
                             .resizable()
@@ -26,7 +26,7 @@ struct RoutineListView: View {
                     .navigationTitle("Routines")
                 } else {
                     List{
-                        ForEach($dataManager.user.routines){ $routine in
+                        ForEach($dataManager.routines){ $routine in
                             Button{
                                 viewModel.presentRoutineDetailCard(routine: routine)
                             } label: {
