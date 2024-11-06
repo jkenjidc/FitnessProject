@@ -34,7 +34,7 @@ struct SignUpView: View {
             Task {
                 if AuthManager.shared.isAnonymous{
                     await viewModel.linkEmail()
-                    router.push(destination: .mainNavigationScreen)
+                    router.pop()
                 } else {
                     await viewModel.signUp()
                     router.push(destination: .mainNavigationScreen)
