@@ -76,9 +76,9 @@ final class DataManager {
     }
     
     func loadRoutines() async throws{
-        if let routineIDs = user.routineIDs {
-            if !routineIDs.isEmpty{
-                let snapshot = try await routineCollection.whereField("id", in: routineIDs).getDocuments()
+        if let routines = user.routines {
+            if !routines.isEmpty{
+                let snapshot = try await routineCollection.whereField("id", in: routines).getDocuments()
                 var tempRoutines = [Routine]()
                 for document in snapshot.documents {
                     let routine = try document.data(as: Routine.self)
@@ -117,11 +117,11 @@ final class DataManager {
         routines.append(routine)
         
         //Add routine ID to routineIDs list of user
-        if var routineId = user.routineIDs {
-            routineId.append(routine.id)
-            user.routineIDs = routineId
+        if var routines = user.routines {
+            routines.append(routine.id)
+            user.routines = routines
         } else {
-            user.routineIDs = [routine.id]
+            user.routines = [routine.id]
         }
         
         //Sends the routine and user to the firestore DB
@@ -198,9 +198,9 @@ final class DataManager {
     // MARK: Data deletions
     func deleteUser() async throws {
         try await userCollection.document(user.id).delete()
-        if let IDs = user.routineIDs {
-            for ID in IDs {
-                try await routineCollection.document(ID).delete()
+        if let routines = user.routines {
+            for routine in routines {
+                try await routineCollection.document(routine).delete()
             }
         }
         self.user = CurrentUser()
@@ -212,9 +212,9 @@ final class DataManager {
         routines.remove(atOffsets: index)
         let afterRemoval = Set(routines)
         let removedItem = beforeRemoval.symmetricDifference(afterRemoval)
-        if let routineToDelete = removedItem.first, var routineIDs = user.routineIDs {
-            routineIDs.removeAll(where: { $0 == routineToDelete.id })
-            user.routineIDs = routineIDs
+        if let routineToDelete = removedItem.first, var routines = user.routines {
+            routines.removeAll(where: { $0 == routineToDelete.id })
+            user.routines = routines
             try await routineCollection.document("\(routineToDelete.id)").delete()
             try await updateCurrentUser()
         }
