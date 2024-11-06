@@ -15,7 +15,7 @@ extension WelcomeView {
             do {
                 let authDataResult =  try await AuthManager.shared.signInAnonymously()
                 let user = CurrentUser(auth: authDataResult)
-                try await DataManager.shared.createNewUser(user: user)
+                try await DataManager.shared.createUser(user: user)
                 try await DataManager.shared.loadUser()
             } catch {
                 print(error.localizedDescription)

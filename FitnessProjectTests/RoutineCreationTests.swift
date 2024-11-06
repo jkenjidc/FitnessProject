@@ -17,14 +17,14 @@ final class RoutineCreationTests: XCTestCase {
     override func setUp() async throws {
         try await super.setUp()
         let user = try await AuthManager.shared.createUser(email: testEmail, password: password)
-        try await DataManager.shared.createNewUser(user: CurrentUser(auth: user))
+        try await DataManager.shared.createUser(user: CurrentUser(auth: user))
         try await DataManager.shared.loadUser()
     }
     
     func testRoutineCreation() async throws {
-        try await DataManager.shared.addRoutine(routine: sampleRoutine)
-        let user =  DataManager.shared.user
-        XCTAssertFalse(user.routines.isEmpty)
+        try await DataManager.shared.createRoutine(routine: sampleRoutine)
+        let routines =  DataManager.shared.routines
+        XCTAssertFalse(routines.isEmpty)
     }
     
     func testStartTimer() {

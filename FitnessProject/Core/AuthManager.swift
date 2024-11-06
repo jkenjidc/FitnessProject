@@ -130,6 +130,7 @@ final class AuthManager {
         do {
             try Auth.auth().signOut()
             self.isSignedOut = true
+            DataManager.shared.routines = [Routine]()
         }catch {
             print(error)
         }
