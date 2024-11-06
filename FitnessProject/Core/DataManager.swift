@@ -149,8 +149,15 @@ final class DataManager {
     }
     
     //used for updating current user 
-    func updateCurrentUser() async throws {
-        try userCollection.document(user.id).setData(from: user, merge: false)
+    func updateCurrentUser(isLinking: Bool? = false, newName: String? = "") async throws {
+        if let linkingAccount = isLinking {
+            if linkingAccount {
+                self.user.isAnonymous  = false
+                self.user.name = newName ?? ""
+            }
+
+        }
+        try userCollection.document(user.id).setData(from: self.user, merge: false)
         try await loadUser()
     }
     
