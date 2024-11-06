@@ -27,10 +27,10 @@ extension ProfileView {
         }
         
         func deleteAccount(pop: () -> Void) async {
+            pop()
             do {
                 try await DataManager.shared.deleteUser()
                 try await AuthManager.shared.deleteAccount()
-                pop()
             } catch {
                 print(error.localizedDescription)
             }
