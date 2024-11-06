@@ -191,6 +191,11 @@ final class DataManager {
     // MARK: Data deletions
     func deleteUser() async throws {
         try await userCollection.document(user.id).delete()
+        if let IDs = user.routineIDs {
+            for ID in IDs {
+                try await routineCollection.document(ID).delete()
+            }
+        }
         self.user = CurrentUser()
         self.routines = [Routine]()
     }
