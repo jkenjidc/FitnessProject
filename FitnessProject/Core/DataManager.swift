@@ -25,9 +25,11 @@ extension Array {
 @Observable
 final class DataManager {
     var user = CurrentUser()
+    var routines = [Routine]()
     private let userCollection = Firestore.firestore().collection("users")
+    private let routineCollection = Firestore.firestore().collection("routines")
     private let storageRef = Storage.storage().reference()
-    private let rootStoragePath = "profile_images"
+    private let rootStoragePath = "profileImages"
     static let shared = DataManager()
     private init() {}
     
@@ -47,6 +49,9 @@ final class DataManager {
     func userDocument(userId: String) -> DocumentReference {
         userCollection.document(userId)
     }
+    func routineDocument(routineId: String) -> DocumentReference {
+        routineCollection.document(routineId)
+    }
     
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -56,7 +61,7 @@ final class DataManager {
     
     func cacheImage(from inputImage: UIImage) throws {
         if let data = inputImage.jpegData(compressionQuality: 0.8) {
-            let filename = DataManager.shared.getDocumentsDirectory().appendingPathComponent(FileNames.profileImage.rawValue)
+            let filename = getDocumentsDirectory().appendingPathComponent(FileNames.profileImage.rawValue)
             try data.write(to: filename)
             
         }
@@ -70,8 +75,22 @@ final class DataManager {
         }
     }
     
+    func loadRoutines() async throws{
+        if let routineIDs = user.routineIDs {
+            if !routineIDs.isEmpty{
+                let snapshot = try await routineCollection.whereField("id", in: routineIDs).getDocuments()
+                var tempRoutines = [Routine]()
+                for document in snapshot.documents {
+                    let routine = try document.data(as: Routine.self)
+                    tempRoutines.append(routine)
+                }
+                self.routines = tempRoutines
+            }
+        }
+    }
+    
     func getUser(userId: String) async throws -> CurrentUser {
-        try await userDocument(userId: userId).getDocument(as: CurrentUser.self, decoder: decoder)
+        try await userDocument(userId: userId).getDocument(as: CurrentUser.self)
         
     }
     
@@ -88,38 +107,56 @@ final class DataManager {
     }
     
     // MARK: Data creation and updating
-    func createNewUser(user: CurrentUser) async throws {
-        try userDocument(userId: user.id).setData(from: user, merge: false, encoder: encoder)
+    func createUser(user: CurrentUser) async throws {
+        try userDocument(userId: user.id).setData(from: user, merge: false)
         try await loadUser()
     }
     
-    func addRoutine(routine: Routine) async throws {
-        if !user.routines.contains(routine){
-            user.routines.append(routine)
+    func createRoutine(routine: Routine) async throws {
+        //Adds the routine to the apps's list of local routines
+        routines.append(routine)
+        
+        //Add routine ID to routineIDs list of user
+        if var routineId = user.routineIDs {
+            routineId.append(routine.id)
+            user.routineIDs = routineId
         } else {
-            if let index = user.routines.firstIndex(where: {$0.id == routine.id}){
-                user.routines[index] = routine
-            }
+            user.routineIDs = [routine.id]
         }
-        try userDocument(userId: user.id).setData(from: user, merge: true, encoder: encoder)
-        try await self.loadUser()
+        
+        //Sends the routine and user to the firestore DB
+        try await updateRoutine(routine: routine)
+        
+    }
+    
+    func updateRoutine(routine: Routine) async throws {
+        //save any changes to any existing instance of the same routine locally
+        if let index = routines.firstIndex(where: {$0.id == routine.id}){
+            routines[index] = routine
+        }
+        
+        //save to DB and update the current user to fetch any data from user
+        try routineDocument(routineId: routine.id).setData(from: routine, merge: true)
+        try await updateCurrentUser()
     }
     
     //used for anonymous account linking
     func updateUser(user: CurrentUser) async throws {
-        try userCollection.document(user.id).setData(from: user, merge: false, encoder: encoder)
+        var linkingUser = user
+        linkingUser.isAnonymous = false
+        try userCollection.document(linkingUser.id).setData(from: linkingUser, merge: false)
         try await loadUser()
     }
     
     //used for updating current user 
     func updateCurrentUser() async throws {
-        try userCollection.document(user.id).setData(from: user, merge: false, encoder: encoder)
+        try userCollection.document(user.id).setData(from: user, merge: false)
         try await loadUser()
     }
     
     func uploadImage(image: UIImage) async throws {
         //path of image in firebase storage
-        let path = "\(rootStoragePath)/\(user.id)/profile_image.jpeg"
+        let path = "\(rootStoragePath)/\(user.id)/profileImage.jpeg"
         let profileImageRef = storageRef.child(path)
         let imageData = image.jpegData(compressionQuality: 0.8)
         if let unwrappedImageData = imageData {
@@ -140,7 +177,7 @@ final class DataManager {
     }
     func switchWeightUnits() async throws {
         let switchValue = user.preferences.usingImperialWeightUnits ? 1/2.2 : 2.2
-        user.routines.mutatingForEach { routine in
+        routines.mutatingForEach { routine in
             routine.exercises.mutatingForEach { exercise in
                 exercise.sets.mutatingForEach { exerciseSet in
                     exerciseSet.weight = exerciseSet.weight * switchValue
@@ -154,13 +191,25 @@ final class DataManager {
     // MARK: Data deletions
     func deleteUser() async throws {
         try await userCollection.document(user.id).delete()
+        if let IDs = user.routineIDs {
+            for ID in IDs {
+                try await routineCollection.document(ID).delete()
+            }
+        }
         self.user = CurrentUser()
+        self.routines = [Routine]()
     }
     
     func deleteRoutine(at index: IndexSet) async throws {
-        user.routines.remove(atOffsets: index)
-        let encodedRoutines = try user.routines.map { try encoder.encode($0)}
-        
-        try await userCollection.document(user.id).updateData(["routines": encodedRoutines])
+        let beforeRemoval = Set(routines)
+        routines.remove(atOffsets: index)
+        let afterRemoval = Set(routines)
+        let removedItem = beforeRemoval.symmetricDifference(afterRemoval)
+        if let routineToDelete = removedItem.first, var routineIDs = user.routineIDs {
+            routineIDs.removeAll(where: { $0 == routineToDelete.id })
+            user.routineIDs = routineIDs
+            try await routineCollection.document("\(routineToDelete.id)").delete()
+            try await updateCurrentUser()
+        }
     }
 }
