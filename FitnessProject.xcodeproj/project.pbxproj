@@ -20,6 +20,8 @@
 		7A66F3632CD128F800EFD0D6 /* UpdatePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F3622CD128F800EFD0D6 /* UpdatePasswordViewModel.swift */; };
 		7A66F3652CD15A7F00EFD0D6 /* RoutineHistoryRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F3642CD15A7F00EFD0D6 /* RoutineHistoryRecord.swift */; };
 		7A66F3672CD2A78500EFD0D6 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7A66F3662CD2A78500EFD0D6 /* FirebaseStorage */; };
+		7A66F36E2CDE8EB400EFD0D6 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F36D2CDE8EB400EFD0D6 /* Log.swift */; };
+		7A66F3702CDEAA7600EFD0D6 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F36F2CDEAA7600EFD0D6 /* AuthError.swift */; };
 		7A8A2D2A2CA1E61C0087EE8B /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D292CA1E61C0087EE8B /* SignUpViewModel.swift */; };
 		7A8A2D2D2CA1EB580087EE8B /* ErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D2C2CA1EB580087EE8B /* ErrorFooterView.swift */; };
 		7A8A2D2F2CA1ED990087EE8B /* EntryFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D2E2CA1ED990087EE8B /* EntryFieldView.swift */; };
@@ -82,6 +84,8 @@
 		7A66F3602CD128E600EFD0D6 /* UpdatePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordView.swift; sourceTree = "<group>"; };
 		7A66F3622CD128F800EFD0D6 /* UpdatePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordViewModel.swift; sourceTree = "<group>"; };
 		7A66F3642CD15A7F00EFD0D6 /* RoutineHistoryRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineHistoryRecord.swift; sourceTree = "<group>"; };
+		7A66F36D2CDE8EB400EFD0D6 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		7A66F36F2CDEAA7600EFD0D6 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		7A8A2D292CA1E61C0087EE8B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		7A8A2D2C2CA1EB580087EE8B /* ErrorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorFooterView.swift; sourceTree = "<group>"; };
 		7A8A2D2E2CA1ED990087EE8B /* EntryFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryFieldView.swift; sourceTree = "<group>"; };
@@ -202,6 +206,31 @@
 			path = UpdatePasswordView;
 			sourceTree = "<group>";
 		};
+		7A66F3682CDE8E1400EFD0D6 /* AuthManager */ = {
+			isa = PBXGroup;
+			children = (
+				7AF20FAD2C9CBA620057A100 /* AuthManager.swift */,
+				7A66F36F2CDEAA7600EFD0D6 /* AuthError.swift */,
+			);
+			path = AuthManager;
+			sourceTree = "<group>";
+		};
+		7A66F3692CDE8E2500EFD0D6 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				7A8A2D352CA45F2D0087EE8B /* DataManager.swift */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		7A66F36A2CDE8E3900EFD0D6 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				7A66F36D2CDE8EB400EFD0D6 /* Log.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
 		7A8A2D282CA1E6040087EE8B /* SignUpView */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,9 +340,10 @@
 		7AF20F8C2C90B91F0057A100 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7A66F36A2CDE8E3900EFD0D6 /* Logger */,
+				7A66F3692CDE8E2500EFD0D6 /* DataManager */,
+				7A66F3682CDE8E1400EFD0D6 /* AuthManager */,
 				7A8A2D4D2CB079830087EE8B /* NavManager */,
-				7AF20FAD2C9CBA620057A100 /* AuthManager.swift */,
-				7A8A2D352CA45F2D0087EE8B /* DataManager.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -496,6 +526,7 @@
 			files = (
 				7AF20FA22C92137E0057A100 /* CreateRoutineView.swift in Sources */,
 				7AF20FAE2C9CBA620057A100 /* AuthManager.swift in Sources */,
+				7A66F36E2CDE8EB400EFD0D6 /* Log.swift in Sources */,
 				7AF20F9E2C91F3EA0057A100 /* RoutineListCellView.swift in Sources */,
 				7A8A2D342CA33C5A0087EE8B /* ProfileViewModel.swift in Sources */,
 				7A66F3632CD128F800EFD0D6 /* UpdatePasswordViewModel.swift in Sources */,
@@ -517,6 +548,7 @@
 				7AF20F8F2C90BC770057A100 /* WelcomeView.swift in Sources */,
 				7A8A2D2A2CA1E61C0087EE8B /* SignUpViewModel.swift in Sources */,
 				7A8A2D612CB477AF0087EE8B /* RoutineListViewModel.swift in Sources */,
+				7A66F3702CDEAA7600EFD0D6 /* AuthError.swift in Sources */,
 				7A8A2D4F2CB079AC0087EE8B /* Destinations.swift in Sources */,
 				7A66F35C2CD018CF00EFD0D6 /* Preferences.swift in Sources */,
 				7A8A2D512CB079C80087EE8B /* Sheets.swift in Sources */,

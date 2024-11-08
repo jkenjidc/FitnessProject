@@ -20,9 +20,10 @@ struct SignInView: View {
                     }
                     Button {
                         Task{
-                            await viewModel.signIn()
+                            await viewModel.signIn {
+                                router.push(destination: .mainNavigationScreen)
+                            }
                         }
-                        router.push(destination: .mainNavigationScreen)
                     } label: {
                         Text("Sign In")
                             .padding(.vertical, 8)
@@ -56,6 +57,11 @@ struct SignInView: View {
                 Spacer()
             }
             .navigationTitle("Sign In")
+            .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert){
+                Button("ok"){}
+            } message: {
+                Text(viewModel.alertMessage)
+            }
         }
     }
 

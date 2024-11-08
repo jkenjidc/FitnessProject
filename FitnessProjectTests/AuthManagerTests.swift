@@ -38,13 +38,13 @@ final class AuthManagerTests: XCTestCase {
     
     func testUserIsAnonymous() async throws  {
         try await signInAnonmously()
-        let currentAnonymousStatus = await AuthManager.shared.isAnonymous
+        let currentAnonymousStatus =  AuthManager.shared.isAnonymous
         XCTAssertEqual(currentAnonymousStatus, true)
     }
     
     func testUserIsNotAnonymous() async throws  {
         try await signUpWithValidCredentials()
-        let currentAnonymousStatus = await AuthManager.shared.isAnonymous
+        let currentAnonymousStatus =  AuthManager.shared.isAnonymous
         XCTAssertEqual(currentAnonymousStatus, false)
     }
     
@@ -58,13 +58,13 @@ final class AuthManagerTests: XCTestCase {
     
     func testUserIsSignedOut() async throws{
         try await signInAnonmously()
-        let currentSignedOutState = await AuthManager.shared.isSignedOut
+        let currentSignedOutState =  AuthManager.shared.isSignedOut
         XCTAssertEqual(currentSignedOutState, false)
     }
     
     //reformat make tests independent
     override func tearDown() async throws{
-        if await AuthManager.shared.authProfile != nil {
+        if  AuthManager.shared.authProfile != nil {
             try await AuthManager.shared.deleteAccount()
         }
     }
