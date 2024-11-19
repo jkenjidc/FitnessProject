@@ -196,6 +196,18 @@ final class DataManager {
     }
     
     // MARK: Data deletions
+    func signOut() {
+        let filename = self.getDocumentsDirectory().appendingPathComponent(FileNames.profileImage.rawValue)
+        let fileManager = FileManager.default
+        let fileURL = URL(fileURLWithPath: filename.path())
+
+        do {
+            try fileManager.removeItem(at: fileURL)
+            print("File deleted successfully")
+        } catch {
+            print("Error deleting file: \(error.localizedDescription)")
+        }
+    }
     func deleteUser() async throws {
         try await userCollection.document(user.id).delete()
         if let routines = user.routines {

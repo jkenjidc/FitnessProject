@@ -20,6 +20,7 @@ extension ProfileView {
         func signOut(pop: () -> Void) {
             do {
                 try AuthManager.shared.signOut()
+                DataManager.shared.signOut()
                 pop()
             } catch {
                 print(error.localizedDescription)
@@ -31,6 +32,7 @@ extension ProfileView {
             do {
                 try await DataManager.shared.deleteUser()
                 try await AuthManager.shared.deleteAccount()
+                DataManager.shared.signOut()
             } catch {
                 print(error.localizedDescription)
             }
