@@ -17,11 +17,12 @@ extension SignInView {
             return email.isEmpty && password.isEmpty
         }
         
-        func signIn() async {
+        func signIn(goToHomeScreen: () -> Void) async {
             do {
                 try await AuthManager.shared.signInUser(email: email, password: password)
                 try await DataManager.shared.loadUser()
                 try await DataManager.shared.loadRoutines()
+                goToHomeScreen()
             } catch {
                 print(error)
             }
