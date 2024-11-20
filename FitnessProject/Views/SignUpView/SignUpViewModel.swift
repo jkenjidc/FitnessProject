@@ -14,6 +14,9 @@ extension SignUpView {
         var passwordConfirmation = ""
         var name = ""
         var passwordsMatch = true
+        var alertTitle = ""
+        var alertMessage = ""
+        var showAlert = false
         var validSubmission: Bool {
             return !email.isEmpty && !name.isEmpty && !passwordConfirmation.isEmpty && !passwordConfirmation.isEmpty && passwordsMatch
         }
@@ -24,19 +27,30 @@ extension SignUpView {
             }
         }
         
-        func signUp() async {
+        func signUp(goToHomeScreen:() -> Void) async {
             do {
+                Log.info("Attempting create auth profile")
                 let user = try await AuthManager.shared.createUser(email: email, password: password)
+                
+                Log.info("Attempting to create user")
                 try await DataManager.shared.createUser(user: CurrentUser(auth: user, name: name))
+                
+                goToHomeScreen()
             } catch {
-                print(error.localizedDescription)
+                let errorMessage = (error as? AuthError)?.errorDescription ?? AuthError.defaultMessage
+                Log.error(errorMessage)
+                alertTitle = "Log In Failed"
+                alertMessage = errorMessage
+                showAlert = true
             }
         }
         
-        func linkEmail() async {
+        func linkEmail(goToHomeScreen:() -> Void) async {
             do {
                 try await AuthManager.shared.linkEmail(email: email, password: password)
                 try await DataManager.shared.updateCurrentUser(isLinking: true, newName: self.name)
+                
+                goToHomeScreen()
             } catch {
                 print(error.localizedDescription)
             }
