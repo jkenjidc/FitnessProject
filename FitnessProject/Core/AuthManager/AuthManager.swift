@@ -81,9 +81,13 @@ final class AuthManager {
     // MARK: ACCOUNT CREATIONS
     @discardableResult
     func createUser(email: String, password: String) async throws -> AuthDataResultModel{
-        let authDataResult =  try await Auth.auth().createUser(withEmail: email, password: password)
-        try checkAuth()
-        return AuthDataResultModel(user: authDataResult.user)
+        do {
+            let authDataResult =  try await Auth.auth().createUser(withEmail: email, password: password)
+            try checkAuth()
+            return AuthDataResultModel(user: authDataResult.user)
+        } catch {
+            throw handleAuthError(error)
+        }
     }
     
     @discardableResult

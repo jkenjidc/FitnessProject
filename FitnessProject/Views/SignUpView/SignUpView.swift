@@ -30,14 +30,17 @@ struct SignUpView: View {
             ErrorFooterView(invalidField: !viewModel.passwordsMatch, errorMessage: "Passwords must match")
                 .padding(.leading, 16)
         }
+        
         Button {
             Task {
                 if AuthManager.shared.isAnonymous{
-                    await viewModel.linkEmail()
-                    router.pop()
+                    await viewModel.linkEmail {
+                        router.pop()
+                    }
                 } else {
-                    await viewModel.signUp()
-                    router.push(destination: .mainNavigationScreen)
+                    await viewModel.signUp {
+                        router.push(destination: .mainNavigationScreen)
+                    }
                 }
             }
         } label: {
@@ -53,6 +56,11 @@ struct SignUpView: View {
         .buttonStyle(.plain)
         .navigationTitle("Sign Up")
         .disabled(!viewModel.validSubmission)
+        .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert){
+            Button("ok"){}
+        } message: {
+            Text(viewModel.alertMessage)
+        }
         Spacer()
     }
 }
