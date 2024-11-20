@@ -62,6 +62,7 @@ struct SignInView: View {
             } message: {
                 Text(viewModel.alertMessage)
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 
