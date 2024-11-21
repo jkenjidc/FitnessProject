@@ -37,7 +37,7 @@ enum AuthError: LocalizedError {
         case .tooManyRequests:
             return "Too many attempts. Please try again later."
         case .invalidCredentials:
-            return "Invalid login credentials. Please try again."
+            return "Invalid information. Please check your email or password."
         case .userDisabled:
             return "This account has been disabled. Please contact support."
         case .unknownError(let error):

@@ -72,6 +72,8 @@ class Router {
         switch sheet {
         case .addExerciseSheet(let viewModel):
             AddExerciseView(viewModel: viewModel)
+        case .forgotPassswordSheet:
+            ForgotPasswordView()
         }
     }
     
