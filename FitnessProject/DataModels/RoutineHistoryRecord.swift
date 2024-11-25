@@ -19,4 +19,10 @@ struct RoutineHistoryRecord: Codable, Hashable, Equatable, Identifiable {
         self.durationOfRoutine = durationOfRoutine
         self.exercises = exercises
     }
+    init(nameOfRoutine: String, durationOfRoutine: Int, exercises: [Exercise], dateDone: Date) {
+        self.nameOfRoutine = nameOfRoutine
+        self.durationOfRoutine = durationOfRoutine
+        self.exercises = exercises
+        self.dateDone = dateDone
+    }
 }
