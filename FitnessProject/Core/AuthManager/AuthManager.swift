@@ -15,17 +15,48 @@ final class AuthManager {
     private(set) var authProfile: AuthDataResultModel? = nil
     private init() {}
     
-//initalized to false because of full screen cover bindin g, logically this should be true but the full screen cover behaves not as intended when set as true
+    //initalized to false because of full screen cover bindin g, logically this should be true but the full screen cover behaves not as intended when set as true
     var isSignedOut = false
     var isAnonymous = false
     var signOutBinding: Binding<Bool> {
         Binding(
-                    get: { self.isSignedOut },
-                    set: { self.isSignedOut = $0 }
-                )
+            get: { self.isSignedOut },
+            set: { self.isSignedOut = $0 }
+        )
     }
     
     // MARK: AUTH HELPERS
+    func handleAuthError(_ error: Error) -> AuthError {
+        let nsError = error as NSError
+        
+        // Print the error code to debug
+        Log.info("Firebase Error Code: \(nsError.code)")
+        
+        switch nsError.code {
+        case AuthErrorCode.emailAlreadyInUse.rawValue:
+            return .emailInUse
+        case AuthErrorCode.invalidEmail.rawValue:
+            return .invalidEmail
+        case AuthErrorCode.weakPassword.rawValue:
+            return .weakPassword
+        case AuthErrorCode.userNotFound.rawValue:
+            return .userNotFound
+        case AuthErrorCode.wrongPassword.rawValue:
+            return .wrongPassword
+        case AuthErrorCode.networkError.rawValue:
+            return .networkError
+        case AuthErrorCode.tooManyRequests.rawValue:
+            return .tooManyRequests
+        case AuthErrorCode.invalidCredential.rawValue:
+            return .invalidCredentials
+        case AuthErrorCode.userDisabled.rawValue:
+            return .userDisabled
+        default:
+            print("Unhandled error code: \(nsError.code)")
+            return .unknownError(error)
+        }
+    }
+    
     func getAuthenticatedUser() throws -> AuthDataResultModel {
         guard let user = Auth.auth().currentUser else {
             throw URLError(.badServerResponse)
@@ -50,9 +81,13 @@ final class AuthManager {
     // MARK: ACCOUNT CREATIONS
     @discardableResult
     func createUser(email: String, password: String) async throws -> AuthDataResultModel{
-        let authDataResult =  try await Auth.auth().createUser(withEmail: email, password: password)
-        try checkAuth()
-        return AuthDataResultModel(user: authDataResult.user)
+        do {
+            let authDataResult =  try await Auth.auth().createUser(withEmail: email, password: password)
+            try checkAuth()
+            return AuthDataResultModel(user: authDataResult.user)
+        } catch {
+            throw handleAuthError(error)
+        }
     }
     
     @discardableResult
@@ -69,17 +104,21 @@ final class AuthManager {
     }
     
     // MARK: ACCOUNT SIGN IN
-    @discardableResult
-    func signInUser(email: String, password: String) async throws -> AuthDataResultModel {
-        let authDataResult =  try await Auth.auth().signIn(withEmail: email, password: password)
-        try checkAuth()
-        return AuthDataResultModel(user: authDataResult.user)
+//    @discardableResult
+    func signInUser(email: String, password: String) async throws{
+        do {
+            let _ =  try await Auth.auth().signIn(withEmail: email, password: password)
+            try checkAuth()
+        } catch {
+            throw handleAuthError(error)
+        }
+        
     }
     
     @discardableResult
     func signInAnonymously() async throws -> AuthDataResultModel {
         
-       let authDataResult =  try await Auth.auth().signInAnonymously()
+        let authDataResult =  try await Auth.auth().signInAnonymously()
         try checkAuth()
         
         return AuthDataResultModel(user: authDataResult.user)
@@ -125,7 +164,7 @@ final class AuthManager {
     //        try await user.updateEmail(to: email)
     //    }
     
-// MARK: ACCOUNT SIGN OUT
+    // MARK: ACCOUNT SIGN OUT
     func signOut() throws {
         do {
             try Auth.auth().signOut()

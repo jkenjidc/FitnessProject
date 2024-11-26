@@ -37,9 +37,7 @@ struct SignInView: View {
                     .buttonStyle(.plain)
                     
                     Button {
-                        Task{
-                            await viewModel.resetPassword()
-                        }
+                        router.presentSheet(.forgotPassswordSheet)
                     } label: {
                         Text("Forgot Password?")
                             .padding(.vertical, 8)
@@ -49,7 +47,6 @@ struct SignInView: View {
                                     .stroke(.secondary)
                             )
                     }
-                    .disabled(viewModel.invalidInputs)
                     .buttonStyle(.plain)
                 }
                 .padding(.horizontal, 15)
@@ -57,6 +54,11 @@ struct SignInView: View {
                 Spacer()
             }
             .navigationTitle("Sign In")
+            .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert){
+                Button("ok"){}
+            } message: {
+                Text(viewModel.alertMessage)
+            }
             .navigationBarTitleDisplayMode(.inline)
         }
     }
