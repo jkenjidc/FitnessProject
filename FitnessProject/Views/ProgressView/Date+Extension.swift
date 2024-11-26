@@ -55,7 +55,7 @@ extension Date {
             days.append(newDay!)
         }
         
-        return days.filter { $0 >= sundayBeforeStart && $0 <= endOfMonth}.sorted(by: <) 
+        return days.filter { $0 >= sundayBeforeStart && $0 <= endOfMonth}.sorted(by: <)
     }
     
     var monthInt: Int {

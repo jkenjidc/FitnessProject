@@ -13,13 +13,24 @@ struct PersonalProgressView: View {
     @Bindable var dataManager = DataManager.shared
     var body: some View {
         VStack {
-            LabeledContent("Calendar Color") {
-                ColorPicker("", selection: $viewModel.color, supportsOpacity: false)
+            LabeledContent("\(viewModel.monthYearText)") {
+                HStack(spacing: 10) {
+                    Button {
+                        viewModel.adjustMonthByAmount(value: -1)
+                    }label: {
+                        Image(systemName: "chevron.left")
+
+                    }
+                    Button {
+                        viewModel.adjustMonthByAmount(value: 1)
+                    }label: {
+                        Image(systemName: "chevron.right")
+                    }
+                }
+                .fontWeight(.heavy)
+                .buttonStyle(.plain)
             }
-            
-            LabeledContent("Date/Time") {
-                DatePicker("", selection: $viewModel.date)
-            }
+            .padding()
             
             HStack {
                 ForEach(viewModel.daysOfWeek.indices, id: \.self){ index in
@@ -47,12 +58,17 @@ struct PersonalProgressView: View {
                     
                 }
             }
+
+            Spacer()
         }
         .padding()
         .onAppear {
             viewModel.days = viewModel.date.calendarDisplayDays
         }.onChange(of: viewModel.date) {
             viewModel.days = viewModel.date.calendarDisplayDays
+        }
+        .onDisappear {
+            viewModel.date = Date.now
         }
     }
 }
