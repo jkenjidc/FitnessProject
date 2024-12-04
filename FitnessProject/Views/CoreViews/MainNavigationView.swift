@@ -15,7 +15,6 @@ struct MainNavigationView: View {
         switch(selectedTab) {
         case 0: "Welcome \(DataManager.shared.user.name.isEmpty ? "Guest" : DataManager.shared.user.name)"
         case 1: "Routines"
-        case 2: "Start Routine"
         default:"Progress"
         }
     }
@@ -23,27 +22,21 @@ struct MainNavigationView: View {
         TabView(selection: $selectedTab) {
             ProfileView()
                 .tabItem {
-                    Image(systemName: "person")
+                    Label("Profile", systemImage: "person")
                 }
                 .tag(0)
             
             RoutineListView()
                 .tabItem {
-                    Image(systemName: "dumbbell.fill")
+                    Label("Routines", systemImage: "dumbbell.fill")
                 }
                 .tag(1)
             
-            StartRoutineView()
-                .tabItem {
-                    Image(systemName: "play.circle")
-                }
-                .tag(2)
-            
             PersonalProgressView()
                 .tabItem {
-                    Image(systemName: "chart.line.uptrend.xyaxis")
+                    Label("Progress", systemImage: "chart.line.uptrend.xyaxis")
                 }
-                .tag(3)
+                .tag(2)
         }
         .navigationTitle(navTitle)
         .toolbar {
