@@ -25,6 +25,7 @@
 		7A66F36E2CDE8EB400EFD0D6 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F36D2CDE8EB400EFD0D6 /* Log.swift */; };
 		7A66F3702CDEAA7600EFD0D6 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F36F2CDEAA7600EFD0D6 /* AuthError.swift */; };
 		7A66F3732CEFD20300EFD0D6 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F3722CEFD20300EFD0D6 /* ForgotPasswordView.swift */; };
+		7A6964AD2D00E06500D61C3A /* StartRoutineCircleGraphic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6964AC2D00E06500D61C3A /* StartRoutineCircleGraphic.swift */; };
 		7A8A2D2A2CA1E61C0087EE8B /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D292CA1E61C0087EE8B /* SignUpViewModel.swift */; };
 		7A8A2D2D2CA1EB580087EE8B /* ErrorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D2C2CA1EB580087EE8B /* ErrorFooterView.swift */; };
 		7A8A2D2F2CA1ED990087EE8B /* EntryFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D2E2CA1ED990087EE8B /* EntryFieldView.swift */; };
@@ -40,8 +41,6 @@
 		7A8A2D532CB07A200087EE8B /* FullScreenCovers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D522CB07A200087EE8B /* FullScreenCovers.swift */; };
 		7A8A2D612CB477AF0087EE8B /* RoutineListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D602CB477AF0087EE8B /* RoutineListViewModel.swift */; };
 		7A8A2D652CB5A3EE0087EE8B /* RoutineCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D642CB5A3ED0087EE8B /* RoutineCardDetailView.swift */; };
-		7A8A2D682CB864E20087EE8B /* StartRoutineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D672CB864E20087EE8B /* StartRoutineView.swift */; };
-		7A8A2D6C2CB865060087EE8B /* StartRoutineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D6B2CB865060087EE8B /* StartRoutineViewModel.swift */; };
 		7A8A2D6E2CB9C1520087EE8B /* ScreenModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D6D2CB9C1520087EE8B /* ScreenModes.swift */; };
 		7AF00ADA2CF505C0000B7BFE /* PersonalProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF00AD92CF505C0000B7BFE /* PersonalProgressViewModel.swift */; };
 		7AF20F7F2C909B390057A100 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F7E2C909B390057A100 /* User.swift */; };
@@ -92,6 +91,7 @@
 		7A66F36D2CDE8EB400EFD0D6 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		7A66F36F2CDEAA7600EFD0D6 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		7A66F3722CEFD20300EFD0D6 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		7A6964AC2D00E06500D61C3A /* StartRoutineCircleGraphic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRoutineCircleGraphic.swift; sourceTree = "<group>"; };
 		7A8A2D292CA1E61C0087EE8B /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		7A8A2D2C2CA1EB580087EE8B /* ErrorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorFooterView.swift; sourceTree = "<group>"; };
 		7A8A2D2E2CA1ED990087EE8B /* EntryFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryFieldView.swift; sourceTree = "<group>"; };
@@ -108,8 +108,6 @@
 		7A8A2D522CB07A200087EE8B /* FullScreenCovers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenCovers.swift; sourceTree = "<group>"; };
 		7A8A2D602CB477AF0087EE8B /* RoutineListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineListViewModel.swift; sourceTree = "<group>"; };
 		7A8A2D642CB5A3ED0087EE8B /* RoutineCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineCardDetailView.swift; sourceTree = "<group>"; };
-		7A8A2D672CB864E20087EE8B /* StartRoutineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRoutineView.swift; sourceTree = "<group>"; };
-		7A8A2D6B2CB865060087EE8B /* StartRoutineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRoutineViewModel.swift; sourceTree = "<group>"; };
 		7A8A2D6D2CB9C1520087EE8B /* ScreenModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenModes.swift; sourceTree = "<group>"; };
 		7AF00AD92CF505C0000B7BFE /* PersonalProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalProgressViewModel.swift; sourceTree = "<group>"; };
 		7AF20F7E2C909B390057A100 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -260,6 +258,7 @@
 				7A8A2D2C2CA1EB580087EE8B /* ErrorFooterView.swift */,
 				7A8A2D2E2CA1ED990087EE8B /* EntryFieldView.swift */,
 				7A66F3592CD00A1200EFD0D6 /* BackButton.swift */,
+				7A6964AC2D00E06500D61C3A /* StartRoutineCircleGraphic.swift */,
 			);
 			path = ComponentViews;
 			sourceTree = "<group>";
@@ -320,15 +319,6 @@
 			path = RoutineCardDetailView;
 			sourceTree = "<group>";
 		};
-		7A8A2D662CB864840087EE8B /* StartRoutineView */ = {
-			isa = PBXGroup;
-			children = (
-				7A8A2D672CB864E20087EE8B /* StartRoutineView.swift */,
-				7A8A2D6B2CB865060087EE8B /* StartRoutineViewModel.swift */,
-			);
-			path = StartRoutineView;
-			sourceTree = "<group>";
-		};
 		7AF20F792C8F4AD30057A100 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -375,7 +365,6 @@
 				7A66F3562CD008D200EFD0D6 /* SettingsView */,
 				7AF20FB52C9DE9870057A100 /* SignInView */,
 				7A8A2D282CA1E6040087EE8B /* SignUpView */,
-				7A8A2D662CB864840087EE8B /* StartRoutineView */,
 				7A66F35D2CD1287600EFD0D6 /* UpdatePasswordView */,
 			);
 			path = Views;
@@ -545,6 +534,7 @@
 				7A3618492CF507D70094CCEA /* PersonalProgressView.swift in Sources */,
 				7AF20FAE2C9CBA620057A100 /* AuthManager.swift in Sources */,
 				7A66F36E2CDE8EB400EFD0D6 /* Log.swift in Sources */,
+				7A6964AD2D00E06500D61C3A /* StartRoutineCircleGraphic.swift in Sources */,
 				7AF20F9E2C91F3EA0057A100 /* RoutineListCellView.swift in Sources */,
 				7A8A2D342CA33C5A0087EE8B /* ProfileViewModel.swift in Sources */,
 				7A66F3632CD128F800EFD0D6 /* UpdatePasswordViewModel.swift in Sources */,
@@ -575,7 +565,6 @@
 				7AF20FAC2C9B70430057A100 /* Router.swift in Sources */,
 				7AF20F912C90C8EA0057A100 /* MainNavigationView.swift in Sources */,
 				7AF20F7F2C909B390057A100 /* User.swift in Sources */,
-				7A8A2D682CB864E20087EE8B /* StartRoutineView.swift in Sources */,
 				7AF20FB02C9CBE210057A100 /* SignUpView.swift in Sources */,
 				7A66F3732CEFD20300EFD0D6 /* ForgotPasswordView.swift in Sources */,
 				7A8A2D312CA32AFD0087EE8B /* SignInViewModel.swift in Sources */,
@@ -584,7 +573,6 @@
 				7A66F3652CD15A7F00EFD0D6 /* RoutineHistoryRecord.swift in Sources */,
 				7AF20F952C90C97A0057A100 /* ProfileView.swift in Sources */,
 				7A8A2D4C2CAF17B40087EE8B /* AddExerciseView.swift in Sources */,
-				7A8A2D6C2CB865060087EE8B /* StartRoutineViewModel.swift in Sources */,
 				7A8A2D6E2CB9C1520087EE8B /* ScreenModes.swift in Sources */,
 				7A4239F12C8B71BC00F34FC7 /* FitnessProjectApp.swift in Sources */,
 				7A66F3582CD008ED00EFD0D6 /* SettingsView.swift in Sources */,

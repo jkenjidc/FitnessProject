@@ -25,20 +25,48 @@ struct RoutineListView: View {
                     }
                     .navigationTitle("Routines")
                 } else {
-                    List{
-                        ForEach($dataManager.routines){ $routine in
-                            Button{
-                                viewModel.presentRoutineDetailCard(routine: routine)
-                            } label: {
-                                RoutineListCellView(title: routine.name)
+                    if !viewModel.routinesForTheDay.isEmpty {
+                        VStack(alignment: .leading){
+                            Text("ROUTINE FOR TODAY")
+                                .foregroundStyle(.secondary)
+                                .bold()
+                                .font(.headline)
+                                .padding(.leading, 32)
+                            ScrollView(.horizontal, showsIndicators: false){
+                                HStack(alignment: .center){
+                                    ForEach(viewModel.routinesForTheDay) { routine in
+                                        StartRoutineCircleGraphic(routine: routine)
+                                    }
+                                }
+                                .scrollTargetLayout()
                             }
-                            .buttonStyle(.plain)
+                            .transition(.scale)
+                            .scrollTargetBehavior(.paging)
+                            .scrollBounceBehavior(.basedOnSize)
                         }
-                        .onDelete(perform: { indexSet in
-                            Task{
-                                await viewModel.deleteRoutine(at: indexSet)
+                    }
+                    VStack(alignment: .leading, spacing: 0){
+                        List{
+                            Section {
+                                ForEach($dataManager.routines){ $routine in
+                                    Button{
+                                        viewModel.presentRoutineDetailCard(routine: routine)
+                                    } label: {
+                                        RoutineListCellView(title: routine.name)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                                .onDelete(perform: { indexSet in
+                                    Task{
+                                        await viewModel.deleteRoutine(at: indexSet)
+                                    }
+                                })
+                            } header: {
+                                Text("All Routines")
+                                    .bold()
+                                    .font(.headline)
                             }
-                        })
+                        }
                     }
                 }
                 

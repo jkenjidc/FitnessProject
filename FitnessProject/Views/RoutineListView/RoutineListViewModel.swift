@@ -13,6 +13,17 @@ extension RoutineListView {
         var showRoutineLimitAlert = false
         var presentDialogueView = false
         var selectedRoutine = Routine()
+        var dataManager = DataManager.shared
+        var weekdayIndex = Calendar.current.component(.weekday, from: Date())
+        
+        var currentDay: String {
+            let formatter = DateFormatter()
+            return String(formatter.weekdaySymbols[weekdayIndex - 1])
+        }
+        
+        var routinesForTheDay: [Routine] {
+            return dataManager.routines.filter({ $0.daysToDo.contains(currentDay)})
+        }
         
         func deleteRoutine(at index: IndexSet) async {
             do {
@@ -26,9 +37,5 @@ extension RoutineListView {
             selectedRoutine = routine
             presentDialogueView = true
         }
-        
     }
-    
-    
-    
 }
