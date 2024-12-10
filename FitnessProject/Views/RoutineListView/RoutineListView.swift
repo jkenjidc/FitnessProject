@@ -25,7 +25,7 @@ struct RoutineListView: View {
                     }
                     .navigationTitle("Routines")
                 } else {
-                    if !viewModel.routinesForTheDay.isEmpty {
+                    if !dataManager.getRoutinesOftheDay().isEmpty {
                         VStack(alignment: .leading){
                             Text("ROUTINE FOR TODAY")
                                 .foregroundStyle(.secondary)
@@ -34,7 +34,7 @@ struct RoutineListView: View {
                                 .padding(.leading, 32)
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack(alignment: .center){
-                                    ForEach(viewModel.routinesForTheDay) { routine in
+                                    ForEach(dataManager.getRoutinesOftheDay()) { routine in
                                         StartRoutineCircleGraphic(routine: routine)
                                     }
                                 }

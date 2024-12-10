@@ -33,6 +33,14 @@ final class DataManager {
     static let shared = DataManager()
     private init() {}
     
+    func getRoutinesOftheDay() -> [Routine] {
+        let weekdayIndex = Calendar.current.component(.weekday, from: Date())
+        let formatter = DateFormatter()
+        let currentDay = String(formatter.weekdaySymbols[weekdayIndex - 1])
+        return routines.filter({ $0.daysToDo.contains(currentDay)})
+    }
+    
+    
     // MARK: DB HELPERS
     private let encoder: Firestore.Encoder = {
         let encoder = Firestore.Encoder()
@@ -137,6 +145,7 @@ final class DataManager {
         
         //save to DB and update the current user to fetch any data from user
         try routineDocument(routineId: routine.id).setData(from: routine, merge: true)
+        try await loadRoutines()
         try await updateCurrentUser()
     }
     
@@ -184,13 +193,18 @@ final class DataManager {
     }
     func switchWeightUnits() async throws {
         let switchValue = user.preferences.usingImperialWeightUnits ? 1/2.2 : 2.2
-        routines.mutatingForEach { routine in
+        try routines.mutatingForEach { routine in
             routine.exercises.mutatingForEach { exercise in
                 exercise.sets.mutatingForEach { exerciseSet in
                     exerciseSet.weight = exerciseSet.weight * switchValue
                 }
+                if let bestAttempt =  exercise.lastBestSet {
+                    exercise.lastBestSet?.weight = bestAttempt.weight * switchValue
+                }
             }
+            try routineDocument(routineId: routine.id).setData(from: routine, merge: true)
         }
+        
         try await updateCurrentUser()
         
     }

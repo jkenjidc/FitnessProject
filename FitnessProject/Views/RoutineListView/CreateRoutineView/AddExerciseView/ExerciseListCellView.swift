@@ -30,6 +30,15 @@ struct exerciseSetListRowView: View {
                 Image(systemName: ( completed ? "checkmark.square.fill" : "square"))
                     .foregroundStyle(.green)
                     .onTapGesture {
+                        if let lastBestAttempt = exercise.lastBestSet {
+                            if exerciseSet.totalLoad > lastBestAttempt.totalLoad{
+                                exercise.lastBestSet = exerciseSet
+                                exercise.lastBestSet?.lastBestAttempt = Date.now
+                            }
+                        } else {
+                            exercise.lastBestSet = exerciseSet
+                            exercise.lastBestSet?.lastBestAttempt = Date.now
+                        }
                         completed.toggle()
                     }
             } else {
@@ -46,6 +55,17 @@ struct ExerciseListCellView: View {
     var screenMode: ScreenMode
     var timerMode: Bool {
         return screenMode == .timer
+    }
+    var weightUnit: String {
+        return "\(dataManager.user.preferences.usingImperialWeightUnits ? "lbs" : "kg")"
+    }
+    
+    var lastBestSetText: String? {
+        if let lastBestSet = exercise.lastBestSet, let dateForSet = exercise.lastBestSet?.lastBestAttempt {
+            return "best set \(dateDescription(for: dateForSet) ?? ""): \(lastBestSet.formattedWeight) \(weightUnit) x \(lastBestSet.reps)"
+        } else {
+            return nil
+        }
     }
     var deleteExercise: (Exercise) -> Void
     let columns = [
@@ -77,7 +97,7 @@ struct ExerciseListCellView: View {
             LazyVGrid(columns: columns){
                 Text("")
                 Text("Sets")
-                Text("\(dataManager.user.preferences.usingImperialWeightUnits ? "lbs" : "kg")")
+                Text(weightUnit)
                 Text("Reps")
                 Text("")
                 ForEach($exercise.sets){ exerciseSet in
@@ -85,6 +105,17 @@ struct ExerciseListCellView: View {
                 }
             }
             .padding(.bottom, 15)
+            
+            if let bestAttemptString = lastBestSetText {
+                HStack{
+                    Spacer()
+                    Text(bestAttemptString)
+                        .foregroundStyle(.secondary.opacity(0.7))
+                        .padding(.bottom)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+            }
             
             Button{
                 addSet()
@@ -105,6 +136,28 @@ struct ExerciseListCellView: View {
         let lastWeight = exercise.sets.last?.weight ?? 0
         let lastRep = exercise.sets.last?.reps ?? 0
         exercise.sets.append(ExerciseSet(weight: lastWeight, reps: lastRep))
+    }
+    
+    func dateDescription(for date: Date) -> String? {
+        let calendar = Calendar.current
+        let now = Date()
+        let components = calendar.dateComponents([.day, .month], from: date, to: now)
+        
+        guard let days = components.day, let months = components.month else {
+            return nil
+        }
+        
+        switch days {
+        case 0:
+            return "today"
+        case 1:
+            return "yesterday"
+        case let x where x % 30 == 0 && x >= 60:
+            let monthCount = x / 30
+            return "\(monthCount) months ago"
+        default:
+            return "\(days) days ago"
+        }
     }
 }
 
