@@ -14,6 +14,7 @@ struct Exercise: Identifiable, Codable, Hashable {
     var description: String? = ""
     var stats: Stats = Stats.example
     var sets: [ExerciseSet] = []
+    var lastBestSet: ExerciseSet?
     
     func getSetIndex(exerciseSet: ExerciseSet) -> String {
         return String ((sets.firstIndex(where: { $0.id == exerciseSet.id }) ?? 0) + 1)

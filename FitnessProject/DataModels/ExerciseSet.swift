@@ -11,8 +11,14 @@ struct ExerciseSet: Identifiable, Hashable, Codable {
     var id = UUID().uuidString
     var weight: Double
     var reps: Int
+    var lastBestAttempt: Date?
+    
     var formattedWeight: String {
         return String(format: "%g", weight)
+    }
+    
+    var totalLoad: Double {
+        return weight * Double(reps)
     }
     
     init(id: String = UUID().uuidString, weight: Double, reps: Int) {
@@ -20,6 +26,7 @@ struct ExerciseSet: Identifiable, Hashable, Codable {
         self.weight = weight
         self.reps = reps
     }
+    
     
     static let example = [ExerciseSet(weight: 100, reps: 6),ExerciseSet(weight: 100, reps: 6),ExerciseSet(weight: 100, reps: 6)]
 }
