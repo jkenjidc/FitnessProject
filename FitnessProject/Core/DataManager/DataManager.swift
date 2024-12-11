@@ -26,6 +26,7 @@ extension Array {
 final class DataManager {
     var user = CurrentUser()
     var routines = [Routine]()
+    var routinesOfTheDay = [Routine]()
     private let userCollection = Firestore.firestore().collection("users")
     private let routineCollection = Firestore.firestore().collection("routines")
     private let storageRef = Storage.storage().reference()
@@ -33,11 +34,11 @@ final class DataManager {
     static let shared = DataManager()
     private init() {}
     
-    func getRoutinesOftheDay() -> [Routine] {
+    func updateRoutinesOftheDay() {
         let weekdayIndex = Calendar.current.component(.weekday, from: Date())
         let formatter = DateFormatter()
         let currentDay = String(formatter.weekdaySymbols[weekdayIndex - 1])
-        return routines.filter({ $0.daysToDo.contains(currentDay)})
+        self.routinesOfTheDay =  self.routines.filter({ $0.daysToDo.contains(currentDay)})
     }
     
     
@@ -93,6 +94,7 @@ final class DataManager {
                     tempRoutines.append(routine)
                 }
                 self.routines = tempRoutines
+                updateRoutinesOftheDay()
             }
         }
     }
@@ -243,6 +245,7 @@ final class DataManager {
             user.routines = routines
             try await routineCollection.document("\(routineToDelete.id)").delete()
             try await updateCurrentUser()
+            updateRoutinesOftheDay()
         }
     }
 }
