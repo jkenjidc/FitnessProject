@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StartRoutineCircleGraphic: View{
     @Environment(Router.self) var router
-    var routine: Routine
+    @Binding var routine: Routine
     var body: some View {
         Button {
             router.push(destination: .createRoutineScreen(routine: routine, screenMode: .timer))
@@ -42,6 +42,6 @@ struct StartRoutineCircleGraphic: View{
 }
 
 #Preview {
-    StartRoutineCircleGraphic(routine: Routine.example[0] )
+    StartRoutineCircleGraphic(routine: .constant(Routine.example[0]) )
         .environment(Router())
 }
