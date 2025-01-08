@@ -12,85 +12,79 @@ struct PersonalProgressView: View {
     @Environment(Router.self) var router
     @State private var viewModel = ViewModel()
     @Bindable var dataManager = DataManager.shared
-    @State private var dummyList = [WeightEntry]()
     var body: some View {
-        ScrollView{
-            VStack(alignment: .leading, spacing: 0) {
-                Text("STREAK CALENDAR")
-                    .foregroundStyle(.secondary)
-                    .bold()
-                    .font(.headline)
-                    .padding(.leading, 10)
-                LabeledContent("\(viewModel.monthYearText)") {
-                    HStack(spacing: 10) {
-                        Button {
-                            viewModel.adjustMonthByAmount(value: -1)
-                        }label: {
-                            Image(systemName: "chevron.left")
-                            
-                        }
-                        Button {
-                            viewModel.adjustMonthByAmount(value: 1)
-                        }label: {
-                            Image(systemName: "chevron.right")
-                        }
-                    }
-                    .fontWeight(.heavy)
-                    .buttonStyle(.plain)
-                }
-                .padding()
-                
-                HStack {
-                    ForEach(viewModel.daysOfWeek.indices, id: \.self){ index in
-                        Text(viewModel.daysOfWeek[index])
-                            .fontWeight(.black)
-                            .foregroundStyle(viewModel.color)
-                            .frame(maxWidth: .infinity)
-                    }
-                }
-                
-                LazyVGrid(columns: viewModel.columns){
-                    ForEach(viewModel.days, id: \.self){ day in
-                        if day.monthInt != viewModel.date.monthInt {
-                            Text("")
-                        } else {
-                            Text(day.formatted(.dateTime.day()))
-                                .fontWeight(.bold)
-                                .foregroundStyle(.secondary)
-                                .frame(maxWidth: .infinity, minHeight: 40)
-                                .background(
-                                    Circle()
-                                        .foregroundStyle( viewModel.getDayColor(day: day, routineHistory: dataManager.user.routineHistory ?? nil))
-                                )
-                        }
-                        
-                    }
-                }
-//                if let weightHistory = dataManager.user.weightHistory {
-                HStack{
-                    Text("BODY WEIGHT")
+        ZStack{
+            ScrollView(showsIndicators: false){
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("STREAK CALENDAR")
                         .foregroundStyle(.secondary)
                         .bold()
                         .font(.headline)
                         .padding(.leading, 10)
-                    Spacer()
-                    Button {
-                        let newWeightEntry = WeightEntry(weight: Double.random(in: 150.0 ..< 200.0))
-                        if let index = dummyList.firstIndex(where: {$0.entryDateString == newWeightEntry.entryDateString}){
-                            dummyList[index] = newWeightEntry
-                        } else {
-                            dummyList.append(newWeightEntry)
+                    LabeledContent("\(viewModel.monthYearText)") {
+                        HStack(spacing: 10) {
+                            Button {
+                                viewModel.adjustMonthByAmount(value: -1)
+                            }label: {
+                                Image(systemName: "chevron.left")
+                                
+                            }
+                            Button {
+                                viewModel.adjustMonthByAmount(value: 1)
+                            }label: {
+                                Image(systemName: "chevron.right")
+                            }
                         }
-                    } label: {
-                        Label("add entry",systemImage: "plus")
-                            .foregroundStyle(.secondary)
+                        .fontWeight(.heavy)
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
-                }
-                .padding(.top)
+                    .padding()
+                    
+                    HStack {
+                        ForEach(viewModel.daysOfWeek.indices, id: \.self){ index in
+                            Text(viewModel.daysOfWeek[index])
+                                .fontWeight(.black)
+                                .foregroundStyle(viewModel.color)
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
+                    
+                    LazyVGrid(columns: viewModel.columns){
+                        ForEach(viewModel.days, id: \.self){ day in
+                            if day.monthInt != viewModel.date.monthInt {
+                                Text("")
+                            } else {
+                                Text(day.formatted(.dateTime.day()))
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.secondary)
+                                    .frame(maxWidth: .infinity, minHeight: 40)
+                                    .background(
+                                        Circle()
+                                            .foregroundStyle( viewModel.getDayColor(day: day, routineHistory: dataManager.user.routineHistory ?? nil))
+                                    )
+                            }
+                            
+                        }
+                    }
+                    HStack{
+                        Text("BODY WEIGHT")
+                            .foregroundStyle(.secondary)
+                            .bold()
+                            .font(.headline)
+                            .padding(.leading, 10)
+                        Spacer()
+                        Button {
+                            viewModel.presentWeightEntryPopup.toggle()
+                        } label: {
+                            Label("add entry",systemImage: "plus")
+                                .foregroundStyle(.secondary)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .padding(.top)
                     HStack{
                         Spacer()
-                        Chart(dummyList, id: \.self) { weightEntry in
+                        Chart(viewModel.weightEntries, id: \.self) { weightEntry in
                             LineMark(x: .value("date", weightEntry.entryDateString) , y: .value("weight", weightEntry.weight))
                                 .symbol{
                                     ZStack{
@@ -115,19 +109,13 @@ struct PersonalProgressView: View {
                         Spacer()
                     }
                 }
-                
-                
                 Spacer()
             }
             .padding()
             .onAppear {
                 viewModel.days = viewModel.date.calendarDisplayDays
                 WeightEntry.sampleWeightEntryList.forEach { weight in
-                    if let index = dummyList.firstIndex(where: {$0.entryDateString == weight.entryDateString}){
-                        dummyList[index] = weight
-                    } else {
-                        dummyList.append(weight)
-                    }
+                    viewModel.addWeightEntry(weight: weight)
                 }
             }.onChange(of: viewModel.date) {
                 viewModel.days = viewModel.date.calendarDisplayDays
@@ -135,8 +123,13 @@ struct PersonalProgressView: View {
             .onDisappear {
                 viewModel.date = Date.now
             }
+            if viewModel.presentWeightEntryPopup {
+                WeightEntryView(presentEntryView: $viewModel.presentWeightEntryPopup, selectedDate: $viewModel.selectedDate, currentWeight: $viewModel.currentWeight){
+                    viewModel.addWeightEntry()
+                }
+            }
         }
-//    }
+    }
 }
 
 #Preview {
