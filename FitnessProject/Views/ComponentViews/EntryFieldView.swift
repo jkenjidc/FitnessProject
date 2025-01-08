@@ -37,6 +37,6 @@ struct EntryFieldView: View {
 }
 
 #Preview {
-    @State var sampleTextBinidng = ""
+    @Previewable @State var sampleTextBinidng = ""
     return EntryFieldView(textBinding: $sampleTextBinidng, placeholderString: "Sample placeholder", isSecureField: true, iconImagename: "envelope.fill")
 }
