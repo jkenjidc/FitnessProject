@@ -82,41 +82,64 @@ struct PersonalProgressView: View {
                         .buttonStyle(.plain)
                     }
                     .padding(.top)
-                    HStack{
-                        Spacer()
-                        Chart(viewModel.weightEntries, id: \.self) { weightEntry in
-                            LineMark(x: .value("date", weightEntry.entryDateString) , y: .value("weight", weightEntry.weight))
-                                .symbol{
-                                    ZStack{
-                                        Image(systemName: "circle.fill")
-                                            .font(.system(size: 10))
+                    if !viewModel.weightEntries.isEmpty{
+                        HStack{
+                            Spacer()
+                            Chart(viewModel.weightEntries, id: \.self) { weightEntry in
+                                LineMark(x: .value("date", weightEntry.entryDateString) , y: .value("weight", weightEntry.weight))
+                                    .symbol{
+                                        ZStack{
+                                            Image(systemName: "circle.fill")
+                                                .font(.system(size: 10))
+                                        }
                                     }
-                                }
-                            PointMark(x: .value("date", weightEntry.entryDateString), y: .value("weight", weightEntry.weight))
-                                .annotation(position: .bottom) {
-                                    Text(String(format: "%.2f",weightEntry.weight))
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                }
-                            
+                                PointMark(x: .value("date", weightEntry.entryDateString), y: .value("weight", weightEntry.weight))
+                                    .annotation(position: .bottom) {
+                                        Text(String(format: "%.2f",weightEntry.weight))
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                            }
+                            .chartOverlay { chartProxy in
+                                GeometryReader { geometry in
+                                    Rectangle().fill(.clear).contentShape(Rectangle())
+                                        .onTapGesture { location in
+                                            let relativeLocation = CGPoint(
+                                                x: location.x - geometry.frame(in: .local).minX,
+                                                y: location.y - geometry.frame(in: .local).minY
+                                            )
+                                            if let (date, weight):(String, Double) = chartProxy.value(at: relativeLocation){
+                                                print("\(date) and \(String(weight))")
+                                            }
+                                        }                                }
+                            }
+                            .chartYScale(domain: 120...220)
+                            .aspectRatio(1, contentMode: .fit)
+                            .padding(5)
+                            .chartXAxis {
+                                AxisMarks(preset: .aligned)
+                            }
+                            Spacer()
                         }
-                        .chartYScale(domain: 120...220)
-                        .aspectRatio(1, contentMode: .fill)
-                        .padding(5)
-                        .chartXAxis {
-                            AxisMarks(preset: .aligned)
+                    } else {
+                        ContentUnavailableView{
+                            Image(systemName: "arrow.up.forward")
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .foregroundStyle(.secondary)
+                        } description: {
+                            Text("No Weight Data, add weight entry")
                         }
-                        Spacer()
+                        .padding(.top, 25)
                     }
                 }
                 Spacer()
             }
+            .scrollBounceBehavior(.basedOnSize)
             .padding()
             .onAppear {
                 viewModel.days = viewModel.date.calendarDisplayDays
-                WeightEntry.sampleWeightEntryList.forEach { weight in
-                    viewModel.addWeightEntry(weight: weight)
-                }
+                viewModel.weightEntries = dataManager.user.weightHistory ?? []
             }.onChange(of: viewModel.date) {
                 viewModel.days = viewModel.date.calendarDisplayDays
             }
