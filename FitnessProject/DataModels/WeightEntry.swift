@@ -30,9 +30,9 @@ struct WeightEntry : Identifiable, Hashable, Codable {
     static let sampleWeightEntryList = [WeightEntry(weight: 156.0),
                                         WeightEntry(weight: 167.0),
                                         WeightEntry(weight: 167.0),
-                                        WeightEntry(weight: 165.4, entryDate: Calendar.current.date(byAdding: .month, value: 1, to: Date.now)!),
-                                        WeightEntry(weight: 177.3, entryDate: Calendar.current.date(byAdding: .month, value: 2, to: Date.now)!),
-                                        WeightEntry(weight: 170.5, entryDate: Calendar.current.date(byAdding: .month, value: 3, to: Date.now)!),
-                                        WeightEntry(weight: 170.5, entryDate: Calendar.current.date(byAdding: .month, value: 4, to: Date.now)!)]
+                                        WeightEntry(weight: 165.4, entryDate: Calendar.current.date(byAdding: .month, value: -1, to: Date.now)!),
+                                        WeightEntry(weight: 177.3, entryDate: Calendar.current.date(byAdding: .month, value: -2, to: Date.now)!),
+                                        WeightEntry(weight: 170.5, entryDate: Calendar.current.date(byAdding: .month, value: -3, to: Date.now)!),
+                                        WeightEntry(weight: 170.5, entryDate: Calendar.current.date(byAdding: .month, value: -4, to: Date.now)!)]
     
 }
