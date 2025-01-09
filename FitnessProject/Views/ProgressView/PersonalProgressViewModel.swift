@@ -51,15 +51,6 @@ extension PersonalProgressView {
             return dayColor
         }
         
-        //TODO: Delete after implementing proper weight entry system
-        func addWeightEntry(weight: WeightEntry){
-            if let index = self.weightEntries.firstIndex(where: {$0.entryDateString == weight.entryDateString}){
-                self.weightEntries[index] = weight
-            } else {
-                self.weightEntries.append(weight)
-            }
-        }
-        
         func addWeightEntry(){
             //TODO: There needs to be validation before this stage so that this wont fail
             let weight = WeightEntry(weight: Double(currentWeight) ?? 0, entryDate: selectedDate)
@@ -68,6 +59,14 @@ extension PersonalProgressView {
             } else {
                 self.weightEntries.append(weight)
                 weightEntries = weightEntries.sorted(by: { $0.entryDate < $1.entryDate })
+            }
+            DataManager.shared.user.weightHistory = weightEntries
+            Task{
+                do {
+                   try await DataManager.shared.updateCurrentUser()
+                } catch {
+                    print(error)
+                }
             }
             currentWeight = ""
             selectedDate = Date.now
