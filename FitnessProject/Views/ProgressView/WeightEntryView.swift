@@ -10,9 +10,23 @@ import SwiftUI
 struct WeightEntryView: View {
     @Binding var presentEntryView: Bool
     @State private var scale = 0.0
-    @Binding var selectedDate: Date
-    @Binding var currentWeight: String
-    let action: (() -> Void)
+    @State var selectedDate: Date = Date.now
+    @State var currentWeight: String = ""
+    var currentWeightEntry: WeightEntry?
+    var weightString: String {
+        currentWeightEntry != nil ? "Update" : "Add"
+    }
+    let action: ((WeightEntry) -> Void)
+    
+    init(presentEntryView: Binding<Bool>, currentWeightEntry: WeightEntry?, action: @escaping (WeightEntry) -> Void){
+        _presentEntryView = presentEntryView
+        self.action = action
+        if let unwrappedWeightEntry = currentWeightEntry {
+            _selectedDate = State(initialValue: unwrappedWeightEntry.entryDate)
+            _currentWeight = State(initialValue: String(unwrappedWeightEntry.weight))
+        }
+        self.currentWeightEntry = currentWeightEntry
+    }
     var body: some View {
         ZStack {
             Color(.gray)
@@ -21,7 +35,7 @@ struct WeightEntryView: View {
                     close()
                 }
             VStack{
-                Text("Add Weight Entry")
+                Text("\(weightString) Weight Entry")
                     .font(.title2)
                     .bold()
                     .padding()
@@ -34,21 +48,38 @@ struct WeightEntryView: View {
                         .colorScheme(.dark)
                         .buttonStyle(.plain)
                 }
-                ZStack{
-                    Button {
-                        close()
-                        action()
-                    } label: {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundStyle(.secondary)
-                    }
-                    
-                    Text("Log Weight")
+                
+                Button {
+                    close()
+                    action(WeightEntry.sampleWeightEntryList[0])
+                } label: {
+                    Text("\(weightString) Weight")
+                        .frame(maxWidth: .infinity)
                         .font(.system(size: 16, weight: .bold))
                         .foregroundStyle(.white)
                         .padding()
+                        .background(Color.accentColor.opacity(0.6))
+                        .cornerRadius(20)
                 }
-                .padding()
+                .buttonStyle(.plain)
+                .padding(.horizontal)
+                .padding(.top)
+                
+                if currentWeightEntry != nil {
+                    Button {
+                    } label: {
+                        Text("Delete Weight")
+                            .frame(maxWidth: .infinity)
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundStyle(.white)
+                            .padding()
+                            .background(Color.red.opacity(0.6))
+                            .cornerRadius(20)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                }
             }
             .fixedSize(horizontal: false, vertical: true)
             .padding()
@@ -94,8 +125,15 @@ struct WeightEntryView: View {
 
 
 #Preview {
-    WeightEntryView(presentEntryView: .constant(true), selectedDate: .constant(Date.now), currentWeight: .constant("")){
+//    WeightEntryView(presentEntryView: .constant(true), selectedDate: .constant(Date.now), currentWeight: .constant(""), currentWeightEntry: WeightEntry.sampleWeightEntryList[0]){
+//        print("test")
+//    }
+//    WeightEntryView(presentEntryView: .constant(true)){
+//        print("test")
+//    }
+    WeightEntryView(presentEntryView: .constant(true), currentWeightEntry: WeightEntry.sampleWeightEntryList[4]){ _ in
         print("test")
+        
     }
-        .preferredColorScheme(.dark)
+    .preferredColorScheme(.dark)
 }
