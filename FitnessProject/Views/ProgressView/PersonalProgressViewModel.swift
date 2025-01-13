@@ -18,9 +18,8 @@ extension PersonalProgressView {
                     }
                 }
         }
+        var currentWeightEntry: WeightEntry? = nil
         var presentWeightEntryPopup = false
-        var selectedDate = Date.now
-        var currentWeight = ""
         var weightEntries = [WeightEntry]()
         let daysOfWeek = Date.capitalizedFirstLettersOfWeekdays
         let columns  = Array(repeating: GridItem(.flexible()), count: 7)
@@ -51,9 +50,8 @@ extension PersonalProgressView {
             return dayColor
         }
         
-        func addWeightEntry(){
+        func addWeightEntry(weight: WeightEntry){
             //TODO: There needs to be validation before this stage so that this wont fail
-            let weight = WeightEntry(weight: Double(currentWeight) ?? 0, entryDate: selectedDate)
             if let index = self.weightEntries.firstIndex(where: {$0.entryDateString == weight.entryDateString}){
                 self.weightEntries[index] = weight
             } else {
@@ -68,8 +66,6 @@ extension PersonalProgressView {
                     print(error)
                 }
             }
-            currentWeight = ""
-            selectedDate = Date.now
         }
     }
 }
