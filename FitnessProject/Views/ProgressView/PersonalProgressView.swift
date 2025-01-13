@@ -109,7 +109,10 @@ struct PersonalProgressView: View {
                                                 y: location.y - geometry.frame(in: .local).minY
                                             )
                                             if let (date, weight):(String, Double) = chartProxy.value(at: relativeLocation){
-                                                print("\(date) and \(String(weight))")
+                                                if let dataPoint = viewModel.weightEntries.first(where: { weight > ($0.weight - 1.65) && weight < ($0.weight + 1.65) && date == $0.entryDateString  }){
+                                                    viewModel.currentWeightEntry = dataPoint
+                                                    viewModel.presentWeightEntryPopup = true
+                                                }
                                             }
                                         }                                }
                             }
@@ -147,8 +150,11 @@ struct PersonalProgressView: View {
                 viewModel.date = Date.now
             }
             if viewModel.presentWeightEntryPopup {
-                WeightEntryView(presentEntryView: $viewModel.presentWeightEntryPopup, selectedDate: $viewModel.selectedDate, currentWeight: $viewModel.currentWeight){
-                    viewModel.addWeightEntry()
+                WeightEntryView(presentEntryView: $viewModel.presentWeightEntryPopup, currentWeightEntry: viewModel.currentWeightEntry){ weightEntry in
+                    viewModel.addWeightEntry(weight: weightEntry)
+                }
+                .onDisappear {
+                    viewModel.currentWeightEntry = nil
                 }
             }
         }
