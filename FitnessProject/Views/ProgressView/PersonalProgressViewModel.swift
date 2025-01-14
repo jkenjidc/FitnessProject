@@ -50,7 +50,18 @@ extension PersonalProgressView {
             return dayColor
         }
         
-        func addWeightEntry(weight: WeightEntry){
+        func weightEntryAction(weight: WeightEntry, actionType: WeightEntryAction) {
+            switch actionType {
+            case .create:
+                createWeightEntry(weight: weight)
+            case .update:
+                updateWeightEntry(weight: weight)
+            case .delete:
+                deleteWeightEntry(weight: weight)
+            }
+        }
+        
+        func createWeightEntry(weight: WeightEntry){
             //TODO: There needs to be validation before this stage so that this wont fail
             if let index = self.weightEntries.firstIndex(where: {$0.entryDateString == weight.entryDateString}){
                 self.weightEntries[index] = weight
@@ -58,6 +69,22 @@ extension PersonalProgressView {
                 self.weightEntries.append(weight)
                 weightEntries = weightEntries.sorted(by: { $0.entryDate < $1.entryDate })
             }
+            updateUserWeightEntries()
+        }
+        
+        func updateWeightEntry(weight: WeightEntry) {
+            guard let index = self.weightEntries.firstIndex(where: {$0.id == weight.id}) else { return }
+            weightEntries[index] = weight
+            updateUserWeightEntries()
+        }
+        
+        func deleteWeightEntry(weight: WeightEntry) {
+            guard let index = self.weightEntries.firstIndex(where: {$0.id == weight.id}) else { return }
+            weightEntries.remove(at: index)
+            updateUserWeightEntries()
+        }
+        
+        func updateUserWeightEntries() {
             DataManager.shared.user.weightHistory = weightEntries
             Task{
                 do {
@@ -69,3 +96,4 @@ extension PersonalProgressView {
         }
     }
 }
+
