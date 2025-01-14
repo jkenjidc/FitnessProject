@@ -150,8 +150,8 @@ struct PersonalProgressView: View {
                 viewModel.date = Date.now
             }
             if viewModel.presentWeightEntryPopup {
-                WeightEntryView(presentEntryView: $viewModel.presentWeightEntryPopup, currentWeightEntry: viewModel.currentWeightEntry){ weightEntry in
-                    viewModel.addWeightEntry(weight: weightEntry)
+                WeightEntryView(presentEntryView: $viewModel.presentWeightEntryPopup, currentWeightEntry: viewModel.currentWeightEntry){ weightEntry, weightEntryAction in
+                    viewModel.weightEntryAction(weight: weightEntry, actionType: weightEntryAction)
                 }
                 .onDisappear {
                     viewModel.currentWeightEntry = nil

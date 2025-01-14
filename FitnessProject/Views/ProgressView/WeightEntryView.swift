@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WeightEntryView: View {
+    @GestureState var pressed = false
     @Binding var presentEntryView: Bool
     @State private var scale = 0.0
     @State var selectedDate: Date = Date.now
@@ -16,9 +17,14 @@ struct WeightEntryView: View {
     var weightString: String {
         currentWeightEntry != nil ? "Update" : "Add"
     }
-    let action: ((WeightEntry) -> Void)
     
-    init(presentEntryView: Binding<Bool>, currentWeightEntry: WeightEntry?, action: @escaping (WeightEntry) -> Void){
+    var actionType: WeightEntryAction {
+        currentWeightEntry != nil ? .update : .create
+    }
+    
+    let action: ((WeightEntry, WeightEntryAction) -> Void)
+    
+    init(presentEntryView: Binding<Bool>, currentWeightEntry: WeightEntry?, action: @escaping (WeightEntry,WeightEntryAction) -> Void){
         _presentEntryView = presentEntryView
         self.action = action
         if let unwrappedWeightEntry = currentWeightEntry {
@@ -50,8 +56,7 @@ struct WeightEntryView: View {
                 }
                 
                 Button {
-                    close()
-                    action(WeightEntry.sampleWeightEntryList[0])
+                    handleAction(actionType: self.actionType)
                 } label: {
                     Text("\(weightString) Weight")
                         .frame(maxWidth: .infinity)
@@ -66,19 +71,10 @@ struct WeightEntryView: View {
                 .padding(.top)
                 
                 if currentWeightEntry != nil {
-                    Button {
-                    } label: {
-                        Text("Delete Weight")
-                            .frame(maxWidth: .infinity)
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundStyle(.white)
-                            .padding()
-                            .background(Color.red.opacity(0.6))
-                            .cornerRadius(20)
+                    LongPressButton {
+                        handleAction(actionType: .delete)
                     }
-                    .buttonStyle(.plain)
                     .padding(.horizontal)
-                    .padding(.bottom)
                 }
             }
             .fixedSize(horizontal: false, vertical: true)
@@ -115,6 +111,22 @@ struct WeightEntryView: View {
         }
     }
     
+    func handleAction(actionType: WeightEntryAction) {
+        close()
+        var weightEntry = currentWeightEntry ?? WeightEntry(weight: Double(self.currentWeight) ?? 0, entryDate: self.selectedDate)
+        switch actionType {
+        case .create:
+            self.action(weightEntry, .create)
+        case .update:
+            weightEntry.weight = Double(self.currentWeight) ?? 0
+            weightEntry.entryDate = self.selectedDate
+            self.action(weightEntry, .update)
+        case .delete:
+            self.action(weightEntry, .delete)
+        }
+        
+    }
+    
     func close() {
         withAnimation(.linear(duration: 0.15)) {
             scale = 0.0
@@ -123,15 +135,15 @@ struct WeightEntryView: View {
     }
 }
 
+public enum WeightEntryAction {
+    case create
+    case update
+    case delete
+}
+
 
 #Preview {
-//    WeightEntryView(presentEntryView: .constant(true), selectedDate: .constant(Date.now), currentWeight: .constant(""), currentWeightEntry: WeightEntry.sampleWeightEntryList[0]){
-//        print("test")
-//    }
-//    WeightEntryView(presentEntryView: .constant(true)){
-//        print("test")
-//    }
-    WeightEntryView(presentEntryView: .constant(true), currentWeightEntry: WeightEntry.sampleWeightEntryList[4]){ _ in
+    WeightEntryView(presentEntryView: .constant(true), currentWeightEntry: WeightEntry.sampleWeightEntryList[4]){ _,_ in
         print("test")
         
     }
