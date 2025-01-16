@@ -66,6 +66,7 @@ struct PersonalProgressView: View {
                             
                         }
                     }
+                    
                     HStack{
                         Text("BODY WEIGHT")
                             .foregroundStyle(.secondary)
@@ -81,11 +82,19 @@ struct PersonalProgressView: View {
                         }
                         .buttonStyle(.plain)
                     }
-                    .padding(.top)
-                    if !viewModel.weightEntries.isEmpty{
+                    .padding(.vertical)
+                    
+                    if !viewModel.filteredWeightEntries.isEmpty{
+                        Picker("Date Range Picker", selection: $viewModel.currentDatePickerSelection) {
+                            ForEach(DatePickerSelection.allCases, id: \.self) { dateRange in
+                                Text(dateRange.rawValue)
+                           }
+                        }
+                        .pickerStyle(.segmented)
+                        .padding()
                         HStack{
                             Spacer()
-                            Chart(viewModel.weightEntries, id: \.self) { weightEntry in
+                            Chart(viewModel.filteredWeightEntries, id: \.self) { weightEntry in
                                 LineMark(x: .value("date", weightEntry.entryDateString) , y: .value("weight", weightEntry.weight))
                                     .symbol{
                                         ZStack{
@@ -94,7 +103,7 @@ struct PersonalProgressView: View {
                                         }
                                     }
                                 PointMark(x: .value("date", weightEntry.entryDateString), y: .value("weight", weightEntry.weight))
-                                    .annotation(position: .bottom) {
+                                    .annotation(position: .top) {
                                         Text(String(format: "%.2f",weightEntry.weight))
                                             .font(.caption)
                                             .foregroundStyle(.secondary)
@@ -109,19 +118,27 @@ struct PersonalProgressView: View {
                                                 y: location.y - geometry.frame(in: .local).minY
                                             )
                                             if let (date, weight):(String, Double) = chartProxy.value(at: relativeLocation){
-                                                if let dataPoint = viewModel.weightEntries.first(where: { weight > ($0.weight - 1.65) && weight < ($0.weight + 1.65) && date == $0.entryDateString  }){
-                                                    viewModel.currentWeightEntry = dataPoint
-                                                    viewModel.presentWeightEntryPopup = true
-                                                }
+                                                viewModel.handleChartTap(date: date, weight: weight)
                                             }
-                                        }                                }
+                                        }
+                                }
                             }
-                            .chartYScale(domain: 120...220)
+                            .chartYScale(domain: viewModel.weightAxisLowerBound...viewModel.weightAxisUpperBound)
                             .aspectRatio(1, contentMode: .fit)
-                            .padding(5)
+                            .padding(.vertical, 5)
+                            .padding(.trailing, 5)
                             .chartXAxis {
                                 AxisMarks(preset: .aligned)
                             }
+                            .chartYAxis {
+                                AxisMarks(preset: .aligned)
+                            }
+                            .chartScrollableAxes(.horizontal)
+                            .chartXVisibleDomain(length: 5)
+                            //filteredWeightEntries is guaranteed to never be empty when showing the chart, force unwrap is ok here
+                            .chartScrollPosition(initialX:viewModel.filteredWeightEntries.last!.entryDateString)
+
+
                             Spacer()
                         }
                     } else {
