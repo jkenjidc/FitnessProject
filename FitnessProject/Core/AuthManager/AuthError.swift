@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AuthError: LocalizedError {
+enum AuthError: LocalizedError, Equatable {
     case emailInUse
     case invalidEmail
     case weakPassword
@@ -42,6 +42,25 @@ enum AuthError: LocalizedError {
             return "This account has been disabled. Please contact support."
         case .unknownError(let error):
             return error.localizedDescription
+        }
+    }
+    
+    static func == (lhs: AuthError, rhs: AuthError) -> Bool {
+        switch (lhs, rhs) {
+        case (.emailInUse, .emailInUse),
+             (.invalidEmail, .invalidEmail),
+             (.weakPassword, .weakPassword),
+             (.userNotFound, .userNotFound),
+             (.wrongPassword, .wrongPassword),
+             (.networkError, .networkError),
+             (.tooManyRequests, .tooManyRequests),
+             (.invalidCredentials, .invalidCredentials),
+             (.userDisabled, .userDisabled):
+            return true
+        case let (.unknownError(error1), .unknownError(error2)):
+            return error1.localizedDescription == error2.localizedDescription
+        default:
+            return false
         }
     }
 }
