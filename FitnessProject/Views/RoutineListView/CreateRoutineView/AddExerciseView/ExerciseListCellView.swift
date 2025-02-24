@@ -69,16 +69,15 @@ struct ExerciseListCellView: View {
     }
     var deleteExercise: (Exercise) -> Void
     let columns = [
-        GridItem(.fixed(80)),
-        GridItem(.fixed(80)),
-        GridItem(.fixed(80)),
-        GridItem(.fixed(80)),
-        GridItem(.fixed(80))
-        
+        GridItem(.flexible(minimum: 40, maximum: 50)),    // minus button
+        GridItem(.flexible(minimum: 40, maximum: 60)),    // set number
+        GridItem(.flexible(minimum: 60, maximum: 100)),   // weight
+        GridItem(.flexible(minimum: 60, maximum: 100)),   // reps
+        GridItem(.flexible(minimum: 40, maximum: 50))     // checkmark/empty space
     ]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0){
+        VStack(alignment: .center, spacing: 0){
             ZStack(alignment: .leading){
                 Image(systemName: "trash.fill")
                     .foregroundStyle(.red)
@@ -94,18 +93,21 @@ struct ExerciseListCellView: View {
                     .padding()
             }
             
-            LazyVGrid(columns: columns){
+            LazyVGrid(columns: columns, spacing: 10) {
                 Text("")
                 Text("Sets")
+                    .frame(maxWidth: .infinity)
                 Text(weightUnit)
+                    .frame(maxWidth: .infinity)
                 Text("Reps")
+                    .frame(maxWidth: .infinity)
                 Text("")
                 ForEach($exercise.sets){ exerciseSet in
                     exerciseSetListRowView(exercise: $exercise, exerciseSet: exerciseSet, timerMode: timerMode)
                 }
             }
+            .frame(maxWidth: .infinity)
             .padding(.bottom, 15)
-            
             if let bestAttemptString = lastBestSetText {
                 HStack{
                     Spacer()
@@ -129,6 +131,7 @@ struct ExerciseListCellView: View {
             }
             .buttonStyle(.plain)
         }
+        .containerRelativeFrame(.horizontal)
         .padding(.bottom, 5)
     }
     
@@ -143,7 +146,7 @@ struct ExerciseListCellView: View {
         let now = Date()
         let components = calendar.dateComponents([.day, .month], from: date, to: now)
         
-        guard let days = components.day, let months = components.month else {
+        guard let days = components.day, let _ = components.month else {
             return nil
         }
         
@@ -162,7 +165,7 @@ struct ExerciseListCellView: View {
 }
 
 #Preview {
-    @State var exercise = Exercise(name: "Exercise 1", sets: [ExerciseSet(weight: 0, reps: 0)])
+    @Previewable @State var exercise = Exercise(name: "Exercise 1", sets: [ExerciseSet(weight: 0, reps: 0)])
     func dummyfunc(exerise: Exercise){}
     return ExerciseListCellView(exercise: $exercise, screenMode: .creation, deleteExercise: dummyfunc.self)
         .preferredColorScheme(.dark)
