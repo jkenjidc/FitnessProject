@@ -22,10 +22,10 @@ struct EntryFieldView: View {
             }
             if let showSecureField = isSecureField, !showSecureField {
                 TextField(placeholderString, text: $textBinding)
-                    
+                    .autocorrectionDisabled(true)
+                    .textInputAutocapitalization(.never)
             } else {
                 SecureField(placeholderString, text: $textBinding)
-
             }
         }
         .padding()
@@ -37,6 +37,6 @@ struct EntryFieldView: View {
 }
 
 #Preview {
-    @State var sampleTextBinidng = ""
-    return EntryFieldView(textBinding: $sampleTextBinidng, placeholderString: "Sample placeholder", isSecureField: true, iconImagename: "envelope.fill")
+    @Previewable @State var sampleTextBinidng = ""
+    return EntryFieldView(textBinding: $sampleTextBinidng, placeholderString: "Sample placeholder", isSecureField: false, iconImagename: "envelope.fill")
 }
