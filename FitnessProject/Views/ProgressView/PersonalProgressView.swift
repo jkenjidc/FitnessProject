@@ -62,6 +62,7 @@ struct PersonalProgressView: View {
                                         Circle()
                                             .foregroundStyle( viewModel.getDayColor(day: day, routineHistory: dataManager.user.routineHistory ?? nil))
                                     )
+                                    .underline(viewModel.shouldShowUnderline(day), color: .green)
                             }
                             
                         }
