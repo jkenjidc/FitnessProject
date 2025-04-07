@@ -44,7 +44,16 @@ extension PersonalProgressView {
             //Avoids possible negative number
             return max(((weightEntries.min(by: { $0.weight < $1.weight }))?.weight ?? 10) - 10.0, 0)
         }
-        
+
+        func shouldShowUnderline(_ day: Date) -> Bool {
+            for routine in DataManager.shared.routines {
+                if !routine.daysToDo.contains(day.formatted(Date.FormatStyle().weekday(.wide))) {
+                    return false
+                }
+            }
+            return true
+        }
+
         var filteredWeightEntries: [WeightEntry] {
             var filteredWeighEntries = [WeightEntry]()
             let upperBoundDate = Date.now
