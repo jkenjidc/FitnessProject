@@ -39,19 +39,17 @@ struct RoutineCardDetailView: View {
                         .padding(.horizontal)
                     }
                 }
-                ZStack{
-                    Button {
-                        close()
-                        router.push(destination: .createRoutineScreen(routine: routine, screenMode: .timer))
-                    } label: {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundStyle(.secondary)
-                    }
-                    
+                Button {
+                    close()
+                    router.push(destination: .createRoutineScreen(routine: routine, screenMode: .timer))
+                } label: {
                     Text("Start Routine")
+                        .frame(maxWidth: .infinity)
                         .font(.system(size: 16, weight: .bold))
                         .foregroundStyle(.white)
                         .padding()
+                        .background(Color.accentColor.opacity(0.6))
+                        .cornerRadius(20)
                 }
                 .padding()
             }
@@ -110,5 +108,5 @@ struct RoutineCardDetailView: View {
 #Preview {
     RoutineCardDetailView(routine: Routine.example[1], presentDetailView: .constant(true))
         .environment(Router())
-//    .preferredColorScheme(.dark)
+    //    .preferredColorScheme(.dark)
 }

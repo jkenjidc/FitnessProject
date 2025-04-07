@@ -15,7 +15,9 @@
 		7A423A002C8B766B00F34FC7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7A4239FF2C8B766B00F34FC7 /* FirebaseAuth */; };
 		7A423A022C8B766B00F34FC7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A423A012C8B766B00F34FC7 /* FirebaseFirestore */; };
 		7A423A042C8B77AD00F34FC7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A423A032C8B77AD00F34FC7 /* GoogleService-Info.plist */; };
+		7A4B731E2D36E930002E862D /* LongPressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4B731D2D36E930002E862D /* LongPressButton.swift */; };
 		7A6657E82D2C63CD0055E600 /* WeightEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6657E72D2C63CD0055E600 /* WeightEntry.swift */; };
+		7A66581E2D2F00B20055E600 /* WeightEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66581D2D2F00B20055E600 /* WeightEntryView.swift */; };
 		7A66F3582CD008ED00EFD0D6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F3572CD008ED00EFD0D6 /* SettingsView.swift */; };
 		7A66F35A2CD00A1200EFD0D6 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F3592CD00A1200EFD0D6 /* BackButton.swift */; };
 		7A66F35C2CD018CF00EFD0D6 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A66F35B2CD018CF00EFD0D6 /* Preferences.swift */; };
@@ -83,7 +85,9 @@
 		7A4239F42C8B71BD00F34FC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A4239F72C8B71BD00F34FC7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7A423A032C8B77AD00F34FC7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7A4B731D2D36E930002E862D /* LongPressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressButton.swift; sourceTree = "<group>"; };
 		7A6657E72D2C63CD0055E600 /* WeightEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightEntry.swift; sourceTree = "<group>"; };
+		7A66581D2D2F00B20055E600 /* WeightEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightEntryView.swift; sourceTree = "<group>"; };
 		7A66F3572CD008ED00EFD0D6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7A66F3592CD00A1200EFD0D6 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		7A66F35B2CD018CF00EFD0D6 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
@@ -261,6 +265,7 @@
 				7A8A2D2E2CA1ED990087EE8B /* EntryFieldView.swift */,
 				7A66F3592CD00A1200EFD0D6 /* BackButton.swift */,
 				7A6964AC2D00E06500D61C3A /* StartRoutineCircleGraphic.swift */,
+				7A4B731D2D36E930002E862D /* LongPressButton.swift */,
 			);
 			path = ComponentViews;
 			sourceTree = "<group>";
@@ -379,6 +384,7 @@
 				7A3618482CF507D70094CCEA /* PersonalProgressView.swift */,
 				7AF00AD92CF505C0000B7BFE /* PersonalProgressViewModel.swift */,
 				7A36184A2CF508990094CCEA /* Date+Extension.swift */,
+				7A66581D2D2F00B20055E600 /* WeightEntryView.swift */,
 			);
 			path = ProgressView;
 			sourceTree = "<group>";
@@ -534,6 +540,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AF20FA22C92137E0057A100 /* CreateRoutineView.swift in Sources */,
+				7A4B731E2D36E930002E862D /* LongPressButton.swift in Sources */,
 				7A3618492CF507D70094CCEA /* PersonalProgressView.swift in Sources */,
 				7AF20FAE2C9CBA620057A100 /* AuthManager.swift in Sources */,
 				7A66F36E2CDE8EB400EFD0D6 /* Log.swift in Sources */,
@@ -574,6 +581,7 @@
 				7A8A2D312CA32AFD0087EE8B /* SignInViewModel.swift in Sources */,
 				7A36184B2CF508990094CCEA /* Date+Extension.swift in Sources */,
 				7AF20FA72C94B33A0057A100 /* ExerciseListCellView.swift in Sources */,
+				7A66581E2D2F00B20055E600 /* WeightEntryView.swift in Sources */,
 				7A66F3652CD15A7F00EFD0D6 /* RoutineHistoryRecord.swift in Sources */,
 				7AF20F952C90C97A0057A100 /* ProfileView.swift in Sources */,
 				7A8A2D4C2CAF17B40087EE8B /* AddExerciseView.swift in Sources */,
