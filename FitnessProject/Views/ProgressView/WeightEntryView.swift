@@ -56,7 +56,7 @@ struct WeightEntryView: View {
                 }
                 
                 Button {
-                    handleAction(actionType: self.actionType)
+                    handleAction(actionType: actionType)
                 } label: {
                     Text("\(weightString) Weight")
                         .frame(maxWidth: .infinity)
@@ -69,7 +69,8 @@ struct WeightEntryView: View {
                 .buttonStyle(.plain)
                 .padding(.horizontal)
                 .padding(.top)
-                
+                .disabled(Double(currentWeight) ?? 401.0 > 400 )
+
                 if currentWeightEntry != nil {
                     LongPressButton {
                         handleAction(actionType: .delete)
