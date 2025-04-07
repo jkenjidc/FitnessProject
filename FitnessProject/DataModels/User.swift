@@ -19,6 +19,7 @@ struct CurrentUser: Identifiable, Hashable, Codable {
     var preferences: Preferences = Preferences()
     var routineHistory: [RoutineHistoryRecord]? = []
     var profileImageUrl: String? = ""
+    var weightHistory: [WeightEntry]? = []
     
     init(auth: AuthDataResultModel) {
         self.id = auth.uid
@@ -39,6 +40,7 @@ struct CurrentUser: Identifiable, Hashable, Codable {
         self.routineHistory = []
         self.profileImageUrl = ""
         self.routines = []
+
         
     }
     

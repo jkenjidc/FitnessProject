@@ -165,9 +165,9 @@ struct ExerciseListCellView: View {
 }
 
 #Preview {
-    @Previewable @State var exercise = Exercise(name: "Exercise 1", sets: [ExerciseSet(weight: 0, reps: 0)])
+    var exercise = Exercise(name: "Exercise 1", sets: [ExerciseSet(weight: 0, reps: 0)])
     func dummyfunc(exerise: Exercise){}
-    return ExerciseListCellView(exercise: $exercise, screenMode: .creation, deleteExercise: dummyfunc.self)
+    return ExerciseListCellView(exercise: .constant(exercise), screenMode: .creation, deleteExercise: dummyfunc.self)
         .preferredColorScheme(.dark)
 }
 

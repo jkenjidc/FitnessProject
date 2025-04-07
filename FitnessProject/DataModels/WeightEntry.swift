@@ -7,12 +7,14 @@
 
 import Foundation
 
-struct WeightEntry : Identifiable, Hashable {
-    let id = UUID().uuidString
+struct WeightEntry : Identifiable, Hashable, Codable {
+    var id = UUID().uuidString
     var weight: Double
     var entryDate: Date
-    var entryDateString: DateComponents {
-        Calendar.current.dateComponents([.month, .year], from: entryDate)
+    var entryDateString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        return dateFormatter.string(from: entryDate)
     }
     
     init(weight: Double) {
@@ -23,4 +25,14 @@ struct WeightEntry : Identifiable, Hashable {
         self.weight = weight
         self.entryDate = entryDate
     }
+    
+    
+    static let sampleWeightEntryList = [WeightEntry(weight: 156.0),
+                                        WeightEntry(weight: 167.0),
+                                        WeightEntry(weight: 167.0),
+                                        WeightEntry(weight: 165.4, entryDate: Calendar.current.date(byAdding: .month, value: -1, to: Date.now)!),
+                                        WeightEntry(weight: 177.3, entryDate: Calendar.current.date(byAdding: .month, value: -2, to: Date.now)!),
+                                        WeightEntry(weight: 170.5, entryDate: Calendar.current.date(byAdding: .month, value: -3, to: Date.now)!),
+                                        WeightEntry(weight: 170.5, entryDate: Calendar.current.date(byAdding: .month, value: -4, to: Date.now)!)]
+    
 }
