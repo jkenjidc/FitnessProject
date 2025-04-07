@@ -83,15 +83,8 @@ struct PersonalProgressView: View {
                         .buttonStyle(.plain)
                     }
                     .padding(.vertical)
-                    
+
                     if !viewModel.filteredWeightEntries.isEmpty{
-                        Picker("Date Range Picker", selection: $viewModel.currentDatePickerSelection) {
-                            ForEach(DatePickerSelection.allCases, id: \.self) { dateRange in
-                                Text(dateRange.rawValue)
-                           }
-                        }
-                        .pickerStyle(.segmented)
-                        .padding()
                         HStack{
                             Spacer()
                             Chart(viewModel.filteredWeightEntries, id: \.self) { weightEntry in
@@ -102,6 +95,7 @@ struct PersonalProgressView: View {
                                                 .font(.system(size: 10))
                                         }
                                     }
+                                    .interpolationMethod(.catmullRom)
                                 PointMark(x: .value("date", weightEntry.entryDateString), y: .value("weight", weightEntry.weight))
                                     .annotation(position: .top) {
                                         Text(String(format: "%.2f",weightEntry.weight))
@@ -128,7 +122,7 @@ struct PersonalProgressView: View {
                             .padding(.vertical, 5)
                             .padding(.trailing, 5)
                             .chartXAxis {
-                                AxisMarks(preset: .aligned)
+                                AxisMarks(stroke: StrokeStyle(lineWidth: 0))
                             }
                             .chartYAxis {
                                 AxisMarks(preset: .aligned)
@@ -141,8 +135,8 @@ struct PersonalProgressView: View {
 
                             Spacer()
                         }
-                    } else {
-                        ContentUnavailableView{
+                    } else if viewModel.weightEntries.isEmpty {
+                        ContentUnavailableView {
                             Image(systemName: "arrow.up.forward")
                                 .resizable()
                                 .frame(width: 80, height: 80)
@@ -151,8 +145,26 @@ struct PersonalProgressView: View {
                             Text("No Weight Data, add weight entry")
                         }
                         .padding(.top, 25)
+                    } else {
+                        ContentUnavailableView {
+                            Image(systemName: "rectangle.on.rectangle.slash.circle")
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .foregroundStyle(.secondary)
+                        } description: {
+                            Text("No Weight Data for this range, try changing the date range")
+                        }
+                        .padding(.top, 25)
                     }
                 }
+
+                Picker("Date Range Picker", selection: $viewModel.currentDatePickerSelection) {
+                    ForEach(DatePickerSelection.allCases, id: \.self) { dateRange in
+                        Text(dateRange.rawValue)
+                   }
+                }
+                .pickerStyle(.segmented)
+                .padding()
                 Spacer()
             }
             .scrollBounceBehavior(.basedOnSize)
