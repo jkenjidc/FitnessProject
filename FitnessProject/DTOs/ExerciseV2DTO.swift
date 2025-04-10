@@ -1,4 +1,3 @@
-//
 //  ExerciseDTO.swift
 //  FitnessProject
 //
@@ -7,7 +6,7 @@
 
 import Foundation
 
-struct ExerciseDTO: Decodable {
+struct ExerciseV2DTO: Decodable {
     let bodyPart: String
     let equipment: String
     let gifUrl: URL

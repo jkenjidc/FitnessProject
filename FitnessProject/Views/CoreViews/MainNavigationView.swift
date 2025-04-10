@@ -37,6 +37,12 @@ struct MainNavigationView: View {
                     Label("Progress", systemImage: "chart.line.uptrend.xyaxis")
                 }
                 .tag(2)
+
+            ExercisesListView()
+                .tabItem {
+                    Label("Exercises", systemImage: "figure.run")
+                }
+                .tag(3)
         }
         .navigationTitle(navTitle)
         .toolbar {

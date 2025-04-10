@@ -16,7 +16,7 @@ public struct ExerciseV2: Identifiable, Sendable {
     public let target: String
     public let secondaryMuscles: [String]
     public let instructions: [String]
-
+    
     public init(
         id: String,
         name: String,
@@ -42,7 +42,7 @@ public struct ExerciseV2: Identifiable, Sendable {
 // MARK: Conversions
 
 extension ExerciseV2 {
-    init (from dto: ExerciseDTO)  {
+    init (from dto: ExerciseV2DTO)  {
         self.id = dto.id
         self.name = dto.name
         self.bodyPart = dto.bodyPart
@@ -52,8 +52,4 @@ extension ExerciseV2 {
         self.secondaryMuscles = dto.secondaryMuscles
         self.instructions = dto.instructions
     }
-}
-
-enum DTOConversionError: Error {
-    case invalidURL
 }
