@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -45,6 +45,8 @@
 		7A8A2D612CB477AF0087EE8B /* RoutineListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D602CB477AF0087EE8B /* RoutineListViewModel.swift */; };
 		7A8A2D652CB5A3EE0087EE8B /* RoutineCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D642CB5A3ED0087EE8B /* RoutineCardDetailView.swift */; };
 		7A8A2D6E2CB9C1520087EE8B /* ScreenModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D6D2CB9C1520087EE8B /* ScreenModes.swift */; };
+		7ACA3EED2DA76429007E85AC /* ExerciseV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACA3EEC2DA76428007E85AC /* ExerciseV2.swift */; };
+		7ACA3EF32DA76578007E85AC /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 7ACA3EF22DA76578007E85AC /* .gitignore */; };
 		7AF00ADA2CF505C0000B7BFE /* PersonalProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF00AD92CF505C0000B7BFE /* PersonalProgressViewModel.swift */; };
 		7AF20F7F2C909B390057A100 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F7E2C909B390057A100 /* User.swift */; };
 		7AF20F832C909C2F0057A100 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF20F822C909C2F0057A100 /* Routine.swift */; };
@@ -115,6 +117,8 @@
 		7A8A2D602CB477AF0087EE8B /* RoutineListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineListViewModel.swift; sourceTree = "<group>"; };
 		7A8A2D642CB5A3ED0087EE8B /* RoutineCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineCardDetailView.swift; sourceTree = "<group>"; };
 		7A8A2D6D2CB9C1520087EE8B /* ScreenModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenModes.swift; sourceTree = "<group>"; };
+		7ACA3EEC2DA76428007E85AC /* ExerciseV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseV2.swift; sourceTree = "<group>"; };
+		7ACA3EF22DA76578007E85AC /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		7AF00AD92CF505C0000B7BFE /* PersonalProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalProgressViewModel.swift; sourceTree = "<group>"; };
 		7AF20F7E2C909B390057A100 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7AF20F822C909C2F0057A100 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
@@ -136,6 +140,12 @@
 		7AF20FB32C9CCCCA0057A100 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		7AF20FB62C9DE9D80057A100 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		7ACA3EEF2DA764B3007E85AC /* DTOs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = DTOs; sourceTree = "<group>"; };
+		7ACA3EF42DA765AF007E85AC /* Utilies */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Utilies; sourceTree = "<group>"; };
+		7ACA3EFA2DA7675A007E85AC /* ExercisesListView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ExercisesListView; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		7A4239EA2C8B71BC00F34FC7 /* Frameworks */ = {
@@ -180,6 +190,8 @@
 		7A4239EF2C8B71BC00F34FC7 /* FitnessProject */ = {
 			isa = PBXGroup;
 			children = (
+				7ACA3EF42DA765AF007E85AC /* Utilies */,
+				7ACA3EEF2DA764B3007E85AC /* DTOs */,
 				7A4239F02C8B71BC00F34FC7 /* FitnessProjectApp.swift */,
 				7AF20F8D2C90B9BF0057A100 /* Views */,
 				7AF20F8C2C90B91F0057A100 /* Core */,
@@ -187,6 +199,7 @@
 				7A4239F42C8B71BD00F34FC7 /* Assets.xcassets */,
 				7A423A032C8B77AD00F34FC7 /* GoogleService-Info.plist */,
 				7A4239F62C8B71BD00F34FC7 /* Preview Content */,
+				7ACA3EF22DA76578007E85AC /* .gitignore */,
 			);
 			path = FitnessProject;
 			sourceTree = "<group>";
@@ -345,6 +358,7 @@
 				7A66F35B2CD018CF00EFD0D6 /* Preferences.swift */,
 				7A66F3642CD15A7F00EFD0D6 /* RoutineHistoryRecord.swift */,
 				7A6657E72D2C63CD0055E600 /* WeightEntry.swift */,
+				7ACA3EEC2DA76428007E85AC /* ExerciseV2.swift */,
 			);
 			path = DataModels;
 			sourceTree = "<group>";
@@ -363,6 +377,7 @@
 		7AF20F8D2C90B9BF0057A100 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7ACA3EFA2DA7675A007E85AC /* ExercisesListView */,
 				7A8A2D322CA3377D0087EE8B /* CoreViews */,
 				7A8A2D2B2CA1EB400087EE8B /* ComponentViews */,
 				7AF20FA32C9239910057A100 /* CreateRoutineView */,
@@ -445,6 +460,11 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				7ACA3EEF2DA764B3007E85AC /* DTOs */,
+				7ACA3EF42DA765AF007E85AC /* Utilies */,
+				7ACA3EFA2DA7675A007E85AC /* ExercisesListView */,
+			);
 			name = FitnessProject;
 			packageProductDependencies = (
 				7A4239FF2C8B766B00F34FC7 /* FirebaseAuth */,
@@ -519,6 +539,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ACA3EF32DA76578007E85AC /* .gitignore in Resources */,
 				7A4239F82C8B71BD00F34FC7 /* Preview Assets.xcassets in Resources */,
 				7A4239F52C8B71BD00F34FC7 /* Assets.xcassets in Resources */,
 				7A423A042C8B77AD00F34FC7 /* GoogleService-Info.plist in Resources */,
@@ -579,6 +600,7 @@
 				7AF20FB02C9CBE210057A100 /* SignUpView.swift in Sources */,
 				7A66F3732CEFD20300EFD0D6 /* ForgotPasswordView.swift in Sources */,
 				7A8A2D312CA32AFD0087EE8B /* SignInViewModel.swift in Sources */,
+				7ACA3EED2DA76429007E85AC /* ExerciseV2.swift in Sources */,
 				7A36184B2CF508990094CCEA /* Date+Extension.swift in Sources */,
 				7AF20FA72C94B33A0057A100 /* ExerciseListCellView.swift in Sources */,
 				7A66581E2D2F00B20055E600 /* WeightEntryView.swift in Sources */,
