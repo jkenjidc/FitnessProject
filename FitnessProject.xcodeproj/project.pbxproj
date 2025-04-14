@@ -92,9 +92,9 @@
 		7A4239EF2C8B71BC00F34FC7 /* FitnessProject */ = {
 			isa = PBXGroup;
 			children = (
+				7A4239F02C8B71BC00F34FC7 /* FitnessProjectApp.swift */,
 				7ACA3EF42DA765AF007E85AC /* Utilies */,
 				7ACA3EEF2DA764B3007E85AC /* DTOs */,
-				7A4239F02C8B71BC00F34FC7 /* FitnessProjectApp.swift */,
 				7ACA3F452DA76ADF007E85AC /* Views */,
 				7ACA3F732DA76AE5007E85AC /* Core */,
 				7ACA3F862DA76AE9007E85AC /* DataModels */,

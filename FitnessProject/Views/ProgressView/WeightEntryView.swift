@@ -48,7 +48,12 @@ struct WeightEntryView: View {
                     .foregroundStyle(.white)
                 
                 HStack {
-                    EntryFieldView(textBinding: $currentWeight, placeholderString: "Enter Weight")
+                    EntryFieldView(
+                        textBinding: $currentWeight,
+                        placeholderString: "Enter Weight",
+                        keyboardType: .numeric
+                    )
+
                     DatePicker("", selection: $selectedDate,in: ...Date.now , displayedComponents: [.date])
                         .foregroundStyle(.white)
                         .colorScheme(.dark)

@@ -13,7 +13,10 @@ struct AddExerciseView: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading){
-                EntryFieldView(textBinding: $viewModel.newExerciseName, placeholderString: "Exercise Name")
+                EntryFieldView(
+                    textBinding: $viewModel.newExerciseName,
+                    placeholderString: "Exercise Name"
+                )
                     .padding(.horizontal, 15)
                     .onChange(of: viewModel.newExerciseName){ _,_ in
                         viewModel.isMissingExerciseName = viewModel.newExerciseName.isEmpty

@@ -194,7 +194,6 @@ struct alertBodyView: View {
 }
 
 #Preview {
-    @State var routines = Routine.example
     return CreateRoutineView()
         .environment(Router())
 }

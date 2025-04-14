@@ -7,11 +7,19 @@
 
 import SwiftUI
 
+enum KeyboardType {
+    case text
+    case secure
+    case numeric
+}
+
 struct EntryFieldView: View {
     @Binding var textBinding: String
+    @State var value: Double = 0
     var placeholderString: String
-    var isSecureField: Bool? = false
+    var keyboardType: KeyboardType?
     var iconImagename: String?
+    
     var body: some View {
         HStack {
             if let imageName = iconImagename {
@@ -20,12 +28,18 @@ struct EntryFieldView: View {
                     .scaledToFit()
                     .frame(width: 18, height: 18)
             }
-            if let showSecureField = isSecureField, !showSecureField {
+            let keyboardType = keyboardType ?? .text
+            switch keyboardType {
+            case .text:
                 TextField(placeholderString, text: $textBinding)
                     .autocorrectionDisabled(true)
                     .textInputAutocapitalization(.never)
-            } else {
+            case .secure:
                 SecureField(placeholderString, text: $textBinding)
+            case .numeric:
+                TextField("0", value: $value, format: .number)
+                    .keyboardType(.decimalPad)
+
             }
         }
         .padding()
@@ -37,6 +51,5 @@ struct EntryFieldView: View {
 }
 
 #Preview {
-    var sampleTextBinidng = ""
-    return EntryFieldView(textBinding: .constant(sampleTextBinidng), placeholderString: "Sample placeholder", isSecureField: false, iconImagename: "envelope.fill")
+    EntryFieldView(textBinding: .constant("Test"), placeholderString: "Sample placeholder", keyboardType: .text, iconImagename: "envelope.fill")
 }
