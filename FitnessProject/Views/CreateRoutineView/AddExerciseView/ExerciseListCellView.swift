@@ -24,8 +24,10 @@ struct exerciseSetListRowView: View {
             Text(exercise.getSetIndex(exerciseSet: exerciseSet))
             TextField("\(exerciseSet.weight)", value: $exerciseSet.weight, format: .number)
                 .multilineTextAlignment(.center)
+                .keyboardType(.decimalPad)
             TextField("\(exerciseSet.reps)", value: $exerciseSet.reps, format: .number)
                 .multilineTextAlignment(.center)
+                .keyboardType(.numberPad)
             if timerMode {
                 Image(systemName: ( completed ? "checkmark.square.fill" : "square"))
                     .foregroundStyle(.green)

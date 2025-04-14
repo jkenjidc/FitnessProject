@@ -15,8 +15,17 @@ struct SignInView: View {
             VStack(){
                 Group{
                     VStack(alignment: .leading){
-                        EntryFieldView(textBinding: $viewModel.email, placeholderString: "Email", iconImagename: "envelope.fill")
-                        EntryFieldView(textBinding: $viewModel.password, placeholderString: "Password", isSecureField: true, iconImagename: "lock.fill")
+                        EntryFieldView(
+                            textBinding: $viewModel.email,
+                            placeholderString: "Email",
+                            iconImagename: "envelope.fill"
+                        )
+                        EntryFieldView(
+                            textBinding: $viewModel.password,
+                            placeholderString: "Password",
+                            keyboardType: .secure,
+                            iconImagename: "lock.fill"
+                        )
                     }
                     Button {
                         Task{

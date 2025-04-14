@@ -14,13 +14,34 @@ struct SignUpView: View {
     var body: some View {
         VStack(alignment: .leading){
             Group{
-                EntryFieldView(textBinding: $viewModel.name, placeholderString: "Name", iconImagename: "person.fill")
-                EntryFieldView(textBinding: $viewModel.email, placeholderString: "Email", iconImagename: "envelope.fill")
-                EntryFieldView(textBinding: $viewModel.password, placeholderString: "Password", isSecureField: true, iconImagename: "lock.fill")
+                EntryFieldView(
+                    textBinding: $viewModel.name,
+                    placeholderString: "Name",
+                    iconImagename: "person.fill"
+                )
+
+                EntryFieldView(
+                    textBinding: $viewModel.email,
+                    placeholderString: "Email",
+                    iconImagename: "envelope.fill"
+                )
+
+                EntryFieldView(
+                    textBinding: $viewModel.password,
+                    placeholderString: "Password",
+                    keyboardType: .secure,
+                    iconImagename: "lock.fill"
+                )
                     .onChange(of: viewModel.password){ _,_ in
                         viewModel.verifyPasswordMatch()
                     }
-                EntryFieldView(textBinding: $viewModel.passwordConfirmation, placeholderString: "Confirm Password", isSecureField: true, iconImagename: "exclamationmark.lock.fill")
+
+                EntryFieldView(
+                    textBinding: $viewModel.passwordConfirmation,
+                    placeholderString: "Confirm Password",
+                    keyboardType: .secure,
+                    iconImagename: "exclamationmark.lock.fill"
+                )
                     .onChange(of: viewModel.passwordConfirmation){ _,_ in
                         viewModel.verifyPasswordMatch()
                     }

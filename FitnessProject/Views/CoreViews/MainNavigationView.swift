@@ -15,7 +15,8 @@ struct MainNavigationView: View {
         switch(selectedTab) {
         case 0: "Welcome \(DataManager.shared.user.name.isEmpty ? "Guest" : DataManager.shared.user.name)"
         case 1: "Routines"
-        default:"Progress"
+        case 2:"Progress"
+        default: "Exercises"
         }
     }
     var body: some View {
