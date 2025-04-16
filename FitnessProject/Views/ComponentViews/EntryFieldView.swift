@@ -15,11 +15,36 @@ enum KeyboardType {
 
 struct EntryFieldView: View {
     @Binding var textBinding: String
-    @State var value: Double = 0
+    @Binding var value: Double
     var placeholderString: String
     var keyboardType: KeyboardType?
     var iconImagename: String?
-    
+
+    init(
+        textBinding:  Binding<String>? = nil,
+        valueBinding: Binding<Double>? = nil,
+        placeholderString: String,
+        keyboardType: KeyboardType? = nil,
+        iconImagename: String? = nil
+    ) {
+        // TODO: Improve this unwrapping to avoid making the mistake of .numeric type but passing in a text binding
+        if let unwrappedTextBinding = textBinding {
+            _textBinding = unwrappedTextBinding
+        } else {
+            _textBinding = .constant("")
+        }
+
+        if let unwrappedValueBinding = valueBinding {
+            _value = unwrappedValueBinding
+        } else {
+            _value = .constant(0)
+        }
+
+        self.placeholderString = placeholderString
+        self.keyboardType = keyboardType
+        self.iconImagename = iconImagename
+    }
+
     var body: some View {
         HStack {
             if let imageName = iconImagename {
