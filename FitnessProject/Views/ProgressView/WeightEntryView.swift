@@ -12,7 +12,7 @@ struct WeightEntryView: View {
     @Binding var presentEntryView: Bool
     @State private var scale = 0.0
     @State var selectedDate: Date = Date.now
-    @State var currentWeight: String = ""
+    @State var currentWeight: Double = 0.0
     var currentWeightEntry: WeightEntry?
     var weightString: String {
         currentWeightEntry != nil ? "Update" : "Add"
@@ -29,7 +29,7 @@ struct WeightEntryView: View {
         self.action = action
         if let unwrappedWeightEntry = currentWeightEntry {
             _selectedDate = State(initialValue: unwrappedWeightEntry.entryDate)
-            _currentWeight = State(initialValue: String(unwrappedWeightEntry.weight))
+            _currentWeight = State(initialValue: unwrappedWeightEntry.weight)
         }
         self.currentWeightEntry = currentWeightEntry
     }
@@ -49,7 +49,7 @@ struct WeightEntryView: View {
                 
                 HStack {
                     EntryFieldView(
-                        textBinding: $currentWeight,
+                        valueBinding: $currentWeight,
                         placeholderString: "Enter Weight",
                         keyboardType: .numeric
                     )
@@ -74,7 +74,7 @@ struct WeightEntryView: View {
                 .buttonStyle(.plain)
                 .padding(.horizontal)
                 .padding(.top)
-                .disabled(Double(currentWeight) ?? 401.0 > 400 )
+                .disabled(currentWeight > 400 )
 
                 if currentWeightEntry != nil {
                     LongPressButton {
@@ -119,13 +119,13 @@ struct WeightEntryView: View {
     
     func handleAction(actionType: WeightEntryAction) {
         close()
-        var weightEntry = currentWeightEntry ?? WeightEntry(weight: Double(self.currentWeight) ?? 0, entryDate: self.selectedDate)
+        var weightEntry = currentWeightEntry ?? WeightEntry(weight: currentWeight, entryDate: selectedDate)
         switch actionType {
         case .create:
             self.action(weightEntry, .create)
         case .update:
-            weightEntry.weight = Double(self.currentWeight) ?? 0
-            weightEntry.entryDate = self.selectedDate
+            weightEntry.weight = currentWeight
+            weightEntry.entryDate = selectedDate
             self.action(weightEntry, .update)
         case .delete:
             self.action(weightEntry, .delete)
