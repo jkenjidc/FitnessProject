@@ -47,11 +47,11 @@ extension PersonalProgressView {
 
         func shouldShowUnderline(_ day: Date) -> Bool {
             for routine in DataManager.shared.routines {
-                if !routine.daysToDo.contains(day.formatted(Date.FormatStyle().weekday(.wide))) {
-                    return false
+                if routine.daysToDo.contains(day.formatted(Date.FormatStyle().weekday(.wide))) {
+                    return true
                 }
             }
-            return true
+            return false
         }
 
         var filteredWeightEntries: [WeightEntry] {

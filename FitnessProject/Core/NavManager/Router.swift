@@ -74,6 +74,8 @@ class Router {
             AddExerciseView(viewModel: viewModel)
         case .forgotPassswordSheet:
             ForgotPasswordView()
+        case .streakInfo:
+            StreakInfoSheet()
         }
     }
     

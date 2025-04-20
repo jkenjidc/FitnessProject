@@ -16,11 +16,25 @@ struct PersonalProgressView: View {
         ZStack{
             ScrollView(showsIndicators: false){
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("STREAK CALENDAR")
-                        .foregroundStyle(.secondary)
-                        .bold()
-                        .font(.headline)
-                        .padding(.leading, 10)
+                    HStack {
+                        Text("STREAK CALENDAR")
+                            .foregroundStyle(.secondary)
+                            .bold()
+                            .font(.headline)
+                            .padding(.leading, 10)
+                        Spacer()
+                        Button {
+                            router.presentSheet(.streakInfo)
+                        } label: {
+                            Label{
+                                Text(AttributedString.formattedWeeks(5))
+                            } icon: {
+                                Image(systemName: "flame.circle.fill")
+                            }
+                            .foregroundStyle(.orange)
+                            .padding(.trailing, 10)
+                        }
+                    }
                     LabeledContent("\(viewModel.monthYearText)") {
                         HStack(spacing: 10) {
                             Button {

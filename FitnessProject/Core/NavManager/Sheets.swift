@@ -11,10 +11,12 @@ import SwiftUI
 enum Sheet: Identifiable {
     case addExerciseSheet(viewModel: Binding<CreateRoutineView.ViewModel>)
     case forgotPassswordSheet
+    case streakInfo
     public var id: Int {
         switch self {
         case .addExerciseSheet: return 0
         case .forgotPassswordSheet: return 1
+        case .streakInfo: return 2
         }
         
     }
