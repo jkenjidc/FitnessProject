@@ -65,4 +65,12 @@ extension Date {
     var startOfDay: Date {
         Calendar.current.startOfDay(for: self)
     }
+
+    func areDatesInSameWeek(_ date2: Date, calendar: Calendar = .current) -> Bool {
+        let components1 = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+        let components2 = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date2)
+
+        return components1.yearForWeekOfYear == components2.yearForWeekOfYear &&
+               components1.weekOfYear == components2.weekOfYear
+    }
 }

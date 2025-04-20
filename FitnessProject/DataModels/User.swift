@@ -20,7 +20,9 @@ struct CurrentUser: Identifiable, Hashable, Codable {
     var routineHistory: [RoutineHistoryRecord]? = []
     var profileImageUrl: String? = ""
     var weightHistory: [WeightEntry]? = []
-    
+    var streakInfo: StreakInfo? = nil
+
+
     init(auth: AuthDataResultModel) {
         self.id = auth.uid
         self.isAnonymous  = auth.isAnonymous
@@ -29,6 +31,7 @@ struct CurrentUser: Identifiable, Hashable, Codable {
         self.routineHistory = []
         self.profileImageUrl = ""
         self.routines = []
+        self.streakInfo = StreakInfo()
     }
     
     init (auth: AuthDataResultModel, name: String) {
@@ -40,9 +43,24 @@ struct CurrentUser: Identifiable, Hashable, Codable {
         self.routineHistory = []
         self.profileImageUrl = ""
         self.routines = []
+        self.streakInfo = StreakInfo()
 
-        
     }
     
     init() {}
+
+    public struct StreakInfo: Hashable, Codable {
+        var averageWorkout: Double
+        var weekCount: Int
+
+        init() {
+            self.averageWorkout = 0
+            self.weekCount = 0
+        }
+
+        init(_ averageWorkout: Double, _ weekCount: Int) {
+            self.averageWorkout = averageWorkout
+            self.weekCount = weekCount
+        }
+    }
 }

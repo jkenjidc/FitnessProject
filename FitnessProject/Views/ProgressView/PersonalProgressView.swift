@@ -23,16 +23,18 @@ struct PersonalProgressView: View {
                             .font(.headline)
                             .padding(.leading, 10)
                         Spacer()
-                        Button {
-                            router.presentSheet(.streakInfo)
-                        } label: {
-                            Label{
-                                Text(AttributedString.formattedWeeks(5))
-                            } icon: {
-                                Image(systemName: "flame.circle.fill")
+                        if let weekCount = dataManager.user.streakInfo?.weekCount, weekCount > 0 {
+                            Button {
+                                router.presentSheet(.streakInfo)
+                            } label: {
+                                Label{
+                                    Text(AttributedString.formattedWeeks(weekCount))
+                                } icon: {
+                                    Image(systemName: "flame.circle.fill")
+                                }
+                                .foregroundStyle(.orange)
+                                .padding(.trailing, 10)
                             }
-                            .foregroundStyle(.orange)
-                            .padding(.trailing, 10)
                         }
                     }
                     LabeledContent("\(viewModel.monthYearText)") {

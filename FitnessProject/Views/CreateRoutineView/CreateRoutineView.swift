@@ -44,7 +44,7 @@ struct CreateRoutineView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    viewModel.trailingTabBarItemAction(action: self.router.pop)
+                    viewModel.trailingTabBarItemAction(action: router.pop)
                 } label: {
                     Text(viewModel.timerMode ? "Finish" : "Save")
                         .tint(viewModel.timerMode ? .green : nil)

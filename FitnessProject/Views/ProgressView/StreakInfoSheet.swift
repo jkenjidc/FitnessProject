@@ -10,6 +10,7 @@ import SwiftUI
 struct StreakInfoSheet: View {
     let weeks = 2
     let averageWorkout = 2.1
+    @Bindable var dataManager = DataManager.shared
     var body: some View {
         VStack(alignment: .center, spacing: 15) {
             Image(systemName: "flame.fill")
@@ -20,9 +21,15 @@ struct StreakInfoSheet: View {
                 .fontWeight(.bold)
                 .font(.system(size: 30))
                 .foregroundStyle(.orange)
-            Text(AttributedString.styledWorkoutSummary(averageWorkout, weeks))
-                .font(.system(size: 40))
-                .multilineTextAlignment(.center)
+            if let streakInfo = dataManager.user.streakInfo {
+                Text(AttributedString.styledWorkoutSummary(
+                    streakInfo.averageWorkout,
+                    streakInfo.weekCount)
+                )
+                    .font(.system(size: 40))
+                    .multilineTextAlignment(.center)
+            }
+
             Spacer()
         }
         .padding(20)
