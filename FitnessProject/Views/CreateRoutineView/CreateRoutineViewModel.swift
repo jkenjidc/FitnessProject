@@ -112,13 +112,28 @@ extension CreateRoutineView {
                 print(error)
             }
         }
-        
+
+        // TODO: Fix streak logic
         func finishRoutine() {
             isTimerActive = false
+            var count = 0
+            var lastWorkOutDate = Date()
             let historyRecord = RoutineHistoryRecord(nameOfRoutine: routine.name, durationOfRoutine: Int(elapsedTime), exercises: routine.exercises)
             if var routineHistory = DataManager.shared.user.routineHistory {
                 routineHistory.insert(historyRecord, at: 0)
                 DataManager.shared.user.routineHistory = routineHistory
+                count = routineHistory.count
+                lastWorkOutDate = historyRecord.dateDone
+            }
+
+            if var streakInfo = DataManager.shared.user.streakInfo {
+                if !lastWorkOutDate.areDatesInSameWeek(lastWorkOutDate) {
+                    streakInfo.weekCount += 1
+                }
+                streakInfo.averageWorkout = Double(count / streakInfo.weekCount)
+                DataManager.shared.user.streakInfo = streakInfo
+            } else {
+                DataManager.shared.user.streakInfo = CurrentUser.StreakInfo(1, 1)
             }
             Task {
                 await saveRoutine()
