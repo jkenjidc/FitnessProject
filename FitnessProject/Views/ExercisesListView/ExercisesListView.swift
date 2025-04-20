@@ -12,7 +12,19 @@ struct ExercisesListView: View {
     var body: some View {
         List {
             ForEach(exercises) { exercise in
-                Text(exercise.name)
+                HStack {
+                    AsyncImage(url: exercise.gifUrl) { image in
+                        image
+                            .resizable()
+                    } placeholder: {
+                        Color.gray
+                    }
+                    .frame(width: 50, height: 50)
+                    Text(exercise.name)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 30)
+                }
+                .padding(.bottom, 15)
             }
         }
         .onAppear {
@@ -32,4 +44,5 @@ struct ExercisesListView: View {
 
 #Preview {
     ExercisesListView()
+        .preferredColorScheme(.dark)
 }
