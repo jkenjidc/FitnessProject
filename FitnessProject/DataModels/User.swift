@@ -52,15 +52,36 @@ struct CurrentUser: Identifiable, Hashable, Codable {
     public struct StreakInfo: Hashable, Codable {
         var averageWorkout: Double
         var weekCount: Int
+        var currentStreakAmount: Int
+        var longestStreak: Int
 
         init() {
             self.averageWorkout = 0
             self.weekCount = 0
+            self.currentStreakAmount = 0
+            self.longestStreak = 0
         }
 
-        init(_ averageWorkout: Double, _ weekCount: Int) {
+        init(_ averageWorkout: Double, _ weekCount: Int, _ currentStreakAmount: Int, _ longestStreak: Int) {
             self.averageWorkout = averageWorkout
             self.weekCount = weekCount
+            self.currentStreakAmount = currentStreakAmount
+            self.longestStreak = longestStreak
+        }
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.averageWorkout = try container.decodeIfPresent(Double.self, forKey: .averageWorkout) ?? 0
+            self.weekCount = try container.decodeIfPresent(Int.self, forKey: .weekCount) ?? 0
+            self.currentStreakAmount = try container.decodeIfPresent(Int.self, forKey: .currentStreakAmount) ?? 0
+            self.longestStreak = try container.decodeIfPresent(Int.self, forKey: .longestStreak) ?? 0
+        }
+
+        enum CodingKeys: String, CodingKey {
+            case averageWorkout
+            case weekCount
+            case currentStreakAmount
+            case longestStreak
         }
     }
 }
