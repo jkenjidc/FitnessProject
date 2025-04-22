@@ -30,7 +30,11 @@ struct ExercisesListView: View {
         .onAppear {
             Task {
                 do {
-                    let (data, _) = try await URLSession.shared.data(for: ExerciseV2Request.request)
+                    let (data, response) = try await URLSession.shared.data(for: ExerciseV2Request.request)
+                    if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                        let cachedResponse = CachedURLResponse(response: httpResponse, data: data)
+                        URLCache.shared.storeCachedResponse(cachedResponse, for: ExerciseV2Request.request)
+                    }
                     if let decodedResponse = try? JSONDecoder().decode([ExerciseV2DTO].self, from: data) {
                         exercises = decodedResponse.map(ExerciseV2.init)
                     }

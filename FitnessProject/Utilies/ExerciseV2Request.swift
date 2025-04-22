@@ -13,6 +13,7 @@ struct ExerciseV2Request  {
         var request = URLRequest(url: url)
         request.addValue(API.key, forHTTPHeaderField: "x-rapidapi-key")
         request.addValue(API.header, forHTTPHeaderField: "x-rapidapi-host")
+        request.cachePolicy = .returnCacheDataElseLoad
         return request
     }
 }

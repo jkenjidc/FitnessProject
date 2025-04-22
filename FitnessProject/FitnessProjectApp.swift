@@ -14,6 +14,7 @@ struct FitnessProjectApp: App {
     @State var router = Router()
     init() {
         FirebaseApp.configure()
+        configureCache()
     }
     var body: some Scene {
         WindowGroup {
@@ -21,5 +22,12 @@ struct FitnessProjectApp: App {
                 .environment(router)
                 .preferredColorScheme(.dark)
         }
+    }
+
+    func configureCache() {
+        let memoryCapacity = 4 * 1024 * 1024
+        let diskCapacity = 100 * 1024 * 1024
+        let urlCache = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "exercisesListCache")
+        URLCache.shared = urlCache
     }
 }
