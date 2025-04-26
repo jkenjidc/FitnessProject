@@ -73,4 +73,27 @@ extension Date {
         return components1.yearForWeekOfYear == components2.yearForWeekOfYear &&
                components1.weekOfYear == components2.weekOfYear
     }
+
+    static func nextDayNoonCentralTime() -> Date {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "America/Chicago")!
+
+        let now = Date()
+        var components = calendar.dateComponents([.year, .month, .day], from: now)
+        components.hour = 12
+        components.minute = 0
+        components.second = 0
+
+        guard let noonToday = calendar.date(from: components) else {
+                // Fallback to the next day at noon if something goes wrong
+                return calendar.date(byAdding: .day, value: 1, to: now) ?? now
+            }
+
+            // If noon today is in the future, return it; otherwise, return noon tomorrow
+            if noonToday > now {
+                return noonToday
+            } else {
+                return calendar.date(byAdding: .day, value: 1, to: noonToday) ?? noonToday
+            }
+    }
 }
