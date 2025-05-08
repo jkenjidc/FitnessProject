@@ -11,6 +11,7 @@ import Charts
 struct PersonalProgressView: View {
     @Environment(Router.self) var router
     @State private var viewModel = ViewModel()
+    @State private var hkManager =  HealthKitManager()
     @Bindable var dataManager = DataManager.shared
     var body: some View {
         ZStack{
@@ -182,6 +183,8 @@ struct PersonalProgressView: View {
                 }
                 .pickerStyle(.segmented)
                 .padding()
+
+                stepCounter
                 Spacer()
             }
             .scrollBounceBehavior(.basedOnSize)
@@ -203,6 +206,30 @@ struct PersonalProgressView: View {
                     viewModel.currentWeightEntry = nil
                 }
             }
+        }
+    }
+
+    var stepCounter: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Text("HEALTH")
+                .foregroundStyle(.secondary)
+                .bold()
+                .font(.headline)
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Steps")
+                    Text("\(hkManager.stepCountToday)")
+                }
+                Spacer()
+                Image(systemName: "figure.walk")
+                    .resizable()
+                    .frame(width: 20, height: 30)
+            }
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 20)
+        .onAppear {
+            hkManager.requestAuthorization()
         }
     }
 }
