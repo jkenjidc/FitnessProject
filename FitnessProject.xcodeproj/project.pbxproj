@@ -39,6 +39,7 @@
 		7A8A2D472CAC6C240087EE8B /* AuthManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerTests.swift; sourceTree = "<group>"; };
 		7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineCreationTests.swift; sourceTree = "<group>"; };
 		7ACA3EF22DA76578007E85AC /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		7AF1A8F02DC96DDD00FC62E0 /* FitnessProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FitnessProject.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -92,6 +93,7 @@
 		7A4239EF2C8B71BC00F34FC7 /* FitnessProject */ = {
 			isa = PBXGroup;
 			children = (
+				7AF1A8F02DC96DDD00FC62E0 /* FitnessProject.entitlements */,
 				7A4239F02C8B71BC00F34FC7 /* FitnessProjectApp.swift */,
 				7ACA3EF42DA765AF007E85AC /* Utilies */,
 				7ACA3EEF2DA764B3007E85AC /* DTOs */,
@@ -395,6 +397,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FitnessProject/FitnessProject.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -402,6 +405,7 @@
 				DEVELOPMENT_TEAM = 597T4599W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "To read the health data and show it in the application";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -426,6 +430,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FitnessProject/FitnessProject.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -433,6 +438,7 @@
 				DEVELOPMENT_TEAM = 597T4599W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "To read the health data and show it in the application";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
