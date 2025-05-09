@@ -55,6 +55,37 @@ class HealthKitManager {
 //        WidgetCenter.shared.reloadAllTimelines()
     }
 
+    func readStepCountToday() {
+        guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
+            return
+        }
+
+        let now = Date()
+        let startDate = Calendar.current.startOfDay(for: now)
+        let predicate = HKQuery.predicateForSamples(
+            withStart: startDate,
+            end: now,
+            options: .strictStartDate
+        )
+
+        let query = HKStatisticsQuery(
+            quantityType: stepCountType,
+            quantitySamplePredicate: predicate,
+            options: .cumulativeSum
+        ) {
+            _, result, error in
+            guard let result = result, let sum = result.sumQuantity() else {
+                print("failed to read step count: \(error?.localizedDescription ?? "UNKNOWN ERROR")")
+                return
+            }
+
+            let steps = Int(sum.doubleValue(for: HKUnit.count()))
+            self.stepCountToday = steps
+        }
+        healthStore.execute(query)
+    }
+
+
 //    func readStepCountYesterday() {
 //        guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
 //            return
@@ -85,38 +116,6 @@ class HealthKitManager {
 //        }
 //        healthStore.execute(query)
 //    }
-
-    func readStepCountToday() {
-        guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
-            return
-        }
-
-        let now = Date()
-        let startDate = Calendar.current.startOfDay(for: now)
-        let predicate = HKQuery.predicateForSamples(
-            withStart: startDate,
-            end: now,
-            options: .strictStartDate
-        )
-
-        //    print("attempting to get step count from \(startDate)")
-
-        let query = HKStatisticsQuery(
-            quantityType: stepCountType,
-            quantitySamplePredicate: predicate,
-            options: .cumulativeSum
-        ) {
-            _, result, error in
-            guard let result = result, let sum = result.sumQuantity() else {
-                print("failed to read step count: \(error?.localizedDescription ?? "UNKNOWN ERROR")")
-                return
-            }
-
-            let steps = Int(sum.doubleValue(for: HKUnit.count()))
-            self.stepCountToday = steps
-        }
-        healthStore.execute(query)
-    }
 
 //    func readCalorieCountToday() {
 //        guard let calorieType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned) else {
