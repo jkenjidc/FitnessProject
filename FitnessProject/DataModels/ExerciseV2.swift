@@ -52,4 +52,27 @@ extension ExerciseV2 {
         self.secondaryMuscles = dto.secondaryMuscles
         self.instructions = dto.instructions
     }
+
+    static var mock: ExerciseV2 {
+        return ExerciseV2(
+            id: "0001",
+            name: "3/4 sit-up",
+            bodyPart: "waist",
+            equipment: "body weight",
+            gifUrl: URL(string: "https://v2.exercisedb.io/image/VHyPWC2GuuP6en")!,
+            target: "abs",
+            secondaryMuscles: ["hip flexors", "lower back"],
+            instructions: [
+                "Lie flat on your back with your knees bent and feet flat on the ground.",
+                "Place your hands behind your head with your elbows pointing outwards.",
+                "Engaging your abs, slowly lift your upper body off the ground, curling forward until your torso is at a 45-degree angle.",
+                "Pause for a moment at the top, then slowly lower your upper body back down to the starting position.",
+                "Repeat for the desired number of repetitions."
+            ]
+        )
+    }
+
+    static var mockList: [ExerciseV2] {
+        return [mock]
+    }
 }

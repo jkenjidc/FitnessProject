@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TimerView: View {
+    let routine: Routine = .example[0]
     @State private var totalTime: String = "4:20"
     @State private var workTime: String = "0:45"
     @State private var restTime: String = "0:20"
@@ -22,7 +23,7 @@ struct TimerView: View {
             ZStack(alignment: .bottom) {
                 VStack {
                     Spacer()
-                    Text("Push Day")
+                    Text(routine.name)
                         .font(.system(size: 30))
                         .padding(.top)
                     Text("Total")
@@ -31,7 +32,6 @@ struct TimerView: View {
                         .font(.system(size: 45))
                         .bold()
                     Spacer()
-
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -39,7 +39,7 @@ struct TimerView: View {
                 .cornerRadius(40)
                 .foregroundColor(.white)
                 .ignoresSafeArea()
-                .frame(height: 200)
+                .frame(height: 300)
                 Button(action: {
                     // Start/Stop Timer Action
                 }) {
@@ -52,69 +52,53 @@ struct TimerView: View {
             }
             .padding(.bottom, 30)
 
-            // Work, Rest, Rounds
-            HStack {
-                VStack {
-                    Text("Work")
-                    Text(workTime)
-                }
-                .padding()
-                .background(Color.green)
-                .cornerRadius(10)
-                .foregroundColor(.white)
-
-                VStack {
-                    Text("Rest")
-                    Text(restTime)
-                }
-                .padding()
-                .background(Color.purple)
-                .cornerRadius(10)
-                .foregroundColor(.white)
-
-                VStack {
-                    Text("Rounds")
-                    Text("\(rounds)x")
-                }
-                .padding()
-                .background(Color.blue)
-                .cornerRadius(10)
-                .foregroundColor(.white)
-            }
-            .padding()
-
             // Lap Times
-            VStack {
-                ForEach(lapTimes.indices, id: \.self) { index in
-                    HStack {
-                        Text("Lap \(index + 1)")
-                        Spacer()
-                        Text(lapTimes[index])
+            ScrollView {
+                HStack {
+                    Text("Exercise")
+                    Spacer()
+                    Text("Last Attempt")
+                }
+                .foregroundStyle(.secondary)
+                VStack {
+                    ForEach(routine.exercises.indices, id: \.self) { index in
+                        HStack {
+                            Text(routine.exercises[index].name)
+                            Spacer()
+                            VStack(alignment: .trailing) {
+                                Text("2 Weeks ago")
+                                Text("100lbs x 3")
+                            }
+                        }
+                        .padding()
+//                        .background(index % 2 == 0 ? Color.red.opacity(0.7) : Color.green.opacity(0.7))
+
                     }
-                    .padding()
-                    .background(index % 2 == 0 ? Color.red.opacity(0.7) : Color.green.opacity(0.7))
+                    .background(.blue.opacity(0.7))
                     .cornerRadius(10)
                     .foregroundColor(.white)
+                    .padding(.bottom, 10)
                 }
-            }
-            .padding()
 
-            // Weight and Reps Input
-            VStack {
-                HStack {
-                    TextField("Weight", text: $weight)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.decimalPad)
-                    TextField("Reps", text: $reps)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.numberPad)
-                }
-                .padding()
+
+                // Weight and Reps Input
+//                VStack {
+//                    HStack {
+//                        TextField("Weight", text: $weight)
+//                            .textFieldStyle(RoundedBorderTextFieldStyle())
+//                            .keyboardType(.decimalPad)
+//                        TextField("Reps", text: $reps)
+//                            .textFieldStyle(RoundedBorderTextFieldStyle())
+//                            .keyboardType(.numberPad)
+//                    }
+//                    .padding()
+//                }
             }
+            .padding(.vertical, 15)
+            .padding(.horizontal, 30)
 
             Spacer()
         }
-        //        .padding()
     }
 }
 
