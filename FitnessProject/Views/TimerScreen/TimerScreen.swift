@@ -62,22 +62,39 @@ struct TimerView: View {
                 .foregroundStyle(.secondary)
                 VStack {
                     ForEach(routine.exercises.indices, id: \.self) { index in
+                        let exercise = routine.exercises[index]
+                        DisclosureGroup {
+                            VStack {
+                                ForEach(exercise.sets) { exerciseSet in
+                                    HStack {
+                                        Text("\(exerciseSet.weight)")
+                                        Spacer()
+                                        Text("\(exerciseSet.reps)")
+                                    }
+                                }
+                            }
+                            .padding()
+
+                    } label: {
                         HStack {
-                            Text(routine.exercises[index].name)
+                            Text(exercise.name)
                             Spacer()
                             VStack(alignment: .trailing) {
                                 Text("2 Weeks ago")
                                 Text("100lbs x 3")
                             }
+                            .offset(x: 20)
                         }
                         .padding()
-//                        .background(index % 2 == 0 ? Color.red.opacity(0.7) : Color.green.opacity(0.7))
+                        //                        .background(index % 2 == 0 ? Color.red.opacity(0.7) : Color.green.opacity(0.7))
 
                     }
                     .background(.blue.opacity(0.7))
                     .cornerRadius(10)
                     .foregroundColor(.white)
                     .padding(.bottom, 10)
+                    .buttonStyle(PlainButtonStyle()).accentColor(.clear)
+                    }
                 }
 
 
