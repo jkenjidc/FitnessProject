@@ -64,6 +64,8 @@ class Router {
             SettingsView()
         case .updatePasswordScreen:
             UpdatePasswordView()
+        case .timerScreen(let routine):
+            TimerScreen(routine: routine)
         }
     }
     
