@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct TimerScreen: View {
-    @State var routine: Routine = .example[0]
+    let routine: Routine
     var body: some View {
         VStack {
             TimerHeader(routineName: routine.name)
-            TimerExerciseList(exercises: $routine.exercises)
+            TimerExerciseList(exercises: routine.exercises)
         }
     }
 }
 
 #Preview {
-    TimerScreen()
+    TimerScreen(routine: .example[0])
         .preferredColorScheme(.dark)
 }
