@@ -9,16 +9,15 @@ import SwiftUI
 
 extension TimerScreen {
     struct TimerExerciseList: View {
-        @Binding var exercises: [Exercise]
+        let exercises: [Exercise]
 
         var body: some View {
             ScrollView {
                 listHeader
                 VStack {
-                    ForEach(exercises.indices, id: \.self) { index in
+                    ForEach(exercises) { exercise in
                         //Necessary step because we are using mock data with the same ID
-                        let exercise = $exercises[index]
-                        ExerciseListRow(exercise: exercise)
+                        ExerciseListRow(exercise)
                     }
                 }
             }
@@ -36,7 +35,10 @@ extension TimerScreen {
     }
 
     private struct ExerciseListRow: View {
-        @Binding var exercise: Exercise
+        @State private var exercise: Exercise
+        init(_ exercise: Exercise) {
+            _exercise = State(initialValue: exercise)
+        }
 
         var body: some View {
             DisclosureGroup {
@@ -78,10 +80,12 @@ extension TimerScreen {
             .cornerRadius(10)
             .foregroundColor(.white)
             .padding(.bottom, 10)
+//            .tint(.clear)
         }
     }
 }
 
 #Preview {
-    TimerScreen.TimerExerciseList(exercises: .constant([Exercise.example]))
+    TimerScreen.TimerExerciseList(exercises: [Exercise.example])
+        .preferredColorScheme(.dark)
 }
