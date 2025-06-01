@@ -13,7 +13,13 @@ extension TimerScreen {
         let routineName: String
 
         var body: some View {
-            ZStack(alignment: .bottom) {
+            ZStack {
+
+                CurvedHeaderView()
+                    .fill(Color.blue) // Or any color you prefer
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 300)
+                    .ignoresSafeArea(.all, edges: .top)
                 VStack {
                     Spacer()
                     Text(routineName)
@@ -27,12 +33,12 @@ extension TimerScreen {
                     Spacer()
                 }
                 .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.blue)
-                .cornerRadius(40)
                 .foregroundColor(.white)
-                .ignoresSafeArea()
-                .frame(height: 300)
+                //                .frame(maxWidth: .infinity)
+                //                .background(Color.blue)
+                //                .cornerRadius(40)
+                //                .ignoresSafeArea()
+                //                .frame(height: 300)
                 Button(action: {
                     // Start/Stop Timer Action
                 }) {
