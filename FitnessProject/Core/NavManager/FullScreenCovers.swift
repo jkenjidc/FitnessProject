@@ -11,8 +11,10 @@ enum FullScreenCover: Identifiable {
     var id: Int {
         switch self {
         case .welcomeView: return 0
+        case .weeklyStepView: return 1
         }
     }
     
     case welcomeView
+    case weeklyStepView
 }
