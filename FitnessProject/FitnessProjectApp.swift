@@ -12,6 +12,7 @@ import FirebaseFirestore
 @main
 struct FitnessProjectApp: App {
     @State var router = Router()
+    @State var hkManager = HealthKitManager()
     init() {
         FirebaseApp.configure()
         configureCache()
@@ -20,6 +21,7 @@ struct FitnessProjectApp: App {
         WindowGroup {
             RootView()
                 .environment(router)
+                .environment(hkManager)
                 .preferredColorScheme(.dark)
         }
     }

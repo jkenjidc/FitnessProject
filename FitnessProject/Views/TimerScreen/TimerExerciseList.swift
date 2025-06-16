@@ -80,7 +80,7 @@ extension TimerScreen {
             .cornerRadius(10)
             .foregroundColor(.white)
             .padding(.bottom, 10)
-//            .tint(.clear)
+            .tint(.clear)
         }
     }
 }

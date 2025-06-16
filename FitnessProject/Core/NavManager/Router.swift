@@ -86,6 +86,8 @@ class Router {
         switch cover {
         case .welcomeView:
             WelcomeView()
+        case .weeklyStepView:
+            HKWeeklyStepsCover()
         }
     }
 }
