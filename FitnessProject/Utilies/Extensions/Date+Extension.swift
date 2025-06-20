@@ -96,4 +96,10 @@ extension Date {
                 return calendar.date(byAdding: .day, value: 1, to: noonToday) ?? noonToday
             }
     }
+
+    var weekdayString: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE"
+        return formatter.string(from: self)
+    }
 }

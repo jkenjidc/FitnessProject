@@ -9,10 +9,18 @@ import SwiftUI
 
 struct BackButton: View {
     @Environment(Router.self) var router
+    var navigationMode: NavigationMode = .screen
+    init(navigationMode: NavigationMode? = .screen) {
+        self.navigationMode = navigationMode ?? self.navigationMode
+    }
     var body: some View {
         HStack{
             Button {
-                router.pop()
+                switch navigationMode {
+                    case .screen: router.pop()
+                    case .fullScreenCover: router.dismissCover()
+                    case .sheet: router.dismissSheet()
+                }
             } label: {
                 HStack(spacing: 5){
                     Image(systemName: "chevron.left")
@@ -23,6 +31,13 @@ struct BackButton: View {
         }
         .navigationBarBackButtonHidden(true)
     }
+}
+
+enum NavigationMode {
+    case sheet
+    case fullScreenCover
+    case screen
+
 }
 
 #Preview {

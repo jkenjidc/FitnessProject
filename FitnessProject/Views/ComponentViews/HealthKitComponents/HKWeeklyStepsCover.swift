@@ -12,16 +12,30 @@ struct HKWeeklyStepsCover: View {
     @Environment(HealthKitManager.self) var hkManager
     @Environment(Router.self) var router
     var body: some View {
-        Button("close"){
-            router.dismissCover()
+        VStack(alignment: .leading, spacing: 10) {
+            BackButton(navigationMode: .fullScreenCover)
+            Text("Weekly Steps")
+                .title()
+            Chart {
+                ForEach(hkManager.thisWeekSteps.keys.sorted(), id: \.self) { key in
+                    BarMark(
+                        x: .value("date",key.weekdayString),
+                        y: .value("steps", hkManager.thisWeekSteps[key] ?? 0)
+                    )
+                }
+            }
+            .aspectRatio(1, contentMode: .fit)
+            .chartYAxis {
+                AxisMarks(preset: .aligned)
+            }
+            Spacer()
         }
-        ForEach(hkManager.thisWeekSteps.keys.sorted(), id: \.self) { key in
-            Text("\(key): \(hkManager.thisWeekSteps[key] ?? 0)")
-        }
+        .padding()
     }
 }
 
 #Preview {
     HKWeeklyStepsCover()
         .environment(HealthKitManager())
+        .environment(Router())
 }

@@ -16,8 +16,7 @@ class HealthKitManager {
     var healthStore = HKHealthStore()
 
     var stepCountToday: Int? = nil
-    var thisWeekSteps: [Int: Int] = [1: 0, 2: 0, 3: 0,
-                                     4: 0, 5: 0, 6: 0, 7: 0]
+    var thisWeekSteps: [Date: Int] = [:]
     var stepCountYesterday: Int = 0
 
     var caloriesBurnedToday: Int = 0
@@ -161,26 +160,28 @@ class HealthKitManager {
 //
     func readStepCountThisWeek() {
         guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
+            Log.error("Failed to create step count type")
             return
         }
+        
         let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        // Find the start date (Monday) of the current week
-        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)) else {
-            print("Failed to calculate the start date of the week.")
+        let today = Date()
+        let startOfToday = calendar.startOfDay(for: today)
+        
+        // Get the start of the week (Sunday or Monday depending on locale)
+        guard let startOfWeek = calendar.date(byAdding: .day,value: -7, to: today) else {
+            Log.error("Failed to calculate the start date of the week")
             return
         }
-        // Find the end date (Sunday) of the current week
-        guard let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek) else {
-            print("Failed to calculate the end date of the week.")
-            return
-        }
-
-        //    print("Attempting to get stepcount from \(startOfWeek) to \(endOfWeek)")
+        
+        // Use today as the end date to include today's data
+        let endDate = startOfToday
+        
+        Log.info("Querying step count from \(startOfWeek) to \(endDate)")
 
         let predicate = HKQuery.predicateForSamples(
             withStart: startOfWeek,
-            end: endOfWeek,
+            end: endDate,
             options: .strictStartDate
         )
 
@@ -192,26 +193,28 @@ class HealthKitManager {
             intervalComponents: DateComponents(day: 1)
         )
 
-        query.initialResultsHandler = { _, result, error in
-            guard let result = result else {
-                if let error = error {
-                    print("An error occurred while retrieving step count: \(error.localizedDescription)")
-                }
+        query.initialResultsHandler = { [weak self] _, result, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                Log.error("HealthKit query error: \(error.localizedDescription)")
                 return
             }
-
-            //      print("---> ---> ATTEMPTING TO GET WEEK's STEPS")
-            result.enumerateStatistics(from: startOfWeek, to: endOfWeek) { statistics, _ in
+            
+            guard let result = result else {
+                Log.error("No result returned from HealthKit query")
+                return
+            }
+            result.enumerateStatistics(from: startOfWeek, to: endDate) { statistics, _ in
                 if let quantity = statistics.sumQuantity() {
                     let steps = Int(quantity.doubleValue(for: HKUnit.count()))
-                    let day = calendar.component(.weekday, from: statistics.startDate)
-                    //          print("for day \(weekday) u have \(steps) steps!")
-                    self.thisWeekSteps[day] = steps
+                    self.thisWeekSteps[statistics.startDate] = steps
                 }
             }
-
-            print("\(self.thisWeekSteps)")
+            
+            Log.info("Final weekly steps data: \(self.thisWeekSteps)")
         }
+        
         healthStore.execute(query)
     }
 }
