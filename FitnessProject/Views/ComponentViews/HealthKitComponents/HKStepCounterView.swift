@@ -35,6 +35,7 @@ struct StepCounterView: View {
             .padding(.vertical, 20)
         }
         .buttonStyle(.plain)
+        .disabled(hkManager.stepCountToday == nil)
     }
 }
 

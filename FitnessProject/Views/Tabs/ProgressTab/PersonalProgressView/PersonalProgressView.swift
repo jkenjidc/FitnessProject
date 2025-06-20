@@ -17,74 +17,10 @@ struct PersonalProgressView: View {
         ZStack{
             ScrollView(showsIndicators: false){
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack {
-                        Text("STREAK CALENDAR")
-                            .foregroundStyle(.secondary)
-                            .bold()
-                            .font(.headline)
-                            .padding(.leading, 10)
-                        Spacer()
-                        if let weekCount = dataManager.user.streakInfo?.weekCount, weekCount > 0 {
-                            Button {
-                                router.presentSheet(.streakInfo)
-                            } label: {
-                                Label{
-                                    Text(AttributedString.formattedWeeks(weekCount))
-                                } icon: {
-                                    Image(systemName: "flame.circle.fill")
-                                }
-                                .foregroundStyle(.orange)
-                                .padding(.trailing, 10)
-                            }
-                        }
-                    }
-                    LabeledContent("\(viewModel.monthYearText)") {
-                        HStack(spacing: 10) {
-                            Button {
-                                viewModel.adjustMonthByAmount(value: -1)
-                            }label: {
-                                Image(systemName: "chevron.left")
-                                
-                            }
-                            Button {
-                                viewModel.adjustMonthByAmount(value: 1)
-                            }label: {
-                                Image(systemName: "chevron.right")
-                            }
-                        }
-                        .fontWeight(.heavy)
-                        .buttonStyle(.plain)
-                    }
-                    .padding()
-                    
-                    HStack {
-                        ForEach(viewModel.daysOfWeek.indices, id: \.self){ index in
-                            Text(viewModel.daysOfWeek[index])
-                                .fontWeight(.black)
-                                .foregroundStyle(viewModel.color)
-                                .frame(maxWidth: .infinity)
-                        }
-                    }
-                    
-                    LazyVGrid(columns: viewModel.columns){
-                        ForEach(viewModel.days, id: \.self){ day in
-                            if day.monthInt != viewModel.date.monthInt {
-                                Text("")
-                            } else {
-                                Text(day.formatted(.dateTime.day()))
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.secondary)
-                                    .frame(maxWidth: .infinity, minHeight: 40)
-                                    .background(
-                                        Circle()
-                                            .foregroundStyle( viewModel.getDayColor(day: day, routineHistory: dataManager.user.routineHistory ?? nil))
-                                    )
-                                    .underline(viewModel.shouldShowUnderline(day), color: .green)
-                            }
-                            
-                        }
-                    }
-                    
+                    HeaderView(weekCount: dataManager.user.streakInfo?.weekCount)
+
+                    CalendarView()
+
                     HStack{
                         Text("BODY WEIGHT")
                             .foregroundStyle(.secondary)
@@ -179,7 +115,7 @@ struct PersonalProgressView: View {
                 Picker("Date Range Picker", selection: $viewModel.currentDatePickerSelection) {
                     ForEach(DatePickerSelection.allCases, id: \.self) { dateRange in
                         Text(dateRange.rawValue)
-                   }
+                    }
                 }
                 .pickerStyle(.segmented)
                 .padding()
@@ -200,13 +136,7 @@ struct PersonalProgressView: View {
             .scrollBounceBehavior(.basedOnSize)
             .padding()
             .onAppear {
-                viewModel.days = viewModel.date.calendarDisplayDays
                 viewModel.weightEntries = dataManager.user.weightHistory ?? []
-            }.onChange(of: viewModel.date) {
-                viewModel.days = viewModel.date.calendarDisplayDays
-            }
-            .onDisappear {
-                viewModel.date = Date.now
             }
             if viewModel.presentWeightEntryPopup {
                 WeightEntryView(presentEntryView: $viewModel.presentWeightEntryPopup, currentWeightEntry: viewModel.currentWeightEntry){ weightEntry, weightEntryAction in
@@ -220,8 +150,38 @@ struct PersonalProgressView: View {
     }
 }
 
+private extension PersonalProgressView {
+    struct HeaderView: View {
+        @Environment(Router.self) var router
+        let weekCount: Int?
+        var body: some View {
+            HStack {
+                Text("STREAK CALENDAR")
+                    .title()
+                Spacer()
+                if let weekCount {
+                    Button {
+                        router.presentSheet(.streakInfo)
+                    } label: {
+                        Label{
+                            Text(AttributedString.formattedWeeks(weekCount))
+                        } icon: {
+                            Image(systemName: "flame.circle.fill")
+                        }
+                        .foregroundStyle(.orange)
+                        .padding(.trailing, 10)
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+
 #Preview {
     PersonalProgressView()
         .environment(Router())
+        .environment(HealthKitManager())
         .preferredColorScheme(.dark)
 }
