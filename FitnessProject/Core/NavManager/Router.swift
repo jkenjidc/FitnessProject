@@ -13,7 +13,8 @@ class Router {
     var path: NavigationPath = NavigationPath()
     var sheet: Sheet?
     var fullScreenCover: FullScreenCover?
-    
+    var modal: Modal?
+    var modalScale: CGFloat = 0
     // MARK: Router functions for navigation
     func push(destination: Destination) {
         path.append(destination)
@@ -35,7 +36,11 @@ class Router {
     func presentFullScreenCover(_ cover: FullScreenCover){
         self.fullScreenCover = cover
     }
-    
+
+    func presentModal(_ modal: Modal){
+        self.modal = modal
+    }
+
     //MARK: Dismisall Functions
     func dismissSheet() {
         self.sheet = nil
@@ -44,7 +49,15 @@ class Router {
     func dismissCover(){
         self.fullScreenCover = nil
     }
-    
+
+    func dismissModal(){
+        withAnimation(.linear(duration: 0.2)) {
+            modalScale = 0.0
+        }
+        self.modal = nil
+
+    }
+
     
     // MARK: Builder functions
     @ViewBuilder
@@ -88,6 +101,25 @@ class Router {
             WelcomeView()
         case .weeklyStepView:
             HKWeeklyStepsCover()
+        }
+    }
+
+    @ViewBuilder
+    func buildModal(modal: Modal) -> some View {
+        Group {
+            switch modal {
+            case .weightChartEntry:
+                Text("weightChart")
+            case .routineInfo(let routine):
+                RoutineCardDetailView(routine: routine)
+            }
+        }
+        .scaleEffect( modalScale)
+        .onAppear {
+            withAnimation(.linear(duration: 0.2)) {
+                self.modalScale = 1.0
+            }
+
         }
     }
 }
