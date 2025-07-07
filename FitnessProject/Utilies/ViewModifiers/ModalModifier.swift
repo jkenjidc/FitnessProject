@@ -11,6 +11,7 @@ import SwiftUI
 struct ModalViewModifier<Item: Identifiable, ModalContent: View>: ViewModifier {
     @Binding var item: Item?
     @State private var scale = 0.0
+    @Environment(Router.self) var router
     let modalContent: (Item) -> ModalContent
 
     func body(content: Content) -> some View {
@@ -21,7 +22,7 @@ struct ModalViewModifier<Item: Identifiable, ModalContent: View>: ViewModifier {
                     Color(.gray)
                         .opacity(0.2)
                         .onTapGesture {
-                            self.item = nil
+                            router.dismissModal()
                         }
                     modalContent(item)
                 }

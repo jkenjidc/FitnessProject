@@ -51,11 +51,11 @@ class Router {
     }
 
     func dismissModal(){
-        withAnimation(.linear(duration: 0.2)) {
-            modalScale = 0.0
+        withAnimation(.linear(duration: 0.1)) {
+            self.modalScale = 0.0
+        } completion: {
+            self.modal = nil
         }
-        self.modal = nil
-
     }
 
     
@@ -114,7 +114,7 @@ class Router {
                 RoutineCardDetailView(routine: routine)
             }
         }
-        .scaleEffect( modalScale)
+        .scaleEffect(modalScale)
         .onAppear {
             withAnimation(.linear(duration: 0.2)) {
                 self.modalScale = 1.0
