@@ -50,7 +50,8 @@ struct RoutineListView: View {
                             Section {
                                 ForEach($dataManager.routines){ $routine in
                                     Button{
-                                        viewModel.presentRoutineDetailCard(routine: routine)
+//                                        viewModel.presentRoutineDetailCard(routine: routine)
+                                        router.presentModal(.routineInfo(routine: routine))
                                     } label: {
                                         RoutineListCellView(title: routine.name)
                                     }
@@ -98,9 +99,9 @@ struct RoutineListView: View {
                 }
             }
             
-            if viewModel.presentDialogueView {
-                RoutineCardDetailView(routine: viewModel.selectedRoutine, presentDetailView: $viewModel.presentDialogueView)
-            }
+//            if viewModel.presentDialogueView {
+//                RoutineCardDetailView(routine: viewModel.selectedRoutine, presentDetailView: $viewModel.presentDialogueView)
+//            }
         }
         .navigationTitle("Routines")
     }
