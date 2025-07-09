@@ -8,117 +8,76 @@
 import SwiftUI
 
 struct WeightEntryView: View {
+    @Environment(Router.self) var router
     @GestureState var pressed = false
-    @Binding var presentEntryView: Bool
-    @State private var scale = 0.0
     @State var selectedDate: Date = Date.now
     @State var currentWeight: Double = 0.0
     var currentWeightEntry: WeightEntry?
     var weightString: String {
         currentWeightEntry != nil ? "Update" : "Add"
     }
-    
+
     var actionType: WeightEntryAction {
         currentWeightEntry != nil ? .update : .create
     }
-    
     let action: ((WeightEntry, WeightEntryAction) -> Void)
-    
-    init(presentEntryView: Binding<Bool>, currentWeightEntry: WeightEntry?, action: @escaping (WeightEntry,WeightEntryAction) -> Void){
-        _presentEntryView = presentEntryView
-        self.action = action
-        if let unwrappedWeightEntry = currentWeightEntry {
+
+    init(viewModel: WeightChart.ViewModel){
+        self.action = viewModel.weightEntryAction
+        if let unwrappedWeightEntry = viewModel.currentWeightEntry {
             _selectedDate = State(initialValue: unwrappedWeightEntry.entryDate)
             _currentWeight = State(initialValue: unwrappedWeightEntry.weight)
         }
-        self.currentWeightEntry = currentWeightEntry
+        self.currentWeightEntry = viewModel.currentWeightEntry
     }
     var body: some View {
-        ZStack {
-            Color(.gray)
-                .opacity(0.2)
-                .onTapGesture {
-                    close()
-                }
-            VStack{
-                Text("\(weightString) Weight Entry")
-                    .font(.title2)
-                    .bold()
-                    .padding()
-                    .foregroundStyle(.white)
-                
-                HStack {
-                    EntryFieldView(
-                        valueBinding: $currentWeight,
-                        placeholderString: "Enter Weight",
-                        keyboardType: .numeric
-                    )
-
-                    DatePicker("", selection: $selectedDate,in: ...Date.now , displayedComponents: [.date])
-                        .foregroundStyle(.white)
-                        .colorScheme(.dark)
-                        .buttonStyle(.plain)
-                }
-                
-                Button {
-                    handleAction(actionType: actionType)
-                } label: {
-                    Text("\(weightString) Weight")
-                        .frame(maxWidth: .infinity)
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundStyle(.white)
-                        .padding()
-                        .background(Color.accentColor.opacity(0.6))
-                        .cornerRadius(20)
-                }
-                .buttonStyle(.plain)
-                .padding(.horizontal)
-                .padding(.top)
-                .disabled(currentWeight > 400 )
-
-                if currentWeightEntry != nil {
-                    LongPressButton {
-                        handleAction(actionType: .delete)
-                    }
-                    .padding(.horizontal)
-                }
-            }
-            .fixedSize(horizontal: false, vertical: true)
-            .padding()
-            .background(.black)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .overlay {
-                VStack{
-                    HStack{
-                        Button {
-                            close()
-                        } label: {
-                            Image(systemName: "xmark")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                        }
-                        .tint(.white)
-                        Spacer()
-                    }
-                    Spacer()
-                }
+        VStack{
+            Text("\(weightString) Weight Entry")
+                .font(.title2)
+                .bold()
                 .padding()
+                .foregroundStyle(.white)
+
+            HStack {
+                EntryFieldView(
+                    valueBinding: $currentWeight,
+                    placeholderString: "Enter Weight",
+                    keyboardType: .numeric
+                )
+
+                DatePicker("", selection: $selectedDate,in: ...Date.now , displayedComponents: [.date])
+                    .foregroundStyle(.white)
+                    .colorScheme(.dark)
+                    .buttonStyle(.plain)
             }
-            .shadow(radius: 20)
-            .padding(30)
-            .scaleEffect(scale)
-        }
-        .ignoresSafeArea()
-        .onAppear {
-            withAnimation(.linear(duration: 0.2)) {
-                scale = 1.0
+
+            Button {
+                handleAction(actionType: actionType)
+            } label: {
+                Text("\(weightString) Weight")
+                    .frame(maxWidth: .infinity)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(.white)
+                    .padding()
+                    .background(Color.accentColor.opacity(0.6))
+                    .cornerRadius(20)
             }
-            
+            .buttonStyle(.plain)
+            .padding(.horizontal)
+            .padding(.top)
+            .disabled(currentWeight > 400 )
+
+            if currentWeightEntry != nil {
+                LongPressButton {
+                    handleAction(actionType: .delete)
+                }
+                .padding(.horizontal)
+            }
         }
     }
-    
+
     func handleAction(actionType: WeightEntryAction) {
-        close()
+        router.dismissModal()
         var weightEntry = currentWeightEntry ?? WeightEntry(weight: currentWeight, entryDate: selectedDate)
         switch actionType {
         case .create:
@@ -130,14 +89,7 @@ struct WeightEntryView: View {
         case .delete:
             self.action(weightEntry, .delete)
         }
-        
-    }
-    
-    func close() {
-        withAnimation(.linear(duration: 0.15)) {
-            scale = 0.0
-            presentEntryView = false
-        }
+
     }
 }
 
@@ -149,9 +101,6 @@ public enum WeightEntryAction {
 
 
 #Preview {
-    WeightEntryView(presentEntryView: .constant(true), currentWeightEntry: WeightEntry.sampleWeightEntryList[4]){ _,_ in
-        print("test")
-        
-    }
+    WeightEntryView(viewModel: WeightChart.ViewModel())
     .preferredColorScheme(.dark)
 }

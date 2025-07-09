@@ -17,6 +17,7 @@ class Router {
     var modalScale: CGFloat = 0
     // MARK: Router functions for navigation
     func push(destination: Destination) {
+        dismissAll() //clear out all modals, sheets and covers
         path.append(destination)
     }
     
@@ -27,7 +28,7 @@ class Router {
     func popToRoot() {
         path.removeLast(path.count)
     }
-    
+
     // MARK: Presentation functions
     func presentSheet(_ sheet: Sheet){
         self.sheet = sheet
@@ -41,7 +42,15 @@ class Router {
         self.modal = modal
     }
 
-    //MARK: Dismisall Functions
+    //MARK: Dismiss Functions
+    func dismissAll() {
+        dismissSheet()
+        dismissCover()
+        //TODO: Investigate why push doesnt work when dismissing using dismissModal()
+        self.modal = nil
+        self.modalScale = 0.0
+    }
+
     func dismissSheet() {
         self.sheet = nil
     }
@@ -108,18 +117,40 @@ class Router {
     func buildModal(modal: Modal) -> some View {
         Group {
             switch modal {
-            case .weightChartEntry:
-                Text("weightChart")
+            case .weightChartEntry(let viewModel):
+                WeightEntryView(viewModel: viewModel)
             case .routineInfo(let routine):
                 RoutineCardDetailView(routine: routine)
             }
         }
+        .fixedSize(horizontal: false, vertical: true)
+        .padding()
+        .background(.black)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .overlay {
+            VStack{
+                HStack{
+                    Button {
+                        self.dismissModal()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                    }
+                    .tint(.white)
+                    Spacer()
+                }
+                Spacer()
+            }
+            .padding()
+        }
+        .shadow(radius: 20)
+        .padding(30)
         .scaleEffect(modalScale)
         .onAppear {
             withAnimation(.linear(duration: 0.2)) {
                 self.modalScale = 1.0
             }
-
         }
     }
 }

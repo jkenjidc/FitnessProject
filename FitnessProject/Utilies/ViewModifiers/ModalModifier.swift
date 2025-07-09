@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ModalViewModifier<Item: Identifiable, ModalContent: View>: ViewModifier {
     @Binding var item: Item?
-    @State private var scale = 0.0
     @Environment(Router.self) var router
     let modalContent: (Item) -> ModalContent
 
@@ -19,17 +18,21 @@ struct ModalViewModifier<Item: Identifiable, ModalContent: View>: ViewModifier {
             content
             if let item {
                 ZStack {
-                    Color(.gray)
-                        .opacity(0.2)
-                        .onTapGesture {
-                            router.dismissModal()
-                        }
+                    modalBackground
                     modalContent(item)
                 }
                 .ignoresSafeArea()
 
             }
         }
+    }
+
+    var modalBackground: some View {
+        Color(.gray)
+            .opacity(0.2)
+            .onTapGesture {
+                router.dismissModal()
+            }
     }
 }
 
