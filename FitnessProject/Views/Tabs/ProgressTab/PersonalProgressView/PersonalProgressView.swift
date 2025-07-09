@@ -13,32 +13,30 @@ struct PersonalProgressView: View {
     @Environment(HealthKitManager.self) var hkManager
     @Bindable var dataManager = DataManager.shared
     var body: some View {
-        ZStack{
-            ScrollView(showsIndicators: false){
-                VStack(alignment: .leading, spacing: 0) {
-                    HeaderView(weekCount: dataManager.user.streakInfo?.weekCount)
+        ScrollView(showsIndicators: false){
+            VStack(alignment: .leading, spacing: 0) {
+                HeaderView(weekCount: dataManager.user.streakInfo?.weekCount)
 
-                    CalendarView()
+                CalendarView()
 
-                    WeightChart()
+                WeightChart()
 
-                    VStack(alignment: .leading, spacing: 15) {
-                        Text("HEALTH")
-                            .foregroundStyle(.secondary)
-                            .bold()
-                            .font(.headline)
-                        StepCounterView()
-                            .environment(hkManager)
-                    }
-                    .onAppear {
-                        hkManager.requestAuthorization()
-                    }
-                    Spacer()
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("HEALTH")
+                        .foregroundStyle(.secondary)
+                        .bold()
+                        .font(.headline)
+                    StepCounterView()
+                        .environment(hkManager)
                 }
+                .onAppear {
+                    hkManager.requestAuthorization()
+                }
+                Spacer()
             }
-            .scrollBounceBehavior(.basedOnSize)
-            .padding()
         }
+        .scrollBounceBehavior(.basedOnSize)
+        .padding()
     }
 }
 

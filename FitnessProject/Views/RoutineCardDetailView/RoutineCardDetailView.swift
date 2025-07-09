@@ -33,8 +33,7 @@ struct RoutineCardDetailView: View {
                 }
             }
             Button {
-                router.dismissModal()
-                router.push(destination: .createRoutineScreen(routine: routine, screenMode: .timer))
+                router.push(destination: .timerScreen(routine: routine))
             } label: {
                 Text("Start Routine")
                     .frame(maxWidth: .infinity)
@@ -44,41 +43,21 @@ struct RoutineCardDetailView: View {
                     .background(Color.accentColor.opacity(0.6))
                     .cornerRadius(20)
             }
-            .padding()
-        }
-        .fixedSize(horizontal: false, vertical: true)
-        .padding()
-        .background(.black)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-        .overlay {
-            VStack{
-                HStack{
-                    Button {
-                        router.dismissModal()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                    }
-                    .tint(.white)
-                    Spacer()
+            .padding(.horizontal)
 
-                    Button{
-                        router.dismissModal()
-                        router.push(destination: .createRoutineScreen(routine: routine, screenMode: .editing))
-                    } label: {
-                        Image(systemName: "pencil")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                    }
-                    .tint(.white)
-                }
-                Spacer()
+            Button {
+                router.push(destination: .createRoutineScreen(routine: routine, screenMode: .editing))
+            } label: {
+                Text("Edit Routine")
+                    .frame(maxWidth: .infinity)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(.white)
+                    .padding()
+                    .background(Color.secondary.opacity(0.6))
+                    .cornerRadius(20)
             }
-            .padding()
+            .padding(.horizontal)
         }
-        .shadow(radius: 20)
-        .padding(30)
     }
 }
 

@@ -15,6 +15,6 @@ enum Modal: Identifiable {
         }
     }
 
-    case weightChartEntry
+    case weightChartEntry(viewModel: WeightChart.ViewModel)
     case routineInfo(routine: Routine)
 }
