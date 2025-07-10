@@ -24,6 +24,9 @@ struct RootView: View {
                     .fullScreenCover(item: $router.fullScreenCover){ cover in
                         router.buildCover(cover: cover)
                     }
+                    .modal(item: $router.modal) { modal in
+                        router.buildModal(modal: modal)
+                    }
             }
         }
         .onAppear {
@@ -39,6 +42,8 @@ struct RootView: View {
         }
     }
 }
+
+
 
 #Preview {
     RootView()

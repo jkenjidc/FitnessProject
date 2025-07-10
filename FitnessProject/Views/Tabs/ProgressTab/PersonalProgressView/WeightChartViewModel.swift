@@ -8,7 +8,7 @@
 import Foundation
 import Observation
 import SwiftUI
-extension PersonalProgressView {
+extension WeightChart {
     @Observable class ViewModel {
         var currentDatePickerSelection = DatePickerSelection.all
         var currentWeightEntry: WeightEntry? = nil
