@@ -10,7 +10,6 @@ import Charts
 
 struct PersonalProgressView: View {
     @Environment(Router.self) var router
-    @Environment(HealthKitManager.self) var hkManager
     @Bindable var dataManager = DataManager.shared
     var body: some View {
         ScrollView(showsIndicators: false){
@@ -21,17 +20,8 @@ struct PersonalProgressView: View {
 
                 WeightChart()
 
-                VStack(alignment: .leading, spacing: 15) {
-                    Text("HEALTH")
-                        .foregroundStyle(.secondary)
-                        .bold()
-                        .font(.headline)
-                    StepCounterView()
-                        .environment(hkManager)
-                }
-                .onAppear {
-                    hkManager.requestAuthorization()
-                }
+                HealthKitSectionsView()
+
                 Spacer()
             }
         }
