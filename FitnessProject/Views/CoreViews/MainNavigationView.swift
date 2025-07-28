@@ -39,7 +39,7 @@ struct MainNavigationView: View {
                 }
                 .tag(2)
 
-            ExercisesListView()
+            ExercisesScreen()
                 .tabItem {
                     Label("Exercises", systemImage: "figure.run")
                 }
