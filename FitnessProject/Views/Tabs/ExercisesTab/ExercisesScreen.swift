@@ -11,12 +11,16 @@ struct ExercisesScreen: View {
     @State var exercises: [ExerciseV2] = []
     @State var searchQuery: String = ""
     @State var selectedBodyPart: String?
-
+    @State var selectedTargetMuscle: String?
     var filteredExercises: [ExerciseV2] {
         var filtered = exercises
 
-        if let selection = selectedBodyPart {
-            filtered = exercises.filter( { $0.bodyPart == selection })
+        if let selectedBodyPart = selectedBodyPart {
+            filtered = exercises.filter( { $0.bodyPart == selectedBodyPart })
+        }
+
+        if let selectedTargetMuscle = selectedTargetMuscle {
+            filtered = exercises.filter( { $0.target == selectedTargetMuscle })
         }
 
         if searchQuery.isEmpty {
@@ -30,42 +34,17 @@ struct ExercisesScreen: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            SearchBar(text: $searchQuery, placeholder: "Search for exercises")
-            HStack {
-                Menu {
-                    ForEach(exercises.uniqueValues(for: .bodyPart), id: \.self) { bodyPart in
-                        Button {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                if selectedBodyPart != bodyPart {
-                                    selectedBodyPart = bodyPart
-                                } else {
-                                    selectedBodyPart = nil
-                                }
-                            }
-                        } label: {
-                            HStack {
-                                Text(bodyPart)
-                                Spacer()
-                                if selectedBodyPart == bodyPart {
-                                    Image(systemName: "checkmark")
-                                }
-                            }
-                        }
-                    }
-                } label: {
-                    Text(selectedBodyPart ?? "Sort by bodypart")
-                        .padding(.vertical, 5)
-                        .padding(.horizontal, 10)
-                        .background(
-                            Capsule().fill(
-                                selectedBodyPart != nil ? .green :
-                                .gray.opacity(0.7)
-                            )
-                        )
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.black)
-                }
-            }
+            SearchBar(
+                text: $searchQuery,
+                placeholder: "Search for exercises"
+            )
+
+            ExercisesFilterMenu(
+                exercises: exercises,
+                bodyPart: $selectedBodyPart,
+                targetMuscle: $selectedTargetMuscle
+            )
+
             ExercisesListView(for: filteredExercises)
                 .ignoresSafeArea(edges: .top)
         }
@@ -102,7 +81,6 @@ struct ExercisesScreen: View {
             Log.error("Failed to fetch exercises: \(error.localizedDescription)")
         }
     }
-
     func fetchAndCacheExercises() async throws {
         Log.info("Fetching new data for exercises")
         let (data, response) = try await URLSession.shared.data(for: ExerciseV2Request.request)
