@@ -8,19 +8,8 @@
 import SwiftUI
 
 struct ExercisesFilterMenu: View {
-    @Binding var selectedBodyPart: String?
-    @Binding var selectedTargetMuscle: String?
-    let exercises: [ExerciseV2]
+    @Environment(ExerciseService.self) var service
 
-    init (
-        exercises: [ExerciseV2],
-        bodyPart selectedBodyPart: Binding<String?>,
-        targetMuscle selectedTargetMuscle: Binding<String?>
-    ) {
-        self.exercises = exercises
-        self._selectedBodyPart = selectedBodyPart
-        self._selectedTargetMuscle = selectedTargetMuscle
-    }
     var body: some View {
         HStack(spacing: 5) {
             bodyPartMenu
@@ -34,32 +23,32 @@ struct ExercisesFilterMenu: View {
 
     var bodyPartMenu: some View {
         Menu {
-            ForEach(exercises.uniqueValues(for: .bodyPart), id: \.self) { bodyPart in
+            ForEach(service.exercises.uniqueValues(for: .bodyPart), id: \.self) { bodyPart in
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        if selectedBodyPart != bodyPart {
-                            selectedBodyPart = bodyPart
+                        if service.selectedBodyPart != bodyPart {
+                            service.selectedBodyPart = bodyPart
                         } else {
-                            selectedBodyPart = nil
+                            service.selectedBodyPart = nil
                         }
                     }
                 } label: {
                     HStack {
                         Text(bodyPart)
                         Spacer()
-                        if selectedBodyPart == bodyPart {
+                        if service.selectedBodyPart == bodyPart {
                             Image(systemName: "checkmark")
                         }
                     }
                 }
             }
         } label: {
-            Text(selectedBodyPart ?? "Body Part")
+            Text(service.selectedBodyPart ?? "Body Part")
                 .padding(.vertical, 5)
                 .padding(.horizontal, 10)
                 .background(
                     Capsule().fill(
-                        selectedBodyPart != nil ? .green :
+                        service.selectedBodyPart != nil ? .green :
                         .gray.opacity(0.7)
                     )
                 )
@@ -71,36 +60,35 @@ struct ExercisesFilterMenu: View {
 
     var targetMuscleMenu: some View {
         Menu {
-            ForEach(exercises.uniqueValues(for: .target), id: \.self) { target in
+            ForEach(service.exercises.uniqueValues(for: .target), id: \.self) { target in
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        if selectedTargetMuscle != target {
-                            selectedTargetMuscle = target
+                        if service.selectedTargetMuscle != target {
+                            service.selectedTargetMuscle = target
                         } else {
-                            selectedTargetMuscle = nil
+                            service.selectedTargetMuscle = nil
                         }
                     }
                 } label: {
                     HStack {
                         Text(target)
                         Spacer()
-                        if selectedTargetMuscle == target {
+                        if service.selectedTargetMuscle == target {
                             Image(systemName: "checkmark")
                         }
                     }
                 }
             }
         } label: {
-            Text(selectedTargetMuscle ?? "Target Muscle")
+            Text(service.selectedTargetMuscle ?? "Target Muscle")
                 .padding(.vertical, 5)
                 .padding(.horizontal, 10)
                 .background(
                     Capsule().fill(
-                        selectedTargetMuscle != nil ? .green :
+                        service.selectedTargetMuscle != nil ? .green :
                         .gray.opacity(0.7)
                     )
                 )
-//                .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundStyle(.black)
         }
 
@@ -108,5 +96,6 @@ struct ExercisesFilterMenu: View {
 }
 
 #Preview {
-    ExercisesFilterMenu(exercises: ExerciseV2.mockList, bodyPart: .constant("waist"), targetMuscle: .constant("abs"))
+    ExercisesFilterMenu()
+        .injectServices()
 }

@@ -9,15 +9,11 @@ import SwiftUI
 import Foundation
 
 struct ExercisesListView: View {
-    let filteredExercises: [ExerciseV2]
-
-    init(for exercises: [ExerciseV2]) {
-        self.filteredExercises = exercises
-    }
+    @Environment(ExerciseService.self) var service
 
     var body: some View {
         List {
-            ForEach(filteredExercises) { exercise in
+            ForEach(service.filteredExercises) { exercise in
                 HStack(spacing: 30) {
                     AsyncImage(url: exercise.gifUrl) { image in
                         image
@@ -33,11 +29,13 @@ struct ExercisesListView: View {
             }
         }
         .listStyle(.plain)
+        .ignoresSafeArea(edges: .top)
 
     }
 }
 
 #Preview {
-    ExercisesListView(for: ExerciseV2.mockList)
+    ExercisesListView()
+        .injectServices()
         .preferredColorScheme(.dark)
 }
