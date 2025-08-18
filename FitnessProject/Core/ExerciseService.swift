@@ -10,10 +10,19 @@ import Observation
 
 @Observable
 class ExerciseService {
-    var exercises: [ExerciseV2] = []
+    var networkState: NetworkCallState<[ExerciseV2]> = .loading
     var searchQuery: String = ""
     var selectedBodyPart: String?
     var selectedEquipment: String?
+
+    var exercises: [ExerciseV2] {
+        switch networkState {
+        case .loaded(let exercises):
+            return exercises
+        default:
+            return []
+        }
+    }
 
     var filteredExercises: [ExerciseV2] {
         exercises.filter { exercise in
@@ -35,8 +44,16 @@ class ExerciseService {
     var equipmentOptions: [String] {
         exercises.uniqueValues(for: .equipment)
     }
+    init() {
+        Task {
+            await fetchExercises()
+        }
+    }
+
+
 
     func fetchExercises() async {
+        Log.info("Fetching exercises data....")
         do {
             if let cachedExercises = URLCache.shared.cachedResponse(for: ExerciseV2Request.request),
                let expirationDate = cachedExercises.userInfo?["expirationDate"] as? Date,
@@ -45,41 +62,60 @@ class ExerciseService {
             } else {
                 try await fetchAndCacheExercises()
             }
+        } catch let exerciseError as ExerciseServiceError {
+            Log.error("Exercise service error: \(exerciseError.errorDescription)")
+            networkState = .error(exerciseError)
         } catch {
-            Log.error("Failed to fetch exercises: \(error.localizedDescription)")
+            Log.error("Unexpected error fetching exercises: \(error.localizedDescription)")
+            networkState = .error(error)
         }
     }
+
     func fetchAndCacheExercises() async throws {
-        Log.info("Fetching new data for exercises")
         let (data, response) = try await URLSession.shared.data(for: ExerciseV2Request.request)
-        if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-            let initialCache = CachedURLResponse(
-                response: httpResponse,
-                data: data,
-                storagePolicy: .allowed
-            )
-            var userInfo = initialCache.userInfo ?? [:]
-            userInfo["expirationDate"] = Date.nextDayNoonCentralTime()
-            let cachedResponse = CachedURLResponse(
-                response: initialCache.response,
-                data: initialCache.data,
-                userInfo: userInfo,
-                storagePolicy: initialCache.storagePolicy
-            )
 
-            URLCache.shared.storeCachedResponse(cachedResponse, for: ExerciseV2Request.request)
+        // Validate the response
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw ExerciseServiceError.invalidResponse
         }
 
-        if let decodedResponse = try? JSONDecoder().decode([ExerciseV2DTO].self, from: data) {
-            exercises = decodedResponse.map(ExerciseV2.init)
+        guard httpResponse.statusCode == 200 else {
+            throw ExerciseServiceError.httpError(statusCode: httpResponse.statusCode)
         }
 
+        // Cache the successful response
+        let initialCache = CachedURLResponse(
+            response: httpResponse,
+            data: data,
+            storagePolicy: .allowed
+        )
+        var userInfo = initialCache.userInfo ?? [:]
+        userInfo["expirationDate"] = Date.nextDayNoonCentralTime()
+        let cachedResponse = CachedURLResponse(
+            response: initialCache.response,
+            data: initialCache.data,
+            userInfo: userInfo,
+            storagePolicy: initialCache.storagePolicy
+        )
+
+        URLCache.shared.storeCachedResponse(cachedResponse, for: ExerciseV2Request.request)
+
+        do {
+            let decodedResponse = try JSONDecoder().decode([ExerciseV2DTO].self, from: data)
+            networkState = .loaded(decodedResponse.map(ExerciseV2.init))
+            Log.info("Successfully fetched and cached \(exercises.count) exercises")
+        } catch {
+            throw ExerciseServiceError.networkDecodingFailed(underlyingError: error)
+        }
     }
-    func fetchCache(_ cachedResponse: CachedURLResponse) throws {
-        Log.info("Using cached response for exercises")
-        if let decodedResponse = try? JSONDecoder().decode([ExerciseV2DTO].self, from: cachedResponse.data) {
-            exercises = decodedResponse.map(ExerciseV2.init)
-        }
 
+    func fetchCache(_ cachedResponse: CachedURLResponse) throws {
+        do {
+            let decodedResponse = try JSONDecoder().decode([ExerciseV2DTO].self, from: cachedResponse.data)
+            networkState = .loaded(decodedResponse.map(ExerciseV2.init))
+            Log.info("Successfully loaded \(exercises.count) exercises from cache")
+        } catch {
+            throw ExerciseServiceError.cacheCorrupted
+        }
     }
 }
