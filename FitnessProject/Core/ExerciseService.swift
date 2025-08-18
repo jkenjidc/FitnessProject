@@ -13,26 +13,27 @@ class ExerciseService {
     var exercises: [ExerciseV2] = []
     var searchQuery: String = ""
     var selectedBodyPart: String?
-    var selectedTargetMuscle: String?
+    var selectedEquipment: String?
 
     var filteredExercises: [ExerciseV2] {
-        var filtered = exercises
+        exercises.filter { exercise in
+            let bodyPartMatches = selectedBodyPart == nil || exercise.bodyPart == selectedBodyPart
 
-        if let selectedBodyPart = selectedBodyPart {
-            filtered = exercises.filter( { $0.bodyPart == selectedBodyPart })
-        }
+            let selectedEquipment = selectedEquipment == nil || exercise.equipment == selectedEquipment
 
-        if let selectedTargetMuscle = selectedTargetMuscle {
-            filtered = exercises.filter( { $0.target == selectedTargetMuscle })
-        }
+            let searchMatches = searchQuery.isEmpty || exercise.name.lowercased().contains(searchQuery.lowercased())
 
-        if searchQuery.isEmpty {
-            return filtered
-        } else {
-            return filtered.filter {
-                $0.name.lowercased().contains(searchQuery.lowercased())
-            }
+            return bodyPartMatches && selectedEquipment && searchMatches
         }
+    }
+
+
+    var bodyPartOptions: [String] {
+        exercises.uniqueValues(for: .bodyPart)
+    }
+
+    var equipmentOptions: [String] {
+        exercises.uniqueValues(for: .equipment)
     }
 
     func fetchExercises() async {

@@ -23,7 +23,7 @@ struct ExercisesFilterMenu: View {
 
     var bodyPartMenu: some View {
         Menu {
-            ForEach(service.exercises.uniqueValues(for: .bodyPart), id: \.self) { bodyPart in
+            ForEach(service.bodyPartOptions, id: \.self) { bodyPart in
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         if service.selectedBodyPart != bodyPart {
@@ -60,38 +60,38 @@ struct ExercisesFilterMenu: View {
 
     var targetMuscleMenu: some View {
         Menu {
-            ForEach(service.exercises.uniqueValues(for: .target), id: \.self) { target in
+            ForEach(service.equipmentOptions, id: \.self) { equipment in
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        if service.selectedTargetMuscle != target {
-                            service.selectedTargetMuscle = target
+                        if service.selectedEquipment != equipment {
+                            service.selectedEquipment = equipment
                         } else {
-                            service.selectedTargetMuscle = nil
+                            service.selectedEquipment = nil
                         }
                     }
                 } label: {
                     HStack {
-                        Text(target)
+                        Text(equipment)
                         Spacer()
-                        if service.selectedTargetMuscle == target {
+                        if service.selectedEquipment == equipment {
                             Image(systemName: "checkmark")
                         }
                     }
                 }
             }
         } label: {
-            Text(service.selectedTargetMuscle ?? "Target Muscle")
+            Text(service.selectedEquipment ?? "Equipment")
                 .padding(.vertical, 5)
                 .padding(.horizontal, 10)
                 .background(
                     Capsule().fill(
-                        service.selectedTargetMuscle != nil ? .green :
+                        service.selectedEquipment != nil ? .green :
                         .gray.opacity(0.7)
                     )
                 )
+//                .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundStyle(.black)
         }
-
     }
 }
 

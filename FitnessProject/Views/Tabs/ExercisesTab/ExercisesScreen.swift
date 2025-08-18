@@ -33,10 +33,13 @@ struct ExercisesScreen: View {
 
     @ViewBuilder
     private var noResultsView: some View {
-        if !service.searchQuery.isEmpty && service.filteredExercises.isEmpty {                    ContentUnavailableView(
+        if service.filteredExercises.isEmpty {
+            ContentUnavailableView(
             "No matching exercises found",
             systemImage: "magnifyingglass",
-            description: Text("No results for **\(service.searchQuery)**")
+            description: Text(
+                service.searchQuery.isEmpty ? "No results for selected filters" : "No results for **\(service.searchQuery)**"
+            )
         )
         }
     }
