@@ -13,15 +13,13 @@ extension TimerScreen {
 
         var body: some View {
             ScrollView {
-                listHeader
-                VStack {
+                VStack(spacing: 10) {
+                    listHeader
                     ForEach(exercises) { exercise in
-                        //Necessary step because we are using mock data with the same ID
                         ExerciseListRow(exercise)
                     }
                 }
             }
-            .padding(.vertical, 15)
             .padding(.horizontal, 30)
         }
         private var listHeader: some View {
@@ -39,30 +37,42 @@ extension TimerScreen {
         init(_ exercise: Exercise) {
             _exercise = State(initialValue: exercise)
         }
-
         var body: some View {
-            DisclosureGroup {
-                VStack {
-                    HStack {
-                        Text("Weight")
-                        Spacer()
-                        Text("Reps")
-                    }
-                    ForEach($exercise.sets) { $exerciseSet in
-                        HStack {
-                            TextField("\(exerciseSet.weight)", value: $exerciseSet.weight, format: .number)
-                                .keyboardType(.decimalPad)
-                            Spacer()
-                            TextField("\(exerciseSet.reps)", value: $exerciseSet.reps, format: .number)
-                                .keyboardType(.numberPad)
-                                .multilineTextAlignment(.trailing)
-                        }
 
+            DisclosureGroup {
+                HStack {
+                    VStack(alignment: .center, spacing: 12) {
+                        Text("Weight")
+
+                        ForEach($exercise.sets) { $exerciseSet in
+                            TextField("\(exerciseSet.weight)", value: $exerciseSet.weight, format: .number)
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 6)
+                                .multilineTextAlignment(.center)
+                                .keyboardType(.decimalPad)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(.white, lineWidth: 2)
+                                )
+                        }
+                    }
+
+                    VStack(alignment: .center, spacing: 12) {
+                        Text("Reps")
+                        ForEach($exercise.sets) { $exerciseSet in
+                            TextField("\(exerciseSet.reps)", value: $exerciseSet.reps, format: .number)
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 6)
+                                .keyboardType(.numberPad)
+                                .multilineTextAlignment(.center)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(.white, lineWidth: 2)
+                                )
+                        }
                     }
                 }
-                .padding(.horizontal, 25)
-                .padding()
-
+                .padding(.vertical, 16)
             } label: {
                 HStack {
                     Text(exercise.name)
@@ -73,13 +83,11 @@ extension TimerScreen {
                     }
                     .offset(x: 20)
                 }
-                .padding()
-
             }
+            .padding(16)
             .background(.blue.opacity(0.7))
             .cornerRadius(10)
             .foregroundColor(.white)
-            .padding(.bottom, 10)
             .tint(.clear)
         }
     }

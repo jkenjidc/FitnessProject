@@ -25,6 +25,7 @@ struct TimerScreen: View {
                         .foregroundStyle(.red)
                 }
             }
+
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     router.pop()
