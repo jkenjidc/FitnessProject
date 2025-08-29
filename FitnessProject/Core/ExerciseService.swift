@@ -36,7 +36,6 @@ class ExerciseService {
         }
     }
 
-
     var bodyPartOptions: [String] {
         exercises.uniqueValues(for: .bodyPart)
     }
@@ -44,13 +43,12 @@ class ExerciseService {
     var equipmentOptions: [String] {
         exercises.uniqueValues(for: .equipment)
     }
+
     init() {
         Task {
             await fetchExercises()
         }
     }
-
-
 
     func fetchExercises() async {
         Log.info("Fetching exercises data....")

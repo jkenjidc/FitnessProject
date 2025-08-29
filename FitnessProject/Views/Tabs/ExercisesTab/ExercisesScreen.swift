@@ -43,7 +43,7 @@ struct ExercisesScreen: View {
         VStack(spacing: 20) {
             ExercisesFilterMenu()
 
-            ExercisesListView()
+            ExercisesList()
         }
         .overlay {
             noResultsView

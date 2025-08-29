@@ -9,18 +9,18 @@ import SwiftUI
 
 struct ExercisesFilterMenu: View {
     @Environment(ExerciseService.self) var service
-
+    
     var body: some View {
         HStack(spacing: 5) {
             bodyPartMenu
-
+            
             targetMuscleMenu
             
             Spacer()
         }
-
+        
     }
-
+    
     var bodyPartMenu: some View {
         Menu {
             ForEach(service.bodyPartOptions, id: \.self) { bodyPart in
@@ -44,20 +44,14 @@ struct ExercisesFilterMenu: View {
             }
         } label: {
             Text(service.selectedBodyPart ?? "Body Part")
-                .padding(.vertical, 5)
-                .padding(.horizontal, 10)
-                .background(
-                    Capsule().fill(
-                        service.selectedBodyPart != nil ? .green :
-                        .gray.opacity(0.7)
-                    )
+                .capsuleStyle(
+                    backgroundColor:
+                        service.selectedBodyPart != nil ? .green : .gray.opacity(0.7)
                 )
-//                .frame(maxWidth: .infinity, alignment: .leading)
-                .foregroundStyle(.black)
         }
-
+        .buttonStyle(.plain)
     }
-
+    
     var targetMuscleMenu: some View {
         Menu {
             ForEach(service.equipmentOptions, id: \.self) { equipment in
@@ -81,17 +75,12 @@ struct ExercisesFilterMenu: View {
             }
         } label: {
             Text(service.selectedEquipment ?? "Equipment")
-                .padding(.vertical, 5)
-                .padding(.horizontal, 10)
-                .background(
-                    Capsule().fill(
-                        service.selectedEquipment != nil ? .green :
-                        .gray.opacity(0.7)
-                    )
+                .capsuleStyle(
+                    backgroundColor:
+                        service.selectedBodyPart != nil ? .green : .gray.opacity(0.7)
                 )
-//                .frame(maxWidth: .infinity, alignment: .leading)
-                .foregroundStyle(.black)
         }
+        .buttonStyle(.plain)
     }
 }
 

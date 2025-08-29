@@ -16,7 +16,11 @@ public struct ExerciseV2: Identifiable, Sendable {
     public let target: String
     public let secondaryMuscles: [String]
     public let instructions: [String]
-    
+
+    var accessoryLabels: [String] {
+        return [bodyPart, target, equipment]
+    }
+
     public init(
         id: String,
         name: String,

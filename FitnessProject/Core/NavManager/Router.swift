@@ -100,6 +100,8 @@ class Router {
             ForgotPasswordView()
         case .streakInfo:
             StreakInfoSheet()
+        case .exerciseDetail(let exercise):
+            ExerciseDetailSheet(exercise: exercise)
         }
     }
     

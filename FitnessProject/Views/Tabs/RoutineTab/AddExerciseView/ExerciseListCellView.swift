@@ -61,7 +61,7 @@ struct ExerciseListCellView: View {
     var weightUnit: String {
         return "\(dataManager.user.preferences.usingImperialWeightUnits ? "lbs" : "kg")"
     }
-    
+
     var lastBestSetText: String? {
         if let lastBestSet = exercise.lastBestSet, let dateForSet = exercise.lastBestSet?.lastBestAttempt {
             return "best set \(dateDescription(for: dateForSet) ?? ""): \(lastBestSet.formattedWeight) \(weightUnit) x \(lastBestSet.reps)"
@@ -77,7 +77,7 @@ struct ExerciseListCellView: View {
         GridItem(.flexible(minimum: 60, maximum: 100)),   // reps
         GridItem(.flexible(minimum: 40, maximum: 50))     // checkmark/empty space
     ]
-    
+
     var body: some View {
         VStack(alignment: .center, spacing: 0){
             ZStack(alignment: .leading){
@@ -89,12 +89,12 @@ struct ExerciseListCellView: View {
                         }
                     }
                     .padding(.leading, 30)
-                
+
                 Text(exercise.name)
                     .frame(maxWidth: .infinity)
                     .padding()
             }
-            
+
             LazyVGrid(columns: columns, spacing: 10) {
                 Text("")
                 Text("Sets")
@@ -120,7 +120,7 @@ struct ExerciseListCellView: View {
                 }
                 .frame(maxWidth: .infinity)
             }
-            
+
             Button{
                 addSet()
             } label: {
@@ -136,22 +136,22 @@ struct ExerciseListCellView: View {
         .containerRelativeFrame(.horizontal)
         .padding(.bottom, 5)
     }
-    
+
     func addSet() {
         let lastWeight = exercise.sets.last?.weight ?? 0
         let lastRep = exercise.sets.last?.reps ?? 0
         exercise.sets.append(ExerciseSet(weight: lastWeight, reps: lastRep))
     }
-    
+
     func dateDescription(for date: Date) -> String? {
         let calendar = Calendar.current
         let now = Date()
         let components = calendar.dateComponents([.day, .month], from: date, to: now)
-        
+
         guard let days = components.day, let _ = components.month else {
             return nil
         }
-        
+
         switch days {
         case 0:
             return "today"
@@ -172,4 +172,3 @@ struct ExerciseListCellView: View {
     return ExerciseListCellView(exercise: .constant(exercise), screenMode: .creation, deleteExercise: dummyfunc.self)
         .preferredColorScheme(.dark)
 }
-
