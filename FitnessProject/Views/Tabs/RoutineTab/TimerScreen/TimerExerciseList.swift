@@ -73,6 +73,7 @@ extension TimerScreen {
                     }
                 }
                 .padding(.vertical, 16)
+                .tint(.white)
             } label: {
                 HStack {
                     Text(exercise.name)
@@ -83,6 +84,7 @@ extension TimerScreen {
                     }
                     .offset(x: 20)
                 }
+                .tint(.clear)
             }
             .padding(16)
             .background(.blue.opacity(0.7))

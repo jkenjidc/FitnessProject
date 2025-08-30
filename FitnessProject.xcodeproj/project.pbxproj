@@ -399,7 +399,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FitnessProject/Preview Content\"";
-				DEVELOPMENT_TEAM = 597T4599W4;
+				DEVELOPMENT_TEAM = PG6V5L8R8P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "To read the health data and show it in the application";
@@ -432,7 +432,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FitnessProject/Preview Content\"";
-				DEVELOPMENT_TEAM = 597T4599W4;
+				DEVELOPMENT_TEAM = PG6V5L8R8P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "To read the health data and show it in the application";
