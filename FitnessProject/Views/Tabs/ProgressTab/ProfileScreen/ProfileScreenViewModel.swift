@@ -10,7 +10,7 @@ import SwiftUI
 import PhotosUI
 import CoreImage
 
-extension ProfileView {
+extension ProfileScreen {
     @Observable
     class ViewModel {
         var confirmAccountDeletion = false
@@ -22,17 +22,6 @@ extension ProfileView {
                 try AuthManager.shared.signOut()
                 DataManager.shared.signOut()
                 pop()
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        
-        func deleteAccount(pop: () -> Void) async {
-            pop()
-            do {
-                try await DataManager.shared.deleteUser()
-                try await AuthManager.shared.deleteAccount()
-                DataManager.shared.signOut()
             } catch {
                 print(error.localizedDescription)
             }

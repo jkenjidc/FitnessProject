@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HealthKitSectionsView: View {
+struct HealthKitSection: View {
     @Environment(HealthKitManager.self) var hkManager
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
@@ -25,5 +25,5 @@ struct HealthKitSectionsView: View {
 }
 
 #Preview {
-    HealthKitSectionsView()
+    HealthKitSection()
 }

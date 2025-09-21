@@ -72,6 +72,8 @@ class Router {
     @ViewBuilder
     func build(destination: Destination) -> some View {
         switch destination {
+        case .profileScreen:
+            ProfileScreen()
         case .signInScreen:
             SignInView()
         case .signUpScreen:

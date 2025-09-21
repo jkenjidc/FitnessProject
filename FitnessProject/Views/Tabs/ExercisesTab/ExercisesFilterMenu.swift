@@ -9,28 +9,26 @@ import SwiftUI
 
 struct ExercisesFilterMenu: View {
     @Environment(ExerciseService.self) var service
-    
+
     var body: some View {
         HStack(spacing: 5) {
             bodyPartMenu
-            
+
             targetMuscleMenu
-            
+
             Spacer()
         }
-        
+
     }
-    
+
     var bodyPartMenu: some View {
         Menu {
             ForEach(service.bodyPartOptions, id: \.self) { bodyPart in
                 Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        if service.selectedBodyPart != bodyPart {
-                            service.selectedBodyPart = bodyPart
-                        } else {
-                            service.selectedBodyPart = nil
-                        }
+                    if service.selectedBodyPart != bodyPart {
+                        service.selectedBodyPart = bodyPart
+                    } else {
+                        service.selectedBodyPart = nil
                     }
                 } label: {
                     HStack {
@@ -51,17 +49,15 @@ struct ExercisesFilterMenu: View {
         }
         .buttonStyle(.plain)
     }
-    
+
     var targetMuscleMenu: some View {
         Menu {
             ForEach(service.equipmentOptions, id: \.self) { equipment in
                 Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        if service.selectedEquipment != equipment {
-                            service.selectedEquipment = equipment
-                        } else {
-                            service.selectedEquipment = nil
-                        }
+                    if service.selectedEquipment != equipment {
+                        service.selectedEquipment = equipment
+                    } else {
+                        service.selectedEquipment = nil
                     }
                 } label: {
                     HStack {
@@ -77,7 +73,7 @@ struct ExercisesFilterMenu: View {
             Text(service.selectedEquipment ?? "Equipment")
                 .capsuleStyle(
                     backgroundColor:
-                        service.selectedBodyPart != nil ? .green : .gray.opacity(0.7)
+                        service.selectedEquipment != nil ? .green : .gray.opacity(0.7)
                 )
         }
         .buttonStyle(.plain)

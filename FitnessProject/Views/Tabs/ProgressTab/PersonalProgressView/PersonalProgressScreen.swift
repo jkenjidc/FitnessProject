@@ -8,7 +8,7 @@
 import SwiftUI
 import Charts
 
-struct PersonalProgressView: View {
+struct PersonalProgressScreen: View {
     @Environment(Router.self) var router
     @Bindable var dataManager = DataManager.shared
     var body: some View {
@@ -20,7 +20,7 @@ struct PersonalProgressView: View {
 
                 WeightChart()
 
-                HealthKitSectionsView()
+                HealthKitSection()
 
                 Spacer()
             }
@@ -30,7 +30,7 @@ struct PersonalProgressView: View {
     }
 }
 
-private extension PersonalProgressView {
+private extension PersonalProgressScreen {
     struct HeaderView: View {
         @Environment(Router.self) var router
         let weekCount: Int?
@@ -60,7 +60,7 @@ private extension PersonalProgressView {
 
 
 #Preview {
-    PersonalProgressView()
+    PersonalProgressScreen()
         .environment(Router())
         .environment(HealthKitManager())
         .preferredColorScheme(.dark)

@@ -8,6 +8,7 @@
 import Foundation
 
 enum Destination: Codable, Hashable {
+    case profileScreen
     case signInScreen
     case signUpScreen
     case mainNavigationScreen

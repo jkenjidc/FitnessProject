@@ -17,6 +17,7 @@ struct ExercisesScreen: View {
                 text: $service.searchQuery,
                 placeholder: "Search for exercises"
             )
+
             switch service.networkState {
             case .loading:
                 ExerciseShimmerLoadingView()

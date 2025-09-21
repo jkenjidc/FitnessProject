@@ -9,59 +9,64 @@ import SwiftUI
 
 struct MainNavigationView: View {
     @Environment(Router.self) var router
-    @State private var selectedTab = 1
-    private var tabBarFontSize = CGFloat(25)
-    var navTitle: String {
-        switch(selectedTab) {
-        case 0: "Welcome \(DataManager.shared.user.name.isEmpty ? "Guest" : DataManager.shared.user.name)"
-        case 1: "Routines"
-        case 2:"Progress"
-        default: "Exercises"
-        }
-    }
+    @State private var selectedTab: Tabs = .routines
     var body: some View {
         TabView(selection: $selectedTab) {
-            ProfileView()
-                .tabItem {
-                    Label("Profile", systemImage: "person")
-                }
-                .tag(0)
-            
-            RoutineListView()
-                .tabItem {
-                    Label("Routines", systemImage: "dumbbell.fill")
-                }
-                .tag(1)
-            
-            PersonalProgressView()
-                .tabItem {
-                    Label("Progress", systemImage: "chart.line.uptrend.xyaxis")
-                }
-                .tag(2)
-
             ExercisesScreen()
                 .tabItem {
-                    Label("Exercises", systemImage: "figure.run")
+                    Label(Tabs.exercises.rawValue.capitalized, systemImage: Tabs.exercises.systemImageName)
                 }
-                .tag(3)
-        }
-        .navigationTitle(navTitle)
-        .toolbar {
-            if selectedTab == 0 {
-                ToolbarItem(placement: .topBarTrailing){
-                    Button {
-                        router.push(destination: .settingsScreen)
-                    } label: {
-                        Image(systemName: "gearshape.fill")
-                            .font(.system(size: 20))
-                    }
-                    .padding()
-                    .buttonStyle(.plain)
+                .tag(Tabs.exercises)
+
+            RoutineListView()
+                .tabItem {
+                    Label(Tabs.routines.rawValue.capitalized, systemImage: Tabs.routines.systemImageName)
                 }
-            }
+                .tag(Tabs.routines)
+
+            PersonalProgressScreen()
+                .tabItem {
+                    Label(Tabs.progress.rawValue.capitalized, systemImage: Tabs.progress.systemImageName)
+                }
+                .tag(Tabs.progress)
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
+        .navigationTitle(selectedTab.rawValue.capitalized)
+        .toolbar {
+            profileButtonToolbarItem
+        }
+    }
+
+    @ToolbarContentBuilder
+    var profileButtonToolbarItem: some ToolbarContent {
+        if selectedTab == .progress {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    router.push(destination: .profileScreen)
+                } label: {
+                    Label("Profile", systemImage: "person")
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+}
+
+fileprivate enum Tabs: String {
+    case exercises = "exercises"
+    case routines  = "routines"
+    case progress = "progress"
+
+    var systemImageName: String {
+        switch self {
+        case .exercises:
+            return "figure.run"
+        case .routines:
+            return "dumbbell.fill"
+        case .progress:
+            return "chart.line.uptrend.xyaxis"
+        }
     }
 }
 
