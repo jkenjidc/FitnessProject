@@ -40,15 +40,13 @@ struct MainNavigationView: View {
 
     @ToolbarContentBuilder
     var profileButtonToolbarItem: some ToolbarContent {
-        if selectedTab == .progress {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    router.push(destination: .profileScreen)
-                } label: {
-                    Label("Profile", systemImage: "person")
-                }
-                .buttonStyle(.plain)
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+                router.push(destination: .profileScreen)
+            } label: {
+                Label("Profile", systemImage: "person")
             }
+            .buttonStyle(.plain)
         }
     }
 }
