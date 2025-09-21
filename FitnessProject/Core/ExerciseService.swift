@@ -53,13 +53,22 @@ class ExerciseService {
     func fetchExercises() async {
         Log.info("Fetching exercises data....")
         do {
-            if let cachedExercises = URLCache.shared.cachedResponse(for: ExerciseV2Request.request),
+            // First, try to use cache if it exists and is valid
+            if let cachedExercises = URLCache.shared.cachedResponse(for: ExerciseV2Request.request()),
                let expirationDate = cachedExercises.userInfo?["expirationDate"] as? Date,
                Date() < expirationDate {
-                try fetchCache(cachedExercises)
-            } else {
-                try await fetchAndCacheExercises()
+
+                do {
+                    try fetchCache(cachedExercises)
+                    return // Success with cache, exit early
+                } catch {
+                    Log.error("Cache fetch failed, falling back to network: \(error.localizedDescription)")
+                }
             }
+
+            // If no valid cache or cache fetch failed, fetch from network
+            try await fetchAndCacheExercises()
+
         } catch let exerciseError as ExerciseServiceError {
             Log.error("Exercise service error: \(exerciseError.errorDescription)")
             networkState = .error(exerciseError)
@@ -68,9 +77,8 @@ class ExerciseService {
             networkState = .error(error)
         }
     }
-
     func fetchAndCacheExercises() async throws {
-        let (data, response) = try await URLSession.shared.data(for: ExerciseV2Request.request)
+        let (data, response) = try await URLSession.shared.data(for: ExerciseV2Request.request())
 
         // Validate the response
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -88,7 +96,7 @@ class ExerciseService {
             storagePolicy: .allowed
         )
         var userInfo = initialCache.userInfo ?? [:]
-        userInfo["expirationDate"] = Date.nextDayNoonCentralTime()
+        userInfo["expirationDate"] = Date.threeMonthsFromToday()
         let cachedResponse = CachedURLResponse(
             response: initialCache.response,
             data: initialCache.data,
@@ -96,7 +104,7 @@ class ExerciseService {
             storagePolicy: initialCache.storagePolicy
         )
 
-        URLCache.shared.storeCachedResponse(cachedResponse, for: ExerciseV2Request.request)
+        URLCache.shared.storeCachedResponse(cachedResponse, for: ExerciseV2Request.request())
 
         do {
             let decodedResponse = try JSONDecoder().decode([ExerciseV2DTO].self, from: data)

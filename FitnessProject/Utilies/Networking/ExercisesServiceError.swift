@@ -21,7 +21,7 @@ enum ExerciseServiceError: Error, LocalizedError {
         case .httpError(let statusCode):
             return "HTTP request failed with status code: \(statusCode)"
         case .networkDecodingFailed(let error):
-            return "Failed to decode exercises from network response: \(error.localizedDescription)"
+            return "Failed to decode exercises from network response: \(error)"
         case .cacheCorrupted:
             return "Cached exercise data is corrupted and cannot be loaded"
         case .networkUnavailable:

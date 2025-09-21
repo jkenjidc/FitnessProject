@@ -27,6 +27,7 @@ struct ExercisesScreen: View {
             case .error:
                 //TODO: Handle error state
                 Text("error")
+                Spacer()
             }
         }
     }

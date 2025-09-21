@@ -97,6 +97,20 @@ extension Date {
             }
     }
 
+    static func threeMonthsFromToday() -> Date {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "America/Chicago")!
+
+        let now = Date()
+
+        guard let threeMonthsLater = calendar.date(byAdding: .month, value: 3, to: now) else {
+            // Fallback to 90 days from now if something goes wrong
+            return calendar.date(byAdding: .day, value: 90, to: now) ?? now
+        }
+
+        return threeMonthsLater
+    }
+
     var weekdayString: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE"

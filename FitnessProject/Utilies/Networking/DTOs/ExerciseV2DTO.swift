@@ -9,10 +9,11 @@ import Foundation
 struct ExerciseV2DTO: Decodable {
     let bodyPart: String
     let equipment: String
-    let gifUrl: URL
     let id: String
     let name: String
     let target: String
     let secondaryMuscles: [String]
     let instructions: [String]
+    let difficulty: String
+    let category: String
 }

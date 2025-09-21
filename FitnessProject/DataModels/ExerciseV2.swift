@@ -51,7 +51,7 @@ extension ExerciseV2 {
         self.name = dto.name
         self.bodyPart = dto.bodyPart
         self.equipment = dto.equipment
-        self.gifUrl = dto.gifUrl
+        self.gifUrl = URL(string: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2t3bzl4MDU1dTZscjF1cXoweWhld2Jhcm5pdHVkajd2aWJ1N25vYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/zIOdLMZDcBDc2gk6vV/giphy.gif")!
         self.target = dto.target
         self.secondaryMuscles = dto.secondaryMuscles
         self.instructions = dto.instructions
