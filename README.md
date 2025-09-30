@@ -1,6 +1,6 @@
 # FitnessProject
 
-A comprehensive SwiftUI fitness tracking application featuring workout routines, exercise databases, progress tracking, and HealthKit integration.
+A comprehensive SwiftUI fitness tracking application featuring workout routines, an exercise database, progress tracking, and HealthKit integration.
 
 ## 🎯 Overview
 
@@ -14,70 +14,16 @@ FitnessProject is a native iOS app built with SwiftUI that helps users create cu
 - **⏱️ Smart Timer**: Built-in workout timer with pause/resume functionality
 - **📊 Progress Tracking**: Visual progress charts and workout history
 - **💪 HealthKit Integration**: Sync with Apple Health for step counting and health metrics
-
-### User Experience
-- **🎨 Modern UI**: Clean SwiftUI interface with smooth animations
-- **🌙 Dark Mode**: Full dark mode support
-- **📱 Native Feel**: iOS-native navigation and interactions
-- **⚡ Offline Support**: Cached exercise data for offline use
-
-## 🏗️ Architecture & Technical Highlights
-
-### Architecture Pattern
-```
-├── 🏛️ MVVM + Coordinator Architecture 
-├── 🎯 Environment based Dependency Injection
-└── 📱 Pure SwiftUI Interface
-```
-
-### Key Technical Implementations
-
-#### **State Management**
-- `@Observable` macro for modern state management
-- Centralized `Router` for navigation flow
-- Service-layer architecture for data management
-
-#### **Network Layer**
-```swift
-// Clean API abstraction with error handling and Data Transfer Object Layer
-class ExerciseService {
-    enum NetworkState {
-        case loading
-        case loaded(exercises: [ExerciseV2])
-        case error(ExerciseServiceError)
-    }
-}
-```
-
-#### **Caching Strategy**
-- **URLCache** for API responses with custom expiration
-- **UserDefaults** for user preferences and settings
-- **Persistent storage** for workout history
-
-#### **Concurrency**
-- **Swift Concurrency** (async/await) for network operations
-- **TaskGroup** for concurrent image loading
-- **AsyncSemaphore** for rate limiting API calls
-
-## 🛠️ Tech Stack
-
-| Category | Technologies |
-|----------|-------------|
-| **UI Framework** | SwiftUI |
-| **Architecture** | MVVM, Service Layer |
-| **Networking** | URLSession, async/await |
-| **Data Persistence** | UserDefaults, Core Data |
-| **Health Integration** | HealthKit Framework |
-| **Charts & Visualization** | Swift Charts |
-| **Testing** | XCTest, UI Testing |
-
+<!-- 
 ## 📱 Screenshots
+
+*[Add 3-4 key screenshots showing main features]*
 
 | Exercise Database | Workout Timer | Progress Tracking |
 |-------------------|---------------|-------------------|
-| ![Exercise DB](screenshots/exercises.png) | ![Timer](screenshots/timer.png) | ![Progress](screenshots/progress.png) |
+| ![Exercise DB](screenshots/exercises.png) | ![Timer](screenshots/timer.png) | ![Progress](screenshots/progress.png) | -->
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 - iOS 16.0+
@@ -85,65 +31,27 @@ class ExerciseService {
 - Swift 5.9+
 
 ### Installation
-1. Clone the repository
 ```bash
 git clone https://github.com/yourusername/FitnessProject.git
 cd FitnessProject
-```
-
-2. Open in Xcode
-```bash
 open FitnessProject.xcodeproj
 ```
 
-3. Add API Keys (if needed)
-```swift
-// Add to your environment or config
-struct API {
-    static let exerciseDBKey = "your_api_key_here"
-}
-```
+For detailed setup instructions, see [SETUP.md](docs/SETUP.md).
 
-4. Build and run on simulator or device
+## 📚 Documentation
 
-## 🏗️ Project Structure
+| Document | Description |
+|----------|-------------|
+| [🏗️ Architecture](docs/ARCHITECTURE.md) | Technical architecture, patterns, and design decisions |
+| [🛠️ Tech Stack](docs/TECH_STACK.md) | Complete technology overview and dependencies |
+| [📁 Project Structure](docs/PROJECT_STRUCTURE.md) | Codebase organization and file structure |
+| [⚙️ Setup Guide](docs/SETUP.md) | Detailed installation and configuration |
+| [🧪 Testing](docs/TESTING.md) | Testing strategy and running tests |
+| [🚧 Development](docs/DEVELOPMENT.md) | Development status and roadmap |
+| [🤝 Contributing](docs/CONTRIBUTING.md) | How to contribute to the project |
 
-```
-FitnessProject/
-├── 📁 Core/                    # Business logic & services
-│   ├── ExerciseService.swift   # Exercise data management
-│   ├── HealthKitManager.swift  # Health integration
-│   └── DataManager.swift       # User data persistence
-├── 📁 Views/                   # SwiftUI views
-│   ├── Tabs/                   # Tab-based navigation
-│   ├── ComponentViews/         # Reusable components
-│   └── CoreViews/              # Main navigation
-├── 📁 DataModels/              # Data structures
-├── 📁 Utilities/               # Helpers & extensions
-└── 📁 Resources/               # Assets & configuration
-```
-
-## 🎨 Design Patterns & Best Practices
-
-### **Clean Code Principles**
-- **Single Responsibility**: Each class has one clear purpose
-- **Dependency Injection**: Services injected via environment
-- **Error Handling**: Comprehensive error states and recovery
-- **Type Safety**: Strong typing throughout the codebase
-
-### **SwiftUI Best Practices**
-- **View Composition**: Small, focused view components
-- **State Management**: Proper use of @State, @Binding, @Observable
-- **Performance**: Lazy loading and efficient list rendering
-- **Accessibility**: VoiceOver support and semantic labels
-
-### **Networking & Data**
-- **Async/Await**: Modern concurrency patterns
-- **Error Recovery**: Graceful fallbacks and retry logic
-- **Caching Strategy**: Smart caching to minimize API calls
-- **Data Validation**: Input sanitization and validation
-
-## 🔧 Code Examples
+## 🎨 Code Examples
 
 ### Custom View Modifier
 ```swift
@@ -159,64 +67,7 @@ struct CapsuleStyle: ViewModifier {
 }
 ```
 
-### Service Layer Implementation
-```swift
-@Observable
-class ExerciseService {
-    var networkState: NetworkState = .idle
-    
-    func fetchExercises() async {
-        networkState = .loading
-        do {
-            let exercises = try await fetchFromAPI()
-            networkState = .loaded(exercises: exercises)
-        } catch {
-            networkState = .error(error)
-        }
-    }
-}
-```
-
-## 🧪 Testing Strategy
-
-- **Unit Tests**: Core business logic and data models
-- **Integration Tests**: Service layer and API interactions  
-- **UI Tests**: Critical user flows and navigation
-- **Snapshot Tests**: Visual regression testing
-
-## 📈 Performance Optimizations
-
-- **Lazy Loading**: Exercise lists with pagination
-- **Image Caching**: Efficient GIF loading and storage
-- **Memory Management**: Proper cleanup and weak references
-- **Network Optimization**: Request batching and rate limiting
-
-## 🚧 Current Development Status
-
-### ✅ Completed Features
-- [x] Exercise database with search/filter
-- [x] Custom routine creation
-- [x] Workout timer functionality
-- [x] Basic progress tracking
-- [x] HealthKit step counter integration
-
-### 🔄 In Progress
-- [ ] General app polish
-- [ ] Advanced progress analytics
-- [ ] Apple Watch companion app
-- [ ] Workout recommendations
-
-### 📋 Future Enhancements
-- [ ] Nutrition tracking
-- [ ] Advanced workout analytics
-- [ ] CoreML driven smart notifications
-
-## 🤝 Contributing
-
-While this is primarily a personal project, feedback and suggestions are welcome! Please feel free to:
-- Open issues for bugs or feature requests
-- Submit pull requests for improvements
-- Share feedback on architecture or implementation
+For more examples, see [docs/CODE_EXAMPLES.md](docs/CODE_EXAMPLES.md).
 
 ## 📄 License
 
