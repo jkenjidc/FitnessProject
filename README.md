@@ -47,27 +47,9 @@ For detailed setup instructions, see [SETUP.md](docs/SETUP.md).
 | [🛠️ Tech Stack](docs/TECH_STACK.md) | Complete technology overview and dependencies |
 | [📁 Project Structure](docs/PROJECT_STRUCTURE.md) | Codebase organization and file structure |
 | [⚙️ Setup Guide](docs/SETUP.md) | Detailed installation and configuration |
-| [🧪 Testing](docs/TESTING.md) | Testing strategy and running tests |
-| [🚧 Development](docs/DEVELOPMENT.md) | Development status and roadmap |
-| [🤝 Contributing](docs/CONTRIBUTING.md) | How to contribute to the project |
+<!-- | [🧪 Testing](docs/TESTING.md) | Testing strategy and running tests || -->
 
-## 🎨 Code Examples
-
-### Custom View Modifier
-```swift
-struct CapsuleStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .fontWeight(.medium)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .background(.secondary)
-            .clipShape(Capsule())
-    }
-}
-```
-
-For more examples, see [docs/CODE_EXAMPLES.md](docs/CODE_EXAMPLES.md).
+<!-- For more examples, see [docs/CODE_EXAMPLES.md](docs/CODE_EXAMPLES.md). -->
 
 ## 📄 License
 
