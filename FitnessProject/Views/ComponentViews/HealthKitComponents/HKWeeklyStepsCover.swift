@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct HKWeeklyStepsCover: View {
-    @Environment(HealthKitManager.self) var hkManager
+    @Environment(HealthKitService.self) var hkManager
     @Environment(Router.self) var router
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -36,6 +36,6 @@ struct HKWeeklyStepsCover: View {
 
 #Preview {
     HKWeeklyStepsCover()
-        .environment(HealthKitManager())
+        .environment(HealthKitService())
         .environment(Router())
 }

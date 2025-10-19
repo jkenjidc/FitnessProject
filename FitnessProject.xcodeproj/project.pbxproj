@@ -43,7 +43,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		7ACA3EF42DA765AF007E85AC /* Utilies */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Utilies; sourceTree = "<group>"; };
+		7ACA3EF42DA765AF007E85AC /* Utilities */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Utilities; sourceTree = "<group>"; };
 		7ACA3F452DA76ADF007E85AC /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		7ACA3F732DA76AE5007E85AC /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
 		7ACA3F862DA76AE9007E85AC /* DataModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = DataModels; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 			children = (
 				7AF1A8F02DC96DDD00FC62E0 /* FitnessProject.entitlements */,
 				7A4239F02C8B71BC00F34FC7 /* FitnessProjectApp.swift */,
-				7ACA3EF42DA765AF007E85AC /* Utilies */,
+				7ACA3EF42DA765AF007E85AC /* Utilities */,
 				7ACA3F452DA76ADF007E85AC /* Views */,
 				7ACA3F732DA76AE5007E85AC /* Core */,
 				7ACA3F862DA76AE9007E85AC /* DataModels */,
@@ -146,7 +146,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				7ACA3EF42DA765AF007E85AC /* Utilies */,
+				7ACA3EF42DA765AF007E85AC /* Utilities */,
 				7ACA3F452DA76ADF007E85AC /* Views */,
 				7ACA3F732DA76AE5007E85AC /* Core */,
 				7ACA3F862DA76AE9007E85AC /* DataModels */,

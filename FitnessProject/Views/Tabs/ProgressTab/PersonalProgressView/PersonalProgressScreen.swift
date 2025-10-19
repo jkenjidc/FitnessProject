@@ -62,6 +62,6 @@ private extension PersonalProgressScreen {
 #Preview {
     PersonalProgressScreen()
         .environment(Router())
-        .environment(HealthKitManager())
+        .environment(HealthKitService())
         .preferredColorScheme(.dark)
 }

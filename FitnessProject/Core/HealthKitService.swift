@@ -10,8 +10,8 @@ import HealthKit
 import WidgetKit
 
 @Observable
-class HealthKitManager {
-    static let shared = HealthKitManager()
+class HealthKitService {
+    static let shared = HealthKitService()
 
     var healthStore = HKHealthStore()
 

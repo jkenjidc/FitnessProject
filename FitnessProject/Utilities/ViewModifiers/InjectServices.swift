@@ -15,7 +15,7 @@ extension View {
 
 struct InjectServices: ViewModifier {
     @State var router = Router()
-    @State var hkManager = HealthKitManager()
+    @State var hkManager = HealthKitService()
     @State var exerciseService =  ExerciseService()
 
     func body(content: Content) -> some View {

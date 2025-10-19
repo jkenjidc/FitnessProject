@@ -77,6 +77,7 @@ class ExerciseService {
             networkState = .error(error)
         }
     }
+
     func fetchAndCacheExercises() async throws {
         let (data, response) = try await URLSession.shared.data(for: ExerciseV2Request.request())
 

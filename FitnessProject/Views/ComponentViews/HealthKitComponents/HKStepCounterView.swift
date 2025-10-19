@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StepCounterView: View {
-    @Environment(HealthKitManager.self) var hkManager
+    @Environment(HealthKitService.self) var hkManager
     @Environment(Router.self) var router
     var body: some View {
         Button {
@@ -41,7 +41,7 @@ struct StepCounterView: View {
 
 #Preview {
     StepCounterView()
-        .environment(HealthKitManager())
+        .environment(HealthKitService())
         .environment(Router())
         .preferredColorScheme(.dark)
 }

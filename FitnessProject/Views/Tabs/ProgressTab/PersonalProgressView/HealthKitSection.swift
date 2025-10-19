@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HealthKitSection: View {
-    @Environment(HealthKitManager.self) var hkManager
+    @Environment(HealthKitService.self) var hkManager
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             Text("HEALTH")
