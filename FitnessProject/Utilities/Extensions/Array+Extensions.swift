@@ -28,3 +28,13 @@ extension Array where Element == ExerciseV2 {
         }
     }
 }
+
+extension Array where Element == Routine {
+    var routinesOfTheDay: [Routine] {
+        let weekdayIndex = Calendar.current.component(.weekday, from: Date())
+        let formatter = DateFormatter()
+        let currentDay = String(formatter.weekdaySymbols[weekdayIndex - 1])
+
+        return self.filter { $0.daysToDo.contains(currentDay) }
+    }
+}

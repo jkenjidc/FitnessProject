@@ -9,12 +9,13 @@ import SwiftUI
 
 struct RoutineListView: View {
     @Environment(Router.self) var router
+    @Environment(RoutineService.self) var routineService
     @State private var viewModel = ViewModel()
     @Bindable var dataManager = DataManager.shared
     var body: some View {
         ZStack{
             VStack {
-                if dataManager.routines.isEmpty {
+                if routineService.routines.isEmpty {
                     ContentUnavailableView{
                         Image(systemName: "figure.flexibility")
                             .resizable()
@@ -25,7 +26,7 @@ struct RoutineListView: View {
                     }
                     .navigationTitle("Routines")
                 } else {
-                    if !$dataManager.routinesOfTheDay.isEmpty {
+                    if !routineService.routinesOfTheDay.isEmpty {
                         VStack(alignment: .leading){
                             Text("ROUTINE FOR TODAY")
                                 .foregroundStyle(.secondary)
@@ -48,7 +49,7 @@ struct RoutineListView: View {
                     VStack(alignment: .leading, spacing: 0){
                         List{
                             Section {
-                                ForEach($dataManager.routines){ $routine in
+                                ForEach(routineService.routines){ routine in
                                     Button{
                                         router.presentModal(.routineInfo(routine: routine))
                                     } label: {
@@ -96,6 +97,13 @@ struct RoutineListView: View {
                         Button("Ok") {}
                     }
                 }
+            }
+        }
+        .task {
+            do {
+                try await routineService.loadRoutines(routineIds: dataManager.user.routines ?? [])
+            } catch {
+                print(error)
             }
         }
         .navigationTitle("Routines")
