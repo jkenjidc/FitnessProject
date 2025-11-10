@@ -9,7 +9,6 @@ import SwiftUI
 
 struct RoutinesScreen: View {
     @Environment(RoutineService.self) var routineService
-    @State private var viewModel = ViewModel()
     var body: some View {
         VStack {
             switch (routineService.networkState, routineService.routines.isEmpty) {
@@ -19,16 +18,10 @@ struct RoutinesScreen: View {
 
             case (.loaded, true):
                 EmptyListView()
-                    .overlay(alignment: .bottom) {
-                        AddRoutineButton(viewModel: $viewModel)
-                    }
 
             case (.loaded, false):
                 HighlightedSection()
                 ListSection()
-                    .overlay(alignment: .bottom) {
-                        AddRoutineButton(viewModel: $viewModel)
-                    }
 
             case (.error,_):
                 //TODO: Handle error state
@@ -36,7 +29,6 @@ struct RoutinesScreen: View {
                     .frame(maxHeight: .infinity, alignment: .center)
             }
         }
-        // TODO: Refactor this to not show when there is an error state
         .task {
             try? await routineService.loadRoutines(routineIds: ["C895BA1B-786F-49FD-BB7D-7D0FDB11D593"])
         }

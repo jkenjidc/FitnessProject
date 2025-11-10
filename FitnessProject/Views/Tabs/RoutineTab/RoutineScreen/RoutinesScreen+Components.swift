@@ -18,7 +18,9 @@ extension RoutinesScreen {
             } description: {
                 Text("No routines added")
             }
-            .navigationTitle("Routines")
+            .overlay(alignment: .bottom) {
+                AddRoutineButton()
+            }
         }
     }
 
@@ -80,6 +82,9 @@ extension RoutinesScreen {
                     }
                 }
             }
+            .overlay(alignment: .bottom) {
+                AddRoutineButton()
+            }
         }
 
     }
@@ -87,31 +92,32 @@ extension RoutinesScreen {
     struct AddRoutineButton: View {
         @Environment(Router.self) var router
         @Environment(RoutineService.self) var routineService
-        @Binding var viewModel: ViewModel
+        @State private var showRoutineLimitAlert = false
+
+        //TODO: Refactor to add limit somewhere centralized
+        var hasHitLimit: Bool {
+            routineService.routines.count == 5
+        }
 
         var body : some View {
             HStack {
                 Spacer()
 
                 Button {
-                    router.push(destination: .createRoutineScreen(routine: nil, screenMode: .creation))
+                    if hasHitLimit {
+                        showRoutineLimitAlert = true
+                    } else {
+                        router.push(destination: .createRoutineScreen(routine: nil, screenMode: .creation))
+                    }
                 } label: {
                     Image(systemName: "plus.circle")
                         .resizable()
                         .frame(width: 50, height: 50)
                         .padding()
                 }
-                .disabled(viewModel.hasHitLimit)
+                .disabled(hasHitLimit)
                 .buttonStyle(.plain)
-                .onTapGesture {
-                    if viewModel.hasHitLimit {
-                        viewModel.showRoutineLimitAlert = true
-                    }
-                }
-                .onChange(of: routineService.routines) { _, _ in
-                    viewModel.hasHitLimit = routineService.routines.count == 5
-                }
-                .alert("You can only make 5 routines", isPresented: $viewModel.showRoutineLimitAlert) {
+                .alert("You can only make 5 routines", isPresented: $showRoutineLimitAlert) {
                     Button("Ok") {}
                 }
             }
