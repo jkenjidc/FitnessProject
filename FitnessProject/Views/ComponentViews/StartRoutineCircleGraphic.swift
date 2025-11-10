@@ -9,10 +9,16 @@ import SwiftUI
 
 struct StartRoutineCircleGraphic: View{
     @Environment(Router.self) var router
-    @Binding var routine: Routine
+    @Environment(RoutineService.self) var routineService
+    var routineId: String
+
+    var routine: Routine? {
+        routineService.routines.first(where: { $0.id == routineId})
+    }
     var body: some View {
         Button {
-            router.push(destination: .timerScreen(routine: routine))
+            router.push(destination: .timerScreen(routine: routine!))
+            print("*****CIRCLE GRAHIC DATA SENT \(routine!.exercises)")
         } label: {
             startButtonlabel
         }
@@ -27,7 +33,7 @@ struct StartRoutineCircleGraphic: View{
                 .foregroundStyle(.secondary)
                 .opacity(0.5)
             VStack{
-                Text(routine.name)
+                Text(routine!.name)
                     .font(.system(size: 25).weight(.bold))
                     .foregroundStyle(.white)
                     .padding(.bottom, 15)
@@ -42,6 +48,6 @@ struct StartRoutineCircleGraphic: View{
 }
 
 #Preview {
-    StartRoutineCircleGraphic(routine: .constant(Routine.example[0]) )
+    StartRoutineCircleGraphic(routineId: Routine.example[0].id )
         .environment(Router())
 }

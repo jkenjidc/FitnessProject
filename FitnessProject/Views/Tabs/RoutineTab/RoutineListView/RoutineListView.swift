@@ -35,8 +35,11 @@ struct RoutineListView: View {
                                 .padding(.leading, 32)
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack(alignment: .center){
-                                    ForEach($dataManager.routinesOfTheDay) { $routine in
-                                        StartRoutineCircleGraphic(routine: $routine)
+                                    ForEach(routineService.routinesOfTheDay) { routine in
+                                        StartRoutineCircleGraphic(routineId: routine.id)
+                                            .onAppear {
+                                                print(routine.exercises)
+                                            }
                                     }
                                 }
                                 .scrollTargetLayout()

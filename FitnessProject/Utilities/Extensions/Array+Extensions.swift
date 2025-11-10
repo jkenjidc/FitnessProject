@@ -37,4 +37,8 @@ extension Array where Element == Routine {
 
         return self.filter { $0.daysToDo.contains(currentDay) }
     }
+
+    func get(for id: String) -> Routine? {
+        return self.first { $0.id == id }
+    }
 }

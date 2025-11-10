@@ -9,14 +9,14 @@ import SwiftUI
 
 extension TimerScreen {
     struct TimerExerciseList: View {
-        let exercises: [Exercise]
+        @Binding var exercises: [Exercise]
 
         var body: some View {
             ScrollView {
                 VStack(spacing: 10) {
                     listHeader
-                    ForEach(exercises) { exercise in
-                        ExerciseListRow(exercise)
+                    ForEach($exercises) { $exercise in
+                        ExerciseListRow(exercise: $exercise)
                     }
                 }
             }
@@ -31,12 +31,9 @@ extension TimerScreen {
             .foregroundStyle(.secondary)
         }
     }
+    struct ExerciseListRow: View {
+        @Binding var exercise: Exercise
 
-    private struct ExerciseListRow: View {
-        @State private var exercise: Exercise
-        init(_ exercise: Exercise) {
-            _exercise = State(initialValue: exercise)
-        }
         var body: some View {
 
             DisclosureGroup {
@@ -96,6 +93,6 @@ extension TimerScreen {
 }
 
 #Preview {
-    TimerScreen.TimerExerciseList(exercises: [Exercise.example])
+    TimerScreen.TimerExerciseList(exercises: .constant([Exercise.example]))
         .preferredColorScheme(.dark)
 }
