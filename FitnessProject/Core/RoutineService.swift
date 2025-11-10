@@ -10,6 +10,7 @@ import FirebaseFirestore
 @Observable
 class RoutineService {
     var routines: [Routine] = []
+    var networkState: FirebaseCallState = .loading
     private let routineCollection = Firestore.firestore().collection("routines")
     var routinesOfTheDay: [Routine] {
         routines.routinesOfTheDay
@@ -18,7 +19,8 @@ class RoutineService {
     func loadRoutines(routineIds: [String]) async throws {
         // Early return for empty routine list
         guard !routineIds.isEmpty else {
-            self.routines = []
+            routines = []
+            networkState = .loaded
             return
         }
 
@@ -31,11 +33,13 @@ class RoutineService {
                 return try document.data(as: Routine.self)
             } catch {
                 Log.error("Failed to parse routine \(document.documentID): \(error)")
+                networkState = .error(error)
                 return nil
             }
         }
 
         self.routines = loadedRoutines
+        networkState = .loaded
         Log.info("Loaded \(loadedRoutines.count) of \(routineIds.count) routines")
     }
 

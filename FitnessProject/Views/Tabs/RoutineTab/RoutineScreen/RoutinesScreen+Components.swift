@@ -1,33 +1,11 @@
 //
-//  RoutineListView.swift
+//  RoutinesScreen+Components.swift
 //  FitnessProject
 //
-//  Created by Kenji Dela Cruz on 9/10/24.
+//  Created by Kenji Dela Cruz on 11/9/25.
 //
 
 import SwiftUI
-
-struct RoutinesScreen: View {
-    @Environment(RoutineService.self) var routineService
-    @State private var viewModel = ViewModel()
-    var body: some View {
-        VStack {
-            if routineService.routines.isEmpty {
-                EmptyListView()
-            } else {
-                HighlightedSection()
-                ListSection()
-            }
-        }
-        .overlay(alignment: .bottom) {
-            AddRoutineButton(viewModel: $viewModel)
-        }
-        .task {
-            try? await routineService.loadRoutines(routineIds: ["C895BA1B-786F-49FD-BB7D-7D0FDB11D593"])
-        }
-        .navigationTitle("Routines")
-    }
-}
 
 extension RoutinesScreen {
     struct EmptyListView: View {
@@ -139,9 +117,4 @@ extension RoutinesScreen {
             }
         }
     }
-}
-#Preview {
-    RoutinesScreen()
-        .environment(Router())
-        .preferredColorScheme(.dark)
 }

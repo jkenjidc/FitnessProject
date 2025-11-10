@@ -12,3 +12,9 @@ enum NetworkCallState<T> {
     case loaded(T)
     case error(Error)
 }
+
+enum FirebaseCallState {
+    case loading
+    case loaded
+    case error(Error)
+}
