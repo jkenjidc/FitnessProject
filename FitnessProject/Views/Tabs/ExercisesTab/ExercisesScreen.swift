@@ -12,12 +12,6 @@ struct ExercisesScreen: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            @Bindable var service = service
-            SearchBar(
-                text: $service.searchQuery,
-                placeholder: "Search for exercises"
-            )
-
             switch service.networkState {
             case .loading:
                 ShimmerLoadingView()
@@ -39,6 +33,11 @@ extension ExercisesScreen {
         @Environment(ExerciseService.self) var service
         var body: some View {
             VStack(spacing: 20) {
+                @Bindable var service = service
+                SearchBar(
+                    text: $service.searchQuery,
+                    placeholder: "Search for exercises"
+                )
                 ExercisesFilterMenu()
 
                 ExercisesList()
