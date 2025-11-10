@@ -18,7 +18,7 @@ struct MainNavigationView: View {
                 }
                 .tag(Tabs.exercises)
 
-            RoutineListView()
+            RoutinesScreen()
                 .tabItem {
                     Label(Tabs.routines.rawValue.capitalized, systemImage: Tabs.routines.systemImageName)
                 }

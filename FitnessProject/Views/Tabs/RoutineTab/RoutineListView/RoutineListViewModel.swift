@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-extension RoutineListView {
+extension RoutinesScreen {
     @Observable class ViewModel {
         var hasHitLimit = false
         var showRoutineLimitAlert = false

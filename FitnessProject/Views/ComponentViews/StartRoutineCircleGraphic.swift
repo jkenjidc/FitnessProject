@@ -16,15 +16,15 @@ struct StartRoutineCircleGraphic: View{
         routineService.routines.first(where: { $0.id == routineId})
     }
     var body: some View {
-        Button {
-            router.push(destination: .timerScreen(routine: routine!))
-            print("*****CIRCLE GRAHIC DATA SENT \(routine!.exercises)")
-        } label: {
-            startButtonlabel
+        if let routine = routine {
+            Button {
+                router.push(destination: .timerScreen(routine: routine))
+            } label: {
+                startButtonlabel
+            }
+            .buttonStyle(.plain)
+            .containerRelativeFrame(.horizontal)
         }
-        .buttonStyle(.plain)
-        .containerRelativeFrame(.horizontal)
-        
     }
     
     var startButtonlabel: some View {
