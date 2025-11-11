@@ -17,7 +17,7 @@ struct FitnessProjectApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            RootView()
+            RootViewV2()
                 .injectServices()
                 .preferredColorScheme(.dark)
         }

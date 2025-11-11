@@ -13,7 +13,7 @@ struct RootView: View {
         @Bindable var router = router
         ZStack{
             let initialScreen = (!AuthManager.shared.isSignedOut ? Destination.mainNavigationScreen : Destination.welcomeScreen)
-            NavigationStack(path: $router.path){
+            NavigationStack(path: $router.routinesPath){
                 router.build(destination: initialScreen)
                     .navigationDestination(for: Destination.self) { destination in
                         router.build(destination: destination)
@@ -29,15 +29,12 @@ struct RootView: View {
                     }
             }
         }
-        .onAppear {
-            Task{
-                do{
-                    try AuthManager.shared.checkAuth()
-                    try await DataManager.shared.loadUser()
-                    try await DataManager.shared.loadRoutines()
-                } catch {
-                    print(error)
-                }
+        .task {
+            do{
+                try AuthManager.shared.checkAuth()
+                try await DataManager.shared.loadUser()
+            } catch {
+                print(error)
             }
         }
     }

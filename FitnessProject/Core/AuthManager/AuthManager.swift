@@ -74,8 +74,6 @@ final class AuthManager {
         isSignedOut = authUser == nil
         isAnonymous = authUser?.isAnonymous ?? false
         try loadAuthProfile()
-        
-        
     }
     
     // MARK: ACCOUNT CREATIONS

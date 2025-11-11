@@ -18,6 +18,7 @@ struct InjectServices: ViewModifier {
     @State var hkManager = HealthKitService()
     @State var exerciseService =  ExerciseService()
     @State var routineService = RoutineService()
+    @State var authService = AuthService()
 
     func body(content: Content) -> some View {
         content
@@ -25,6 +26,7 @@ struct InjectServices: ViewModifier {
             .environment(hkManager)
             .environment(exerciseService)
             .environment(routineService)
+            .environment(authService)
     }
 
 }

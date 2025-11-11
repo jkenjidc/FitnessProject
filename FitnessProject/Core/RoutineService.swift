@@ -70,7 +70,6 @@ class RoutineService {
 
         // Store original state for rollback
         let originalRoutines = routines
-//        let originalUserRoutines = user.routines
 
         do {
             // 1. Delete from Firestore first
@@ -83,19 +82,11 @@ class RoutineService {
                 routineIdsToDelete.contains(routine.id)
             }
 
-//            user.routines?.removeAll { routineId in
-//                routineIdsToDelete.contains(routineId)
-//            }
-
-            // 3. Update user document
-//            try await updateCurrentUser()
-
             Log.info("Successfully deleted \(routineIdsToDelete.count) routines")
 
         } catch {
             // Rollback local changes on failure
             routines = originalRoutines
-//            user.routines = originalUserRoutines
 
             Log.error("Failed to delete routines, rolled back changes: \(error)")
             throw error

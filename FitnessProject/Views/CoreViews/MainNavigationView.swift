@@ -9,32 +9,64 @@ import SwiftUI
 
 struct MainNavigationView: View {
     @Environment(Router.self) var router
-    @State private var selectedTab: Tabs = .routines
+
     var body: some View {
-        TabView(selection: $selectedTab) {
-            ExercisesScreen()
-                .tabItem {
-                    Label(Tabs.exercises.rawValue.capitalized, systemImage: Tabs.exercises.systemImageName)
-                }
-                .tag(Tabs.exercises)
+        @Bindable var router = router
 
-            RoutinesScreen()
-                .tabItem {
-                    Label(Tabs.routines.rawValue.capitalized, systemImage: Tabs.routines.systemImageName)
-                }
-                .tag(Tabs.routines)
+        TabView(selection: $router.currentTab) {
+            NavigationStack(path: $router.exercisesPath) {
+                ExercisesScreen()
+                    .navigationDestination(for: Destination.self) { destination in
+                        router.build(destination: destination)
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarBackButtonHidden(true)
+                    .navigationTitle(router.currentTab.rawValue.capitalized)
+            }
+            .tabItem {
+                Label(Tabs.exercises.rawValue.capitalized, systemImage: Tabs.exercises.systemImageName)
+            }
+            .tag(Tabs.exercises)
 
-            PersonalProgressScreen()
-                .tabItem {
-                    Label(Tabs.progress.rawValue.capitalized, systemImage: Tabs.progress.systemImageName)
-                }
-                .tag(Tabs.progress)
+            NavigationStack(path: $router.routinesPath) {
+                RoutinesScreen()
+                    .navigationDestination(for: Destination.self) { destination in
+                        router.build(destination: destination)
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarBackButtonHidden(true)
+                    .navigationTitle(router.currentTab.rawValue.capitalized)
+            }
+            .tabItem {
+                Label(Tabs.routines.rawValue.capitalized, systemImage: Tabs.routines.systemImageName)
+            }
+            .tag(Tabs.routines)
+
+            NavigationStack(path: $router.progressPath) {
+                PersonalProgressScreen()
+                    .navigationDestination(for: Destination.self) { destination in
+                        router.build(destination: destination)
+                    }
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarBackButtonHidden(true)
+                    .navigationTitle(router.currentTab.rawValue.capitalized)
+                    .toolbar {
+                        profileButtonToolbarItem
+                    }
+            }
+            .tabItem {
+                Label(Tabs.progress.rawValue.capitalized, systemImage: Tabs.progress.systemImageName)
+            }
+            .tag(Tabs.progress)
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .navigationTitle(selectedTab.rawValue.capitalized)
-        .toolbar {
-            profileButtonToolbarItem
+        .sheet(item: $router.sheet){ sheet in
+            router.buildSheet(sheet: sheet)
+        }
+        .fullScreenCover(item: $router.fullScreenCover){ cover in
+            router.buildCover(cover: cover)
+        }
+        .modal(item: $router.modal) { modal in
+            router.buildModal(modal: modal)
         }
     }
 
@@ -47,23 +79,6 @@ struct MainNavigationView: View {
                 Label("Profile", systemImage: "person")
             }
             .buttonStyle(.plain)
-        }
-    }
-}
-
-fileprivate enum Tabs: String {
-    case exercises = "exercises"
-    case routines  = "routines"
-    case progress = "progress"
-
-    var systemImageName: String {
-        switch self {
-        case .exercises:
-            return "figure.run"
-        case .routines:
-            return "dumbbell.fill"
-        case .progress:
-            return "chart.line.uptrend.xyaxis"
         }
     }
 }

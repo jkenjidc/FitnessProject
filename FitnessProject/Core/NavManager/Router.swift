@@ -8,9 +8,54 @@
 import Foundation
 import SwiftUI
 
+enum Tabs: String {
+    case exercises = "exercises"
+    case routines  = "routines"
+    case progress = "progress"
+
+    var systemImageName: String {
+        switch self {
+        case .exercises:
+            return "figure.run"
+        case .routines:
+            return "dumbbell.fill"
+        case .progress:
+            return "chart.line.uptrend.xyaxis"
+        }
+    }
+}
+
+
 @Observable
 class Router {
-    var path: NavigationPath = NavigationPath()
+    var routinesPath: NavigationPath = NavigationPath()
+    var exercisesPath: NavigationPath = NavigationPath()
+    var progressPath: NavigationPath = NavigationPath()
+    var currentTab: Tabs = .routines
+
+    var currentPath: NavigationPath {
+            get {
+                switch currentTab {
+                case .exercises:
+                    return exercisesPath
+                case .routines:
+                    return routinesPath
+                case .progress:
+                    return progressPath
+                }
+            }
+            set {
+                switch currentTab {
+                case .exercises:
+                    exercisesPath = newValue
+                case .routines:
+                    routinesPath = newValue
+                case .progress:
+                    progressPath = newValue
+                }
+            }
+        }
+
     var sheet: Sheet?
     var fullScreenCover: FullScreenCover?
     var modal: Modal?
@@ -18,15 +63,15 @@ class Router {
     // MARK: Router functions for navigation
     func push(destination: Destination) {
         dismissAll() //clear out all modals, sheets and covers
-        path.append(destination)
+        currentPath.append(destination)
     }
     
     func pop() {
-        path.removeLast()
+        currentPath.removeLast()
     }
     
     func popToRoot() {
-        path.removeLast(path.count)
+        routinesPath.removeLast(currentPath.count)
     }
 
     // MARK: Presentation functions
