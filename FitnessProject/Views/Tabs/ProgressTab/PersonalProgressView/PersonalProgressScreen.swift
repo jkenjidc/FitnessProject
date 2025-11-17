@@ -27,10 +27,26 @@ struct PersonalProgressScreen: View {
         }
         .scrollBounceBehavior(.basedOnSize)
         .padding()
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .navigationTitle(router.currentTab.rawValue.capitalized)
+        .toolbar { profileButtonToolbarItem }
     }
 }
 
 private extension PersonalProgressScreen {
+    @ToolbarContentBuilder
+    var profileButtonToolbarItem: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+                router.push(destination: .profileScreen)
+            } label: {
+                Label("Profile", systemImage: "person")
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
     struct HeaderView: View {
         @Environment(Router.self) var router
         let weekCount: Int?

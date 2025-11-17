@@ -14,44 +14,35 @@ struct MainNavigationView: View {
         @Bindable var router = router
 
         TabView(selection: $router.currentTab) {
+            // MARK: Exercises Tab
             NavigationStack(path: $router.exercisesPath) {
                 ExercisesScreen()
                     .navigationDestination(for: Destination.self) { destination in
                         router.build(destination: destination)
                     }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarBackButtonHidden(true)
-                    .navigationTitle(router.currentTab.rawValue.capitalized)
             }
             .tabItem {
                 Label(Tabs.exercises.rawValue.capitalized, systemImage: Tabs.exercises.systemImageName)
             }
             .tag(Tabs.exercises)
 
+            // MARK: Routines Tab
             NavigationStack(path: $router.routinesPath) {
                 RoutinesScreen()
                     .navigationDestination(for: Destination.self) { destination in
                         router.build(destination: destination)
                     }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarBackButtonHidden(true)
-                    .navigationTitle(router.currentTab.rawValue.capitalized)
             }
             .tabItem {
                 Label(Tabs.routines.rawValue.capitalized, systemImage: Tabs.routines.systemImageName)
             }
             .tag(Tabs.routines)
 
+            // MARK: Progress Tab
             NavigationStack(path: $router.progressPath) {
                 PersonalProgressScreen()
                     .navigationDestination(for: Destination.self) { destination in
                         router.build(destination: destination)
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarBackButtonHidden(true)
-                    .navigationTitle(router.currentTab.rawValue.capitalized)
-                    .toolbar {
-                        profileButtonToolbarItem
                     }
             }
             .tabItem {
@@ -69,21 +60,10 @@ struct MainNavigationView: View {
             router.buildModal(modal: modal)
         }
     }
-
-    @ToolbarContentBuilder
-    var profileButtonToolbarItem: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Button {
-                router.push(destination: .profileScreen)
-            } label: {
-                Label("Profile", systemImage: "person")
-            }
-            .buttonStyle(.plain)
-        }
-    }
 }
 
-//#Preview {
-//    MainNavigationView()
-//        .preferredColorScheme(.dark)
-//}
+#Preview {
+    MainNavigationView()
+        .preferredColorScheme(.dark)
+        .environment(Router())
+}

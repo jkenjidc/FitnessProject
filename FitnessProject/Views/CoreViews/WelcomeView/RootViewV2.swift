@@ -13,7 +13,7 @@ struct RootViewV2: View {
     var body: some View {
         Group {
             switch authService.authState {
-            case .idle, .authenticating:
+            case .authenticating:
                 LogoView()
 
             case .unauthenticated:

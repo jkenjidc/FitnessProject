@@ -9,14 +9,6 @@ import Foundation
 import FirebaseAuth
 
 extension AuthService {
-    enum AuthState {
-        case idle                               // Haven't checked yet
-        case unauthenticated                    // Checked, no user (normal)
-        case authenticating                     // Operation in progress
-        case authenticated(AuthDataResultModel) // User logged in
-        case error(AuthError)                   // Auth operation failed
-    }
-
     func handleAuthError(_ error: Error) -> AuthError {
         let nsError = error as NSError
 

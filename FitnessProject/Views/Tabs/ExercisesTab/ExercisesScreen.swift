@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ExercisesScreen: View {
     @Environment(ExerciseService.self) var service
+    @Environment(Router.self) var router
 
     var body: some View {
         VStack(spacing: 20) {
@@ -25,6 +26,9 @@ struct ExercisesScreen: View {
                 Spacer()
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .navigationTitle(router.currentTab.rawValue.capitalized)
     }
 }
 

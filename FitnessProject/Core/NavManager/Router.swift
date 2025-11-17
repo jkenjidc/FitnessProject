@@ -8,29 +8,12 @@
 import Foundation
 import SwiftUI
 
-enum Tabs: String {
-    case exercises = "exercises"
-    case routines  = "routines"
-    case progress = "progress"
-
-    var systemImageName: String {
-        switch self {
-        case .exercises:
-            return "figure.run"
-        case .routines:
-            return "dumbbell.fill"
-        case .progress:
-            return "chart.line.uptrend.xyaxis"
-        }
-    }
-}
-
-
 @Observable
 class Router {
     var routinesPath: NavigationPath = NavigationPath()
     var exercisesPath: NavigationPath = NavigationPath()
     var progressPath: NavigationPath = NavigationPath()
+    var signInPath: NavigationPath = NavigationPath()
     var currentTab: Tabs = .routines
 
     var currentPath: NavigationPath {
@@ -71,7 +54,7 @@ class Router {
     }
     
     func popToRoot() {
-        routinesPath.removeLast(currentPath.count)
+        currentPath.removeLast(currentPath.count)
     }
 
     // MARK: Presentation functions
@@ -120,7 +103,7 @@ class Router {
         case .profileScreen:
             ProfileScreen()
         case .signInScreen:
-            SignInView()
+            SignInScreen()
         case .signUpScreen:
             SignUpView()
         case .mainNavigationScreen:
@@ -162,6 +145,7 @@ class Router {
         }
     }
 
+    // TODO: remove this from the router
     @ViewBuilder
     func buildModal(modal: Modal) -> some View {
         Group {
@@ -200,6 +184,23 @@ class Router {
             withAnimation(.linear(duration: 0.2)) {
                 self.modalScale = 1.0
             }
+        }
+    }
+}
+
+enum Tabs: String {
+    case exercises = "exercises"
+    case routines  = "routines"
+    case progress = "progress"
+
+    var systemImageName: String {
+        switch self {
+        case .exercises:
+            return "figure.run"
+        case .routines:
+            return "dumbbell.fill"
+        case .progress:
+            return "chart.line.uptrend.xyaxis"
         }
     }
 }

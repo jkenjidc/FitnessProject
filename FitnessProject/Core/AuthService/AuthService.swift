@@ -11,7 +11,7 @@ import SwiftUI
 
 @Observable
 class AuthService {
-    var authState: AuthState = .idle
+    var authState: AuthState = .authenticating
     private(set) var authProfile: AuthDataResultModel? = nil
 
     var isAuthenticated: Bool {
@@ -81,7 +81,7 @@ class AuthService {
         do {
             try Auth.auth().signOut()
             self.authProfile = nil
-            self.authState = .idle
+            self.authState = .unauthenticated
             Log.info("Sign out successful")
         } catch {
             Log.error("Sign out failed: \(error)")
@@ -159,7 +159,7 @@ class AuthService {
         do {
             try await user.delete()
             self.authProfile = nil
-            self.authState = .idle
+            self.authState = .unauthenticated
             Log.info("Account deleted successfully")
         } catch {
             let authError = handleAuthError(error)
@@ -188,11 +188,11 @@ class AuthService {
 
             // Distinguish between "no user" and "check failed"
             if let authError = error as? AuthErrorCode {
-                self.authState = .error(AuthError.unknownError(error))
+                self.authState = .error(AuthError.unknownError(authError))
                 Log.error("Auth check failed: \(error)")
             } else {
                 // Normal case - just no user logged in
-                self.authState = .idle
+                self.authState = .unauthenticated
                 Log.info("No user logged in")
             }
         }
