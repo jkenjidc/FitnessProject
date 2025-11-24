@@ -9,35 +9,15 @@ import Foundation
 import FirebaseAuth
 
 extension AuthService {
-    func handleAuthError(_ error: Error) -> AuthError {
-        let nsError = error as NSError
+    func handleAuthError(_ error: Error) {
+        let error  = AuthError(error)
 
-        // Print the error code to debug
-        Log.info("Firebase Error Code: \(nsError.code)")
-
-        switch nsError.code {
-        case AuthErrorCode.emailAlreadyInUse.rawValue:
-            return .emailInUse
-        case AuthErrorCode.invalidEmail.rawValue:
-            return .invalidEmail
-        case AuthErrorCode.weakPassword.rawValue:
-            return .weakPassword
-        case AuthErrorCode.userNotFound.rawValue:
-            return .userNotFound
-        case AuthErrorCode.wrongPassword.rawValue:
-            return .wrongPassword
-        case AuthErrorCode.networkError.rawValue:
-            return .networkError
-        case AuthErrorCode.tooManyRequests.rawValue:
-            return .tooManyRequests
-        case AuthErrorCode.invalidCredential.rawValue:
-            return .invalidCredentials
-        case AuthErrorCode.userDisabled.rawValue:
-            return .userDisabled
-        default:
-            print("Unhandled error code: \(nsError.code)")
-            return .unknownError(error)
+        if case .unknownError(let error) = error {
+            Log.error("Unhandled Firebase Error Code: \(error)")
+        } else {
+            Log.error("Firebase error: \(error)")
         }
-    }
 
+        authState = .error(error)
+    }
 }

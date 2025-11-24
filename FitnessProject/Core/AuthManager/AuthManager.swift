@@ -12,7 +12,7 @@ import SwiftUI
 @Observable
 final class AuthManager {
     static let shared = AuthManager()
-    private(set) var authProfile: AuthDataResultModel? = nil
+    private(set) var authProfile: AuthData? = nil
     private init() {}
     
     //initalized to false because of full screen cover bindin g, logically this should be true but the full screen cover behaves not as intended when set as true
@@ -57,12 +57,12 @@ final class AuthManager {
         }
     }
     
-    func getAuthenticatedUser() throws -> AuthDataResultModel {
+    func getAuthenticatedUser() throws -> AuthData {
         guard let user = Auth.auth().currentUser else {
             throw URLError(.badServerResponse)
         }
         
-        return AuthDataResultModel(user: user)
+        return AuthData(user: user)
     }
     
     func loadAuthProfile() throws {
@@ -78,18 +78,18 @@ final class AuthManager {
     
     // MARK: ACCOUNT CREATIONS
     @discardableResult
-    func createUser(email: String, password: String) async throws -> AuthDataResultModel{
+    func createUser(email: String, password: String) async throws -> AuthData{
         do {
             let authDataResult =  try await Auth.auth().createUser(withEmail: email, password: password)
             try checkAuth()
-            return AuthDataResultModel(user: authDataResult.user)
+            return AuthData(user: authDataResult.user)
         } catch {
             throw handleAuthError(error)
         }
     }
     
     @discardableResult
-    func linkEmail(email: String, password: String) async throws -> AuthDataResultModel {
+    func linkEmail(email: String, password: String) async throws -> AuthData {
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         
         guard let user  = Auth.auth().currentUser else {
@@ -98,7 +98,7 @@ final class AuthManager {
         
         let authDataResult = try await user.link(with: credential)
         try checkAuth()
-        return AuthDataResultModel(user: authDataResult.user)
+        return AuthData(user: authDataResult.user)
     }
     
     // MARK: ACCOUNT SIGN IN
@@ -114,12 +114,12 @@ final class AuthManager {
     }
     
     @discardableResult
-    func signInAnonymously() async throws -> AuthDataResultModel {
+    func signInAnonymously() async throws -> AuthData {
         
         let authDataResult =  try await Auth.auth().signInAnonymously()
         try checkAuth()
         
-        return AuthDataResultModel(user: authDataResult.user)
+        return AuthData(user: authDataResult.user)
     }
     
     // MARK: AUTH PROFILE EDITORS

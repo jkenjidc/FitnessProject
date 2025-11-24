@@ -43,7 +43,7 @@ class RoutineService {
         Log.info("Loaded \(loadedRoutines.count) of \(routineIds.count) routines")
     }
 
-    func createRoutine(routine: Routine) async throws {
+    func createRoutine(_ routine: Routine) async throws {
         //Adds the routine to the apps's list of local routines
         routines.append(routine)
 
@@ -89,6 +89,19 @@ class RoutineService {
             routines = originalRoutines
 
             Log.error("Failed to delete routines, rolled back changes: \(error)")
+            throw error
+        }
+    }
+
+    func deleteRoutine(_ routineId: String) async throws {
+        do {
+            // Delete from Firestore
+            try await routineCollection.document(routineId).delete()
+            // Remove from local state
+            routines.removeAll { $0.id == routineId }
+            Log.info("Routine deleted from Firestore: \(routineId)")
+        } catch {
+            Log.error("Failed to delete routine from Firestore: \(error)")
             throw error
         }
     }

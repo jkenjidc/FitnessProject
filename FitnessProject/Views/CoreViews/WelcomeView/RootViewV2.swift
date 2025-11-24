@@ -17,10 +17,10 @@ struct RootViewV2: View {
                 LogoView()
 
             case .unauthenticated:
-                WelcomeView()
+                WelcomeScreen()
 
             case .authenticated:
-                MainNavigationView()
+                MainNavigationScreen()
 
             case .error(let authError):
                 ErrorView(error: authError)
@@ -28,14 +28,6 @@ struct RootViewV2: View {
         }
         .task {
             authService.checkAuth()
-            if case .authenticated = authService.authState {
-                do {
-                    try AuthManager.shared.checkAuth()
-                    try await DataManager.shared.loadUser()
-                } catch {
-                    Log.error("Failed to load user: \(error)")
-                }
-            }
         }
     }
 }

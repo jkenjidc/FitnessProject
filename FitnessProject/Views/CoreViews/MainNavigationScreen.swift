@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainNavigationView: View {
+struct MainNavigationScreen: View {
     @Environment(Router.self) var router
 
     var body: some View {
@@ -63,7 +63,7 @@ struct MainNavigationView: View {
 }
 
 #Preview {
-    MainNavigationView()
+    MainNavigationScreen()
         .preferredColorScheme(.dark)
         .environment(Router())
 }

@@ -13,7 +13,7 @@ class Router {
     var routinesPath: NavigationPath = NavigationPath()
     var exercisesPath: NavigationPath = NavigationPath()
     var progressPath: NavigationPath = NavigationPath()
-    var signInPath: NavigationPath = NavigationPath()
+    var authPath: NavigationPath = NavigationPath()
     var currentTab: Tabs = .routines
 
     var currentPath: NavigationPath {
@@ -55,6 +55,16 @@ class Router {
     
     func popToRoot() {
         currentPath.removeLast(currentPath.count)
+    }
+
+    func pushInAuthFlow(destination: Destination) {
+        // For welcome/sign in flow
+        authPath.append(destination)
+    }
+
+    func popFromAuthFlow() {
+        guard !authPath.isEmpty else { return }
+        authPath.removeLast()
     }
 
     // MARK: Presentation functions
@@ -107,9 +117,9 @@ class Router {
         case .signUpScreen:
             SignUpView()
         case .mainNavigationScreen:
-            MainNavigationView()
+            MainNavigationScreen()
         case .welcomeScreen:
-            WelcomeView()
+            WelcomeScreen()
         case .createRoutineScreen(let routine, let screenMode):
             CreateRoutineView(routine: routine, screenMode: screenMode)
         case .settingsScreen:
@@ -139,7 +149,7 @@ class Router {
     func buildCover(cover: FullScreenCover) -> some View {
         switch cover {
         case .welcomeView:
-            WelcomeView()
+            WelcomeScreen()
         case .weeklyStepView:
             HKWeeklyStepsCover()
         }

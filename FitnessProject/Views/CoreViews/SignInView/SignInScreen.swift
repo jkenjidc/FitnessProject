@@ -11,68 +11,56 @@ struct SignInScreen: View {
     @State var viewModel =  ViewModel()
     @Environment(Router.self) var router
     @Environment(\.dismiss) var dismiss
+    @Environment(AuthService.self) var authService
+
     var body: some View {
-            VStack(){
-                Group{
-                    VStack(alignment: .leading){
-                        EntryFieldView(
-                            textBinding: $viewModel.email,
-                            placeholderString: "Email",
-                            iconImagename: "envelope.fill"
-                        )
-                        EntryFieldView(
-                            textBinding: $viewModel.password,
-                            placeholderString: "Password",
-                            keyboardType: .secure,
-                            iconImagename: "lock.fill"
-                        )
+        VStack(spacing: 20) {
+            VStack(spacing: 15){
+                EntryFieldView(
+                    textBinding: $viewModel.email,
+                    placeholderString: "Email",
+                    iconImagename: "envelope.fill"
+                )
+
+                EntryFieldView(
+                    textBinding: $viewModel.password,
+                    placeholderString: "Password",
+                    keyboardType: .secure,
+                    iconImagename: "lock.fill"
+                )
+            }
+
+            VStack {
+                Button("Sign In") {
+                    Task{
+                        await authService.signIn(email: viewModel.email, password: viewModel.password)
                     }
-                    Button {
-                        Task{
-                            await viewModel.signIn {
-                                router.push(destination: .mainNavigationScreen)
-                            }
-                        }
-                    } label: {
-                        Text("Sign In")
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 50)
-                            .overlay (
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(.secondary)
-                            )
-                    }
-                    .disabled(viewModel.invalidInputs)
-                    .buttonStyle(.plain)
-                    
-                    Button {
-                        router.presentSheet(.forgotPassswordSheet)
-                    } label: {
-                        Text("Forgot Password?")
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 50)
-                            .overlay (
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(.secondary)
-                            )
-                    }
-                    .buttonStyle(.plain)
                 }
-                .padding(.horizontal, 15)
-                .padding(.bottom, 5)
-                Spacer()
+                .buttonStyle(.fitness(.secondary))
+                .disabled(viewModel.invalidInputs)
+                .foregroundStyle(viewModel.invalidInputs ? .secondary : .primary)
+
+                Button("Forgot Password?") {
+                    router.presentSheet(.forgotPassswordSheet)
+                }
+                .buttonStyle(.fitness(.secondary))
             }
-            .navigationTitle("Sign In")
-            .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert){
-                Button("ok"){}
-            } message: {
-                Text(viewModel.alertMessage)
-            }
-            .navigationBarTitleDisplayMode(.inline)
+
+        }
+        .padding(.horizontal, 15)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .navigationTitle("Sign In")
+        .navigationBarTitleDisplayMode(.inline)
+        .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert){
+            Button("ok"){}
+        } message: {
+            Text(viewModel.alertMessage)
         }
     }
+}
 
 #Preview {
     SignInScreen()
         .preferredColorScheme(.dark)
+        .environment(Router())
 }

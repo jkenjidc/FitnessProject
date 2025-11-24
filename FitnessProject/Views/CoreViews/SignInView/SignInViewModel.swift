@@ -20,7 +20,7 @@ extension SignInScreen {
             return email.isEmpty && password.isEmpty
         }
         
-        func signIn(goToHomeScreen:() -> Void) async {
+        func signIn() async {
             do {
                 Log.info("Attempting sign in")
                 try await AuthManager.shared.signInUser(email: email, password: password)
@@ -31,7 +31,6 @@ extension SignInScreen {
                 Log.info("Attempting loading routines")
                 try await DataManager.shared.loadRoutines()
                 
-                goToHomeScreen()
             } catch {
                 let errorMessage = (error as? AuthError)?.errorDescription ?? AuthError.defaultMessage
                 Log.error(errorMessage)

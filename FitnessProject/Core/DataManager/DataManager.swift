@@ -10,9 +10,7 @@ import FirebaseFirestore
 import Firebase
 import FirebaseStorage
 
-public enum FileNames: String {
-    case profileImage = "profileImage.jpeg"
-}
+
 
 extension Array {
     mutating func mutatingForEach(_ body: (inout Element) throws -> Void) rethrows {

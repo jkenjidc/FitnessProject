@@ -8,39 +8,47 @@
 import SwiftUI
 import FirebaseAuth
 
-struct WelcomeView: View {
+struct WelcomeScreen: View {
     @Environment(Router.self) var router
 
     var body: some View {
         @Bindable var router = router
-        NavigationStack(path: $router.signInPath) {
+        NavigationStack(path: $router.authPath) {
+            Content()
+                .navigationDestination(for: Destination.self) { destination in
+                    router.build(destination: destination)
+                }
+                .sheet(item: $router.sheet){ sheet in
+                    router.buildSheet(sheet: sheet)
+                }
+        }
+    }
+}
+
+extension WelcomeScreen {
+    struct Content: View {
+        @Environment(Router.self) var router
+        var body: some View {
             VStack {
                 GuestSignInButton()
-
                 Spacer()
-
                 BannerView()
-
                 Spacer()
-
                 VStack(spacing: 20) {
                     Button("Log In") {
-                        router.push(destination: .signInScreen)
+                        router.pushInAuthFlow(destination: .signInScreen)
                     }
-                    .buttonStyle(.fitness)
+                    .buttonStyle(.fitness(.primary))
 
                     Button("Sign Up") {
-                        router.push(destination: .signUpScreen)
+                        router.pushInAuthFlow(destination: .signUpScreen)
                     }
-                    .buttonStyle(.fitness)
+                    .buttonStyle(.fitness(.primary))
                 }
             }
             .padding(10)
         }
     }
-}
-
-extension WelcomeView {
     struct GuestSignInButton: View {
         @State private var showGuestModeAlert: Bool = false
         var body: some View {
@@ -73,6 +81,7 @@ extension WelcomeView {
             }
         }
     }
+
     struct BannerView: View {
         var body: some View {
             HStack{
@@ -103,7 +112,7 @@ extension WelcomeView {
 }
 
 #Preview {
-    WelcomeView()
+    WelcomeScreen()
         .preferredColorScheme(.dark)
         .environment(Router())
 }

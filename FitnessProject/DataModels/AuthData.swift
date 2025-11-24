@@ -8,8 +8,9 @@
 import Foundation
 import FirebaseAuth
 
-struct AuthDataResultModel: Equatable {
+struct AuthData: Equatable {
     let uid: String
+    let name: String?
     let email: String?
     let photoUrl: String?
     let isAnonymous: Bool
@@ -19,6 +20,6 @@ struct AuthDataResultModel: Equatable {
         self.email = user.email
         self.photoUrl = user.photoURL?.absoluteString
         self.isAnonymous = user.isAnonymous
-        
+        self.name = user.displayName
     }
 }

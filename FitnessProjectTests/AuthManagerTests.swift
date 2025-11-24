@@ -17,12 +17,12 @@ final class AuthManagerTests {
     static let invalidPassword = "t"
     
     @discardableResult
-    func signInAnonymously() async throws -> AuthDataResultModel {
+    func signInAnonymously() async throws -> AuthData {
         try await AuthManager.shared.signInAnonymously()
     }
     
     @discardableResult
-    func signUpWithCredentials(email: String, password: String) async throws -> AuthDataResultModel {
+    func signUpWithCredentials(email: String, password: String) async throws -> AuthData {
         try await AuthManager.shared.createUser(email: email, password: password)
     }
     

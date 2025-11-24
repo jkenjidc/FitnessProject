@@ -23,8 +23,9 @@ struct CurrentUser: Identifiable, Hashable, Codable {
     var streakInfo: StreakInfo? = nil
 
 
-    init(auth: AuthDataResultModel) {
+    init(auth: AuthData) {
         self.id = auth.uid
+        self.name = auth.name ?? ""
         self.isAnonymous  = auth.isAnonymous
         self.email = auth.email ?? ""
         self.dateCreated =  Date()
@@ -34,7 +35,7 @@ struct CurrentUser: Identifiable, Hashable, Codable {
         self.streakInfo = StreakInfo()
     }
     
-    init (auth: AuthDataResultModel, name: String) {
+    init (auth: AuthData, name: String) {
         self.id = auth.uid
         self.isAnonymous  = auth.isAnonymous
         self.email = auth.email ?? ""

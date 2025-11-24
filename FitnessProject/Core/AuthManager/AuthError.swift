@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 enum AuthError: LocalizedError, Equatable {
     case emailInUse
@@ -18,7 +19,7 @@ enum AuthError: LocalizedError, Equatable {
     case invalidCredentials
     case userDisabled
     case unknownError(Error)
-    
+
     static let defaultMessage = "Auth error description cannot be read"
     var errorDescription: String? {
         switch self {
@@ -44,23 +45,49 @@ enum AuthError: LocalizedError, Equatable {
             return error.localizedDescription
         }
     }
-    
+
     static func == (lhs: AuthError, rhs: AuthError) -> Bool {
         switch (lhs, rhs) {
         case (.emailInUse, .emailInUse),
-             (.invalidEmail, .invalidEmail),
-             (.weakPassword, .weakPassword),
-             (.userNotFound, .userNotFound),
-             (.wrongPassword, .wrongPassword),
-             (.networkError, .networkError),
-             (.tooManyRequests, .tooManyRequests),
-             (.invalidCredentials, .invalidCredentials),
-             (.userDisabled, .userDisabled):
+            (.invalidEmail, .invalidEmail),
+            (.weakPassword, .weakPassword),
+            (.userNotFound, .userNotFound),
+            (.wrongPassword, .wrongPassword),
+            (.networkError, .networkError),
+            (.tooManyRequests, .tooManyRequests),
+            (.invalidCredentials, .invalidCredentials),
+            (.userDisabled, .userDisabled):
             return true
         case let (.unknownError(error1), .unknownError(error2)):
             return error1.localizedDescription == error2.localizedDescription
         default:
             return false
+        }
+    }
+
+    init(_ error: Error) {
+        let nsError = error as NSError
+        self = switch nsError.code {
+        case AuthErrorCode.emailAlreadyInUse.rawValue:
+                .emailInUse
+        case AuthErrorCode.invalidEmail.rawValue:
+                .invalidEmail
+        case AuthErrorCode.weakPassword.rawValue:
+                .weakPassword
+        case AuthErrorCode.userNotFound.rawValue:
+                .userNotFound
+        case AuthErrorCode.wrongPassword.rawValue:
+                .wrongPassword
+        case AuthErrorCode.networkError.rawValue:
+                .networkError
+        case AuthErrorCode.tooManyRequests.rawValue:
+                .tooManyRequests
+        case AuthErrorCode.invalidCredential.rawValue:
+                .invalidCredentials
+        case AuthErrorCode.userDisabled.rawValue:
+                .userDisabled
+        default:
+                .unknownError(error)
         }
     }
 }
