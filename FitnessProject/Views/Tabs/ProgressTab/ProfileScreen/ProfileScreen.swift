@@ -10,6 +10,7 @@ import PhotosUI
 
 struct ProfileScreen: View {
     @Environment(Router.self) var router
+    @Environment(AuthService.self) var authService
     @State var viewModel = ViewModel()
     @Bindable var dataManager = DataManager.shared
     var body: some View {
@@ -27,9 +28,7 @@ struct ProfileScreen: View {
 
             HStack(spacing: 0){
                 Button(role: .destructive) {
-                    viewModel.signOut {
-                        router.popToRoot()
-                    }
+                   try? authService.signOut()
                 } label: {
                     Text("log out")
                 }

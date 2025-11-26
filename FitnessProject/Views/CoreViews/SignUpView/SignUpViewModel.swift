@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension SignUpView {
+extension SignUpScreen {
     @Observable class ViewModel {
         var email = ""
         var password = ""

@@ -15,7 +15,10 @@ class Router {
     var progressPath: NavigationPath = NavigationPath()
     var authPath: NavigationPath = NavigationPath()
     var currentTab: Tabs = .routines
-
+    var sheet: Sheet?
+    var fullScreenCover: FullScreenCover?
+    var modal: Modal?
+    var modalScale: CGFloat = 0
     var currentPath: NavigationPath {
             get {
                 switch currentTab {
@@ -39,16 +42,12 @@ class Router {
             }
         }
 
-    var sheet: Sheet?
-    var fullScreenCover: FullScreenCover?
-    var modal: Modal?
-    var modalScale: CGFloat = 0
     // MARK: Router functions for navigation
     func push(destination: Destination) {
         dismissAll() //clear out all modals, sheets and covers
         currentPath.append(destination)
     }
-    
+
     func pop() {
         currentPath.removeLast()
     }
@@ -65,6 +64,15 @@ class Router {
     func popFromAuthFlow() {
         guard !authPath.isEmpty else { return }
         authPath.removeLast()
+    }
+
+    func reset() {
+        routinesPath = NavigationPath()
+        progressPath = NavigationPath()
+        exercisesPath = NavigationPath()
+        authPath = NavigationPath()
+        currentTab = .routines
+        dismissAll()
     }
 
     // MARK: Presentation functions
@@ -115,7 +123,7 @@ class Router {
         case .signInScreen:
             SignInScreen()
         case .signUpScreen:
-            SignUpView()
+            SignUpScreen()
         case .mainNavigationScreen:
             MainNavigationScreen()
         case .welcomeScreen:

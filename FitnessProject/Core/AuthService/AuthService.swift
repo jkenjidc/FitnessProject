@@ -11,7 +11,9 @@ import SwiftUI
 
 @Observable
 class AuthService {
-    var authState: AuthState = .authenticating
+    var authState: AuthState = .unauthenticated
+
+    init() { checkAuth() }
 
     // MARK: - Authentication Operations
     func signUp(email: String, password: String) async throws -> AuthData {
@@ -27,26 +29,24 @@ class AuthService {
     }
 
 
-    func signIn(email: String, password: String) async {
-        authState = .authenticating
-
+    func signIn(email: String, password: String) async throws -> AuthData {
         do {
             let authData = try await Auth.auth().signIn(withEmail: email, password: password)
-            authState = .authenticated(AuthData(user: authData.user))
             Log.info("Sign in successful")
+            return AuthData(user: authData.user)
         } catch {
-            handleAuthError(error)
+            throw AuthError(error)
         }
     }
 
 
-    func signOut() {
+    func signOut() throws {
         do {
             try Auth.auth().signOut()
             self.authState = .unauthenticated
             Log.info("Sign out successful")
         } catch {
-            handleAuthError(error)
+            throw AuthError(error)
         }
     }
 

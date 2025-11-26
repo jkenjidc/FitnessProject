@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RoutinesScreen: View {
     @Environment(RoutineService.self) var routineService
+    @Environment(UserService.self) var userService
     @Environment(Router.self) var router
 
     var body: some View {
@@ -32,7 +33,7 @@ struct RoutinesScreen: View {
             }
         }
         .task {
-            try? await routineService.loadRoutines(routineIds: ["C895BA1B-786F-49FD-BB7D-7D0FDB11D593"])
+            try? await routineService.loadRoutines(routineIds: userService.user.routines ?? [])
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)

@@ -11,47 +11,15 @@ struct RootViewV2: View {
     @Environment(AuthService.self) var authService
 
     var body: some View {
-        Group {
-            switch authService.authState {
-            case .authenticating:
-                LogoView()
-
-            case .unauthenticated:
-                WelcomeScreen()
-
-            case .authenticated:
-                MainNavigationScreen()
-
-            case .error(let authError):
-                ErrorView(error: authError)
-            }
-        }
-        .task {
-            authService.checkAuth()
+        if case .authenticated = authService.authState {
+            MainNavigationScreen()
+        } else {
+            WelcomeScreen()
         }
     }
 }
 
 extension RootViewV2 {
-    struct ErrorView: View {
-        @Environment(AuthService.self) var authService
-        let error: AuthError
-        var body: some View {
-            VStack {
-                ContentUnavailableView(
-                    "Authentication Error",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text(error.localizedDescription)
-                )
-
-                Button("Retry") {
-                    authService.checkAuth()
-                }
-                .buttonStyle(.borderedProminent)
-            }
-        }
-    }
-
     struct LogoView: View {
         var body: some View {
             VStack {

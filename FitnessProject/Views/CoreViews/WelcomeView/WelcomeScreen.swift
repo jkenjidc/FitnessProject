@@ -31,9 +31,13 @@ extension WelcomeScreen {
         var body: some View {
             VStack {
                 GuestSignInButton()
+
                 Spacer()
+
                 BannerView()
+
                 Spacer()
+
                 VStack(spacing: 20) {
                     Button("Log In") {
                         router.pushInAuthFlow(destination: .signInScreen)
@@ -49,7 +53,9 @@ extension WelcomeScreen {
             .padding(10)
         }
     }
+
     struct GuestSignInButton: View {
+        @Environment(AppCoordinator.self) var appCoordinator
         @State private var showGuestModeAlert: Bool = false
         var body: some View {
             Button{
@@ -63,15 +69,7 @@ extension WelcomeScreen {
             .alert("Guest Mode", isPresented: $showGuestModeAlert ){
                 Button(role: .destructive){
                     Task {
-                        // TODO: Refactor to use app coordinator
-                        do {
-                            let authDataResult =  try await AuthManager.shared.signInAnonymously()
-                            let user = CurrentUser(auth: authDataResult)
-                            try await DataManager.shared.createUser(user: user)
-                            try await DataManager.shared.loadUser()
-                        } catch {
-                            print(error.localizedDescription)
-                        }
+                        try? await appCoordinator.signInAnonymously()
                     }
                 } label: {
                     Text("OK")

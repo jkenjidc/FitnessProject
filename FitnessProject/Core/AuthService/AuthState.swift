@@ -7,7 +7,6 @@
 
 import Foundation
 enum AuthState {
-    case authenticating                     // Operation in progress
     case unauthenticated                    // Checked, no user (normal)
     case authenticated(AuthData)            // User logged in
     case error(AuthError)                   // Auth operation failed

@@ -18,3 +18,10 @@ enum FirebaseCallState {
     case loaded
     case error(Error)
 }
+
+enum InteractiveCallState: Equatable {
+    case idle
+    case loading
+    case loaded
+    case error
+}

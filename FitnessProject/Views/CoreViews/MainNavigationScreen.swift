@@ -59,6 +59,9 @@ struct MainNavigationScreen: View {
         .modal(item: $router.modal) { modal in
             router.buildModal(modal: modal)
         }
+        .onDisappear {
+            router.reset()
+        }
     }
 }
 
