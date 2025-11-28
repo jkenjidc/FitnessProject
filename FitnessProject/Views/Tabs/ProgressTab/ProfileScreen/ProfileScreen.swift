@@ -11,6 +11,7 @@ import PhotosUI
 struct ProfileScreen: View {
     @Environment(Router.self) var router
     @Environment(AuthService.self) var authService
+    @Environment(UserService.self) var userService
     @State var viewModel = ViewModel()
     @Bindable var dataManager = DataManager.shared
     var body: some View {
@@ -22,7 +23,7 @@ struct ProfileScreen: View {
             )
 
             //TODO: Remove after finalizing profile screen
-            Text("User ID \(dataManager.user.id)")
+            Text("User ID \(userService.user.id)")
 
             PreviousRoutineList(previousRoutines: dataManager.user.routineHistory)
 

@@ -17,4 +17,5 @@ enum Destination: Codable, Hashable {
     case settingsScreen
     case updatePasswordScreen
     case timerScreen(routine: Routine)
+    case editRoutineScreenV2(Routine?)
 }

@@ -44,12 +44,6 @@ class ExerciseService {
         exercises.uniqueValues(for: .equipment)
     }
 
-    init() {
-        Task {
-            await fetchExercises()
-        }
-    }
-
     func fetchExercises() async {
         Log.info("Fetching exercises data....")
         do {

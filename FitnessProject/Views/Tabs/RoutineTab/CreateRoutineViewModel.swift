@@ -13,7 +13,7 @@ public enum AlertType {
     case routineCompletion
 }
 
-extension CreateRoutineView {
+extension CreateRoutineScreen {
     @Observable class ViewModel {
         
         //MARK: BEHAVIOR MODE

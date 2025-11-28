@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddExerciseView: View {
     @Environment(Router.self) var router
-    @Binding var viewModel: CreateRoutineView.ViewModel
+    @Binding var viewModel: CreateRoutineScreen.ViewModel
     var body: some View {
         VStack {
             VStack(alignment: .leading){
@@ -43,5 +43,5 @@ struct AddExerciseView: View {
 }
 
 #Preview {
-    AddExerciseView(viewModel: .constant(CreateRoutineView.ViewModel()))
+    AddExerciseView(viewModel: .constant(CreateRoutineScreen.ViewModel()))
 }

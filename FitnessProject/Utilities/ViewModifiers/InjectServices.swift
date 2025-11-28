@@ -17,17 +17,17 @@ struct InjectServices: ViewModifier {
     @State var router = Router()
     @State var hkManager = HealthKitService()
     @State var exerciseService =  ExerciseService()
-    @State var appCoodinator = AppCoordinator()
+    @State var appCoordinator = AppCoordinator()
 
     func body(content: Content) -> some View {
         content
             .environment(router)
             .environment(hkManager)
             .environment(exerciseService)
-            .environment(appCoodinator)
-            .environment(appCoodinator.authService)
-            .environment(appCoodinator.userService)
-            .environment(appCoodinator.routineService)
+            .environment(appCoordinator)
+            .environment(appCoordinator.authService)
+            .environment(appCoordinator.userService)
+            .environment(appCoordinator.routineService)
     }
 
 }

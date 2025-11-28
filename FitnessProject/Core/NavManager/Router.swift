@@ -129,13 +129,15 @@ class Router {
         case .welcomeScreen:
             WelcomeScreen()
         case .createRoutineScreen(let routine, let screenMode):
-            CreateRoutineView(routine: routine, screenMode: screenMode)
+            CreateRoutineScreen(routine: routine, screenMode: screenMode)
         case .settingsScreen:
             SettingsView()
         case .updatePasswordScreen:
             UpdatePasswordView()
         case .timerScreen(let routine):
             TimerScreen(routine: routine)
+        case .editRoutineScreenV2(let routine):
+            EditRoutineScreen(routine: routine)
         }
     }
     
@@ -150,6 +152,8 @@ class Router {
             StreakInfoSheet()
         case .exerciseDetail(let exercise):
             ExerciseDetailSheet(exercise: exercise)
+        case .addExerciseSheetV2:
+            Text("Test")
         }
     }
     

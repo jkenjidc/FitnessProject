@@ -29,6 +29,9 @@ struct ExercisesScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .navigationTitle(router.currentTab.rawValue.capitalized)
+        .task {
+            await service.fetchExercises()
+        }
     }
 }
 

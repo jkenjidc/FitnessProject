@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreateRoutineView: View {
+struct CreateRoutineScreen: View {
     @Environment(Router.self) var router
     @State var viewModel = ViewModel()
     
@@ -167,7 +167,7 @@ struct CreateRoutineView: View {
 
 
 struct alertBodyView: View {
-    @Bindable var viewModel: CreateRoutineView.ViewModel
+    @Bindable var viewModel: CreateRoutineScreen.ViewModel
     @Environment(Router.self) var router
     var body: some View {
         Button("Cancel", role: .cancel){}
@@ -194,6 +194,6 @@ struct alertBodyView: View {
 }
 
 #Preview {
-    return CreateRoutineView()
+    return CreateRoutineScreen()
         .environment(Router())
 }

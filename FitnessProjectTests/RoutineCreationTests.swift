@@ -28,37 +28,37 @@ final class RoutineCreationTests: XCTestCase {
     }
     
     func testStartTimer() {
-        let createRoutineViewModelInTimerMode = CreateRoutineView.ViewModel(routine: sampleRoutine, screenMode: .timer)
+        let createRoutineViewModelInTimerMode = CreateRoutineScreen.ViewModel(routine: sampleRoutine, screenMode: .timer)
         XCTAssertTrue(createRoutineViewModelInTimerMode.isTimerActive)
     }
     
     func testPauseTimer(){
-        let createRoutineViewModelInTimerMode = CreateRoutineView.ViewModel(routine: sampleRoutine, screenMode: .timer)
+        let createRoutineViewModelInTimerMode = CreateRoutineScreen.ViewModel(routine: sampleRoutine, screenMode: .timer)
         createRoutineViewModelInTimerMode.isTimerActive.toggle()
         XCTAssertFalse(createRoutineViewModelInTimerMode.isTimerActive)
     }
     
     func testEndTimer(){
-        let createRoutineViewModelInTimerMode = CreateRoutineView.ViewModel(routine: sampleRoutine, screenMode: .timer)
+        let createRoutineViewModelInTimerMode = CreateRoutineScreen.ViewModel(routine: sampleRoutine, screenMode: .timer)
         createRoutineViewModelInTimerMode.isTimerActive = false
         XCTAssertFalse(createRoutineViewModelInTimerMode.isTimerActive)
     }
     
     func testSavingExercisesToCurrentRoutine(){
-        let createRoutineViewModelInCreationMode = CreateRoutineView.ViewModel()
+        let createRoutineViewModelInCreationMode = CreateRoutineScreen.ViewModel()
         createRoutineViewModelInCreationMode.newExerciseName = testExerciseName
         createRoutineViewModelInCreationMode.saveExercise()
         XCTAssertTrue(createRoutineViewModelInCreationMode.routine.exercises.contains(where: { $0.name == testExerciseName}))
     }
     
     func testRoutineHistorySaving(){
-        let createRoutineViewModelInTimerMode = CreateRoutineView.ViewModel(routine: sampleRoutine, screenMode: .timer)
+        let createRoutineViewModelInTimerMode = CreateRoutineScreen.ViewModel(routine: sampleRoutine, screenMode: .timer)
         createRoutineViewModelInTimerMode.finishRoutine()
         XCTAssertTrue(((DataManager.shared.user.routineHistory?.isEmpty) != nil))
     }
     
     func testDeletingExerciseGivenAnExercise(){
-        let createRoutineViewModelInCreationMode = CreateRoutineView.ViewModel(routine: sampleRoutine, screenMode: .editing)
+        let createRoutineViewModelInCreationMode = CreateRoutineScreen.ViewModel(routine: sampleRoutine, screenMode: .editing)
         let countBeforeDeletion = createRoutineViewModelInCreationMode.routine.exercises.count
         createRoutineViewModelInCreationMode.deleteExercise(exercise: sampleRoutine.exercises[0])
         let countAfterDeletion = createRoutineViewModelInCreationMode.routine.exercises.count
