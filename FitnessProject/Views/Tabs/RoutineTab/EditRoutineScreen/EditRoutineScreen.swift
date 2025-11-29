@@ -9,7 +9,9 @@ import SwiftUI
 
 struct EditRoutineScreen: View {
     @State var routine: Routine
+    @State var activeAlert: AlertType? = nil
     @Environment(Router.self) var router
+    @State var alertService = AlertService()
 
     // Allow for no routine to be passed in for routine creation
     init(routine: Routine? = nil) {
@@ -17,16 +19,24 @@ struct EditRoutineScreen: View {
     }
 
     var body: some View {
+        @Bindable var alertService = alertService
         Form {
             NameSection(name: $routine.name)
             DayPickerSection(selectedDays: $routine.daysToDo)
             DescriptionSection(description: $routine.description)
             Button("Add Exercise") {
                 //TODO: Handle routing
-//                router.presentSheet(.addExerciseSheetV2)
+                //                router.presentSheet(.addExerciseSheetV2)
             }
             .frame(maxWidth: .infinity)
         }
+        .navigationTitle(routine.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .scrollBounceBehavior(.basedOnSize)
+        .navigationBarBackButtonHidden(true)
+        .toolbar { Toolbar(routine: $routine) }
+        .environment(self.alertService)
+        .fitnessAlert(shouldPresent: $alertService.shouldPresent, alert: alertService.activeAlert)
     }
 }
 

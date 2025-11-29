@@ -149,6 +149,14 @@ class AppCoordinator {
         }
     }
 
+    func updateRoutine(_ routine: Routine) async throws {
+        if routineService.routines.contains(where: { $0.id == routine.id }) {
+            try await routineService.updateRoutine(routine: routine)
+        } else {
+            try await createRoutine(routine)
+        }
+    }
+
     /// Deletes a routine and removes it from the user's routine list
     /// ⚠️ This is the ONLY way to properly delete a routine
     func deleteRoutine(_ routineId: String) async throws {
@@ -168,6 +176,35 @@ class AppCoordinator {
             if userUpdated {
                 Log.warning("Rolling back user update")
                 try? await userService.addRoutineId(routineId)
+            }
+            throw error
+        }
+    }
+
+    /// Deletes a routine and removes it from the user's routine list from swipe to delete
+    /// ⚠️ This is the ONLY way to properly delete a routine
+    func deleteRoutine(_ indexSet: IndexSet) async throws {
+        let routineIdsToDelete = indexSet.map { routineService.routines[$0] }.map { $0.id }
+        let originalRoutines = routineService.routines
+        var deletedFromUsers = false
+        var deletedFromRoutines = false
+        do {
+            // Step 1: Remove from user list first
+            try await userService.removeRoutineIds(routineIdsToDelete)
+            deletedFromUsers = true
+
+            // Step 2: Delete the routine
+            try await routineService.deleteRoutines(routineIdsToDelete)
+            deletedFromRoutines = true
+        } catch {
+            if !deletedFromUsers {
+                // Rollback local changes on failure, no risk of duplication since local gets updated first
+                userService.user.routines?.append(contentsOf: routineIdsToDelete)
+            }
+
+            if !deletedFromRoutines {
+                // Rollback local changes on failure
+                routineService.routines = originalRoutines
             }
             throw error
         }

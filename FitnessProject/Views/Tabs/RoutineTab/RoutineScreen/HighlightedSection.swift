@@ -23,9 +23,6 @@ extension RoutinesScreen {
                         HStack(alignment: .center){
                             ForEach(routineService.routinesOfTheDay) { routine in
                                 StartRoutineCircleGraphic(routineId: routine.id)
-                                    .onAppear {
-                                        print(routine.exercises)
-                                    }
                             }
                         }
                         .scrollTargetLayout()

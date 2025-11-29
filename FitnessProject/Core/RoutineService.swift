@@ -23,6 +23,9 @@ class RoutineService {
             networkState = .loaded
             return
         }
+        // don't load if there's already a list to maintain local copy
+        // TODO: Handle this better, how can we guarantee local and remote copies are in sync?
+        guard routines.isEmpty else { return }
 
         let snapshot = try await routineCollection
             .whereField("id", in: routineIds)
@@ -65,9 +68,7 @@ class RoutineService {
 
     }
 
-    func deleteRoutine(at indexSet: IndexSet) async throws {
-        let routineIdsToDelete = indexSet.map { routines[$0] }.map { $0.id }
-
+    func deleteRoutines(_ routineIdsToDelete: [String]) async throws {
         // Store original state for rollback
         let originalRoutines = routines
 
@@ -85,9 +86,6 @@ class RoutineService {
             Log.info("Successfully deleted \(routineIdsToDelete.count) routines")
 
         } catch {
-            // Rollback local changes on failure
-            routines = originalRoutines
-
             Log.error("Failed to delete routines, rolled back changes: \(error)")
             throw error
         }

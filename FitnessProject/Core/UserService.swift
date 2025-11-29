@@ -112,7 +112,29 @@ class UserService {
         try await updateCurrentUser()
         Log.info("Removed routine ID from user: \(routineId)")
     }
-    
+
+    func removeRoutineIds(_ routineIdsToDelete: [String]) async throws {
+        guard let routines = user.routines else { return }
+
+        // Store original state for rollback
+        let originalRoutines = routineIdsToDelete
+
+        do {
+            // 1. Delete from local first
+            user.routines = user.routines?.filter { !routineIdsToDelete.contains($0) }
+
+            // 2. Update remote state
+            try await updateCurrentUser()
+
+            Log.info("Successfully deleted \(routineIdsToDelete.count) routines")
+
+        } catch {
+
+            Log.error("Failed to delete routines, rolled back changes: \(error)")
+            throw error
+        }
+    }
+
     // MARK: - Profile Image Management
     
 //    func uploadProfileImage(_ image: UIImage) async throws {

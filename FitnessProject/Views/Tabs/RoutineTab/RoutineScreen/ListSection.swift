@@ -10,12 +10,12 @@ import SwiftUI
 extension RoutinesScreen {
     struct ListSection: View {
         @Environment(Router.self) var router
-        @Environment(RoutineService.self) var routineService
+        @Environment(AppCoordinator.self) var appCoordinator
         var body: some View {
             VStack(alignment: .leading, spacing: 0){
                 List{
                     Section {
-                        ForEach(routineService.routines){ routine in
+                        ForEach(appCoordinator.routineService.routines){ routine in
                             Button{
                                 router.presentModal(.routineInfo(routine: routine))
                             } label: {
@@ -25,7 +25,7 @@ extension RoutinesScreen {
                         }
                         .onDelete(perform: { indexSet in
                             Task{
-                                try? await routineService.deleteRoutine(at: indexSet)
+                                try? await appCoordinator.deleteRoutine(indexSet)
                             }
                         })
                     } header: {
