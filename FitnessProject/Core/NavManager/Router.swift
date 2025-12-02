@@ -152,8 +152,8 @@ class Router {
             StreakInfoSheet()
         case .exerciseDetail(let exercise):
             ExerciseDetailSheet(exercise: exercise)
-        case .addExerciseSheetV2:
-            Text("Test")
+        case .addExerciseSheetV2(let exercises):
+            AddExercisesSheet(exercises: exercises)
         }
     }
     

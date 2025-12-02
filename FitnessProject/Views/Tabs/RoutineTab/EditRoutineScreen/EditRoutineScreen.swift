@@ -24,9 +24,9 @@ struct EditRoutineScreen: View {
             NameSection(name: $routine.name)
             DayPickerSection(selectedDays: $routine.daysToDo)
             DescriptionSection(description: $routine.description)
+            ExercisesSection(exercises: $routine.exercises)
             Button("Add Exercise") {
-                //TODO: Handle routing
-                //                router.presentSheet(.addExerciseSheetV2)
+                router.presentSheet(.addExerciseSheetV2($routine.exercises))
             }
             .frame(maxWidth: .infinity)
         }

@@ -13,6 +13,7 @@ struct AlertModifier: ViewModifier {
     @Environment(\.dismiss) var dismiss
     let alert: ActiveAlert?
     func body(content: Content) -> some View {
+        // TODO: avoid conditional modifiers
         if let alert {
             content
                 .alert(
