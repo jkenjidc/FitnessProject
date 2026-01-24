@@ -9,19 +9,11 @@ FitnessProject is a native iOS app built with SwiftUI that helps users create cu
 ## ✨ Features
 
 ### Core Functionality
-- **📋 Exercise Database**: Browse 1000+ exercises with detailed instructions and animations
+- **📋 Exercise Database**: Browse exercises with detailed instructions and animations
 - **🏋️ Custom Routines**: Create and manage personalized workout routines
 - **⏱️ Smart Timer**: Built-in workout timer with pause/resume functionality
 - **📊 Progress Tracking**: Visual progress charts and workout history
-- **💪 HealthKit Integration**: Sync with Apple Health for step counting and health metrics
-<!-- 
-## 📱 Screenshots
-
-*[Add 3-4 key screenshots showing main features]*
-
-| Exercise Database | Workout Timer | Progress Tracking |
-|-------------------|---------------|-------------------|
-| ![Exercise DB](screenshots/exercises.png) | ![Timer](screenshots/timer.png) | ![Progress](screenshots/progress.png) | -->
+- **💪 HealthKit Integration**: Sync with Apple Health for step counting and soon to be added other health metrics
 
 ## 🚀 Quick Start
 
