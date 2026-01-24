@@ -200,9 +200,7 @@ class AppCoordinator {
             if !deletedFromUsers {
                 // Rollback local changes on failure, no risk of duplication since local gets updated first
                 userService.user.routines?.append(contentsOf: routineIdsToDelete)
-            }
-
-            if !deletedFromRoutines {
+            } else if !deletedFromRoutines {
                 // Rollback local changes on failure
                 routineService.routines = originalRoutines
             }

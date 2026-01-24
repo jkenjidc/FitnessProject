@@ -11,11 +11,12 @@ extension RoutinesScreen {
     struct ListSection: View {
         @Environment(Router.self) var router
         @Environment(AppCoordinator.self) var appCoordinator
+        @Environment(RoutineService.self) var routineService
         var body: some View {
             VStack(alignment: .leading, spacing: 0){
                 List{
                     Section {
-                        ForEach(appCoordinator.routineService.routines){ routine in
+                        ForEach(routineService.routines){ routine in
                             Button{
                                 router.presentModal(.routineInfo(routine: routine))
                             } label: {

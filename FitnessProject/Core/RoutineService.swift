@@ -64,8 +64,6 @@ class RoutineService {
         //save to remote
         try routineCollection.document(routine.id).setData(from: routine, merge: true)
         Log.info("Routine: \(routine.name) was updated successfully")
-        Log.info("Info: \(routine.exercises)")
-
     }
 
     func deleteRoutines(_ routineIdsToDelete: [String]) async throws {

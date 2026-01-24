@@ -46,7 +46,7 @@ struct RoutineCardDetailView: View {
             .padding(.horizontal)
 
             Button {
-                router.push(destination: .createRoutineScreen(routine: routine, screenMode: .editing))
+                router.push(destination: .editRoutineScreenV2(routine))
             } label: {
                 Text("Edit Routine")
                     .frame(maxWidth: .infinity)

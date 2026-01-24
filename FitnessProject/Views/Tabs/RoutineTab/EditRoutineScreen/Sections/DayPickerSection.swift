@@ -11,8 +11,17 @@ extension EditRoutineScreen {
     struct DayPickerSection: View {
         // TODO: Refactor to use something like a Days enum for type safety
         @Binding var selectedDays: [String]
-        @State var selectedDaysBool = Array(repeating: false, count: 7)
+        @State var selectedDaysBool: [Bool]
         let daysOfTheWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        
+        init(selectedDays: Binding<[String]>) {
+            self._selectedDays = selectedDays
+            // Map selected days to boolean array
+            let mappedBool = daysOfTheWeek.map { day in
+                selectedDays.wrappedValue.contains(day)
+            }
+            self._selectedDaysBool = State(initialValue: mappedBool)
+        }
 
         var body: some View {
             Section(header: Text("Days to do"),
