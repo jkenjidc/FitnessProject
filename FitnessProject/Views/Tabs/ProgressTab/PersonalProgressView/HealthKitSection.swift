@@ -17,9 +17,27 @@ struct HealthKitSection: View {
                 .font(.headline)
             StepCounterView()
                 .environment(hkManager)
+            
+            // Show sync button only if authorization hasn't been requested yet
+//            if hkManager.shouldShowSyncButton {
+                Button {
+                    hkManager.requestAuthorization()
+                } label: {
+                    HStack {
+                        Image(systemName: "heart.fill")
+                        Text("Sync to Apple Health")
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.accentColor.opacity(0.1))
+                    .cornerRadius(10)
+                }
+                .buttonStyle(.plain)
+//            }
         }
         .onAppear {
-            hkManager.requestAuthorization()
+            // Check authorization status instead of immediately requesting
+            hkManager.getAuthRequestStatus()
         }
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ForgotPasswordView: View {
     @Environment(Router.self) var router
+    @Environment(AuthService.self) var authService
     @State private var email = ""
     @State private var showConfirmation = false
     var body: some View {
@@ -41,9 +42,9 @@ struct ForgotPasswordView: View {
     }
     func resetPassword() async {
         do {
-            try await AuthManager.shared.resetPassword(email: email)
+            try await authService.resetPassword(email: email)
         } catch {
-            print(error)
+            Log.error("Reset password failed: \(error)")
         }
         showConfirmation.toggle()
     }

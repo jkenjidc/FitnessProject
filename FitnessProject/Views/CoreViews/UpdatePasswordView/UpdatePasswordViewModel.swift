@@ -19,16 +19,5 @@ extension UpdatePasswordView {
                 passwordsMatch = newPassword == confirmPassword
             }
         }
-        
-        func changePassword() async {
-            do {
-                try await AuthManager.shared.updatePassword(password: newPassword)
-                changeSucessful = true
-                newPassword = ""
-                confirmPassword = ""
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
     }
 }

@@ -6,18 +6,20 @@
 //
 
 import XCTest
+import FirebaseAuth
 @testable import FitnessProject
 
 final class RoutineCreationTests: XCTestCase {
     let testEmail =  "testingEmail@test.com"
     let password =  "testPassword123"
+    let testName = "Test User"
     let testExerciseName = "Test Exercise Name"
     let sampleRoutine = Routine.example[0]
-    
+    let coordinator = AppCoordinator()
+
     override func setUp() async throws {
         try await super.setUp()
-        let user = try await AuthManager.shared.createUser(email: testEmail, password: password)
-        try await DataManager.shared.createUser(user: CurrentUser(auth: user))
+        try await coordinator.signUp(testEmail, password, testName)
         try await DataManager.shared.loadUser()
     }
     
@@ -67,10 +69,9 @@ final class RoutineCreationTests: XCTestCase {
 
     }
 
-    override func tearDown() async throws{
-        if  AuthManager.shared.authProfile != nil {
-            try await DataManager.shared.deleteUser()
-            try await AuthManager.shared.deleteAccount()
+    override func tearDown() async throws {
+        if Auth.auth().currentUser != nil {
+            try await coordinator.deleteAccount()
         }
         try await super.tearDown()
     }

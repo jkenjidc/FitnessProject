@@ -16,17 +16,7 @@ extension ProfileScreen {
         var confirmAccountDeletion = false
         var selectedItem: PhotosPickerItem?
         var profileImage: Image?
-        
-        func signOut(pop: () -> Void) {
-            do {
-                try AuthManager.shared.signOut()
-                DataManager.shared.signOut()
-                pop()
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        
+
         func loadImageFromPicker() {
             Task {
                 if let loadedData = try? await selectedItem?.loadTransferable(type: Data.self){

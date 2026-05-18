@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xcodebuild -project FitnessProject.xcodeproj -scheme FitnessProject -destination 'generic/platform=iOS Simulator' build-for-testing CODE_SIGNING_ALLOWED=NO)"
+    ]
+  }
+}

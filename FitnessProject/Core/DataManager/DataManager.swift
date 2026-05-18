@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import Firebase
+import FirebaseAuth
 import FirebaseStorage
 
 
@@ -76,7 +77,7 @@ final class DataManager {
     
     // MARK: Loading users
     func loadUser() async throws {
-        user = try await getUser(userId: AuthManager.shared.authProfile?.uid ?? "")
+        user = try await getUser(userId: Auth.auth().currentUser?.uid ?? "")
         if let profileImageUrl = user.profileImageUrl {
             try await getProfileImage(path: profileImageUrl)
         }

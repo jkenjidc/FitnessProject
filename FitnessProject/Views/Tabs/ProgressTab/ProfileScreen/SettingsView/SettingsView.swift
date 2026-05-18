@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(Router.self) var router
+    @Environment(AppCoordinator.self) var appCoordinator
     @Bindable var dataManager = DataManager.shared
     @State var confirmAccountDeletion: Bool = false
     var body: some View {
@@ -55,11 +56,9 @@ struct SettingsView: View {
     func deleteAccount(pop: () -> Void) async {
         pop()
         do {
-            try await DataManager.shared.deleteUser()
-            try await AuthManager.shared.deleteAccount()
-            DataManager.shared.signOut()
+            try await appCoordinator.deleteAccount()
         } catch {
-            print(error.localizedDescription)
+            Log.error("Delete account failed: \(error)")
         }
     }
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct UpdatePasswordView: View {
+    @Environment(AuthService.self) var authService
     @State var viewModel =  ViewModel()
     var body: some View {
         VStack{
@@ -41,7 +42,7 @@ struct UpdatePasswordView: View {
             .navigationTitle("Update Password")
             Button {
                 Task {
-                    await viewModel.changePassword()
+                    await changePassword()
                 }
             } label: {
                 Text("Update Password")
@@ -60,6 +61,17 @@ struct UpdatePasswordView: View {
             ToolbarItem(placement: .topBarLeading) {
                 BackButton()
             }
+        }
+    }
+
+    func changePassword() async {
+        do {
+            try await authService.updatePassword(viewModel.newPassword)
+            viewModel.changeSucessful = true
+            viewModel.newPassword = ""
+            viewModel.confirmPassword = ""
+        } catch {
+            Log.error("Update password failed: \(error)")
         }
     }
 }

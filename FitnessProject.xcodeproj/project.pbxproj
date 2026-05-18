@@ -14,7 +14,7 @@
 		7A423A022C8B766B00F34FC7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A423A012C8B766B00F34FC7 /* FirebaseFirestore */; };
 		7A423A042C8B77AD00F34FC7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A423A032C8B77AD00F34FC7 /* GoogleService-Info.plist */; };
 		7A66F3672CD2A78500EFD0D6 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7A66F3662CD2A78500EFD0D6 /* FirebaseStorage */; };
-		7A8A2D482CAC6C240087EE8B /* AuthManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D472CAC6C240087EE8B /* AuthManagerTests.swift */; };
+		7A8A2D482CAC6C240087EE8B /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D472CAC6C240087EE8B /* AuthServiceTests.swift */; };
 		7A8A2D4A2CADD4A60087EE8B /* RoutineCreationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */; };
 		7ACA3EF32DA76578007E85AC /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 7ACA3EF22DA76578007E85AC /* .gitignore */; };
 /* End PBXBuildFile section */
@@ -36,7 +36,7 @@
 		7A4239F72C8B71BD00F34FC7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7A423A032C8B77AD00F34FC7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7A8A2D3E2CAC6BC90087EE8B /* FitnessProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitnessProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A8A2D472CAC6C240087EE8B /* AuthManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerTests.swift; sourceTree = "<group>"; };
+		7A8A2D472CAC6C240087EE8B /* AuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
 		7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutineCreationTests.swift; sourceTree = "<group>"; };
 		7ACA3EF22DA76578007E85AC /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		7AF1A8F02DC96DDD00FC62E0 /* FitnessProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FitnessProject.entitlements; sourceTree = "<group>"; };
@@ -118,7 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */,
-				7A8A2D472CAC6C240087EE8B /* AuthManagerTests.swift */,
+				7A8A2D472CAC6C240087EE8B /* AuthServiceTests.swift */,
 			);
 			path = FitnessProjectTests;
 			sourceTree = "<group>";
@@ -255,7 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A8A2D4A2CADD4A60087EE8B /* RoutineCreationTests.swift in Sources */,
-				7A8A2D482CAC6C240087EE8B /* AuthManagerTests.swift in Sources */,
+				7A8A2D482CAC6C240087EE8B /* AuthServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
