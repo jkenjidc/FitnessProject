@@ -4,3 +4,6 @@ APIKey.swift
 #API Request
 APIRequest.swift
 
+# Agent handoff notes (transient, regenerated per session)
+HANDOFF.md
+
