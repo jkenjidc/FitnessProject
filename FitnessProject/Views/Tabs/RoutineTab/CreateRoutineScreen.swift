@@ -9,10 +9,26 @@ import SwiftUI
 
 struct CreateRoutineScreen: View {
     @Environment(Router.self) var router
+    @Environment(AppCoordinator.self) var coordinator
     @State var viewModel = ViewModel()
-    
+
     init(routine: Routine? = nil, screenMode: ScreenMode? = .creation) {
         _viewModel = State(initialValue: ViewModel(routine: routine, screenMode: screenMode))
+    }
+
+    private func saveRoutineAndPop() {
+        guard viewModel.validInputs else {
+            viewModel.checkRoutineName()
+            return
+        }
+        Task {
+            do {
+                try await coordinator.updateRoutine(viewModel.routine)
+            } catch {
+                Log.error("Failed to save routine: \(error)")
+            }
+        }
+        router.pop()
     }
     
     var body: some View {
@@ -44,10 +60,9 @@ struct CreateRoutineScreen: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    viewModel.trailingTabBarItemAction(action: router.pop)
+                    saveRoutineAndPop()
                 } label: {
-                    Text(viewModel.timerMode ? "Finish" : "Save")
-                        .tint(viewModel.timerMode ? .green : nil)
+                    Text("Save")
                 }
             }
         }
@@ -169,6 +184,7 @@ struct CreateRoutineScreen: View {
 struct alertBodyView: View {
     @Bindable var viewModel: CreateRoutineScreen.ViewModel
     @Environment(Router.self) var router
+    @Environment(AppCoordinator.self) var coordinator
     var body: some View {
         Button("Cancel", role: .cancel){}
         switch viewModel.currentAlertType {
@@ -184,7 +200,16 @@ struct alertBodyView: View {
             }
         case .routineCompletion:
             Button(){
-                viewModel.finishRoutine()
+                let routineSnapshot = viewModel.routine
+                let duration = Int(viewModel.elapsedTime)
+                viewModel.isTimerActive = false
+                Task {
+                    do {
+                        try await coordinator.finishRoutine(routineSnapshot, durationSeconds: duration)
+                    } catch {
+                        Log.error("Failed to finish routine: \(error)")
+                    }
+                }
                 router.pop()
             } label: {
                 Text("Finish")

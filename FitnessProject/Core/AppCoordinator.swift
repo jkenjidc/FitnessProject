@@ -157,6 +157,47 @@ class AppCoordinator {
         }
     }
 
+    /// Records a finished workout: appends to the user's routine history, updates streak info,
+    /// persists the user, and saves any routine changes.
+    func finishRoutine(_ routine: Routine, durationSeconds: Int) async throws {
+        let historyRecord = RoutineHistoryRecord(
+            nameOfRoutine: routine.name,
+            durationOfRoutine: durationSeconds,
+            exercises: routine.exercises
+        )
+
+        // Capture the previous workout's date BEFORE inserting the new one, so the
+        // same-week comparison below sees the actual gap between workouts.
+        let previousWorkoutDate = userService.user.routineHistory?.first?.dateDone
+
+        if var routineHistory = userService.user.routineHistory {
+            routineHistory.insert(historyRecord, at: 0)
+            userService.user.routineHistory = routineHistory
+        }
+
+        if var streakInfo = userService.user.streakInfo {
+            let continuesSameWeek = previousWorkoutDate.map {
+                $0.areDatesInSameWeek(historyRecord.dateDone)
+            } ?? false
+
+            if continuesSameWeek {
+                streakInfo.currentStreakAmount += 1
+            } else {
+                streakInfo.currentStreakAmount = 1
+                streakInfo.weekCount += 1
+            }
+            streakInfo.longestStreak = max(streakInfo.longestStreak, streakInfo.currentStreakAmount)
+            streakInfo.averageWorkout = Double(streakInfo.currentStreakAmount) / Double(streakInfo.weekCount)
+            userService.user.streakInfo = streakInfo
+        } else {
+            userService.user.streakInfo = CurrentUser.StreakInfo(1, 1, 1, 1)
+        }
+
+        try await userService.updateCurrentUser()
+        try await updateRoutine(routine)
+        Log.info("Routine finished: \(routine.name)")
+    }
+
     /// Deletes a routine and removes it from the user's routine list
     /// ⚠️ This is the ONLY way to properly delete a routine
     func deleteRoutine(_ routineId: String) async throws {

@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct CalendarView: View {
+    @Environment(UserService.self) var userService
+    @Environment(RoutineService.self) var routineService
     @State private var viewModel = ViewModel()
-    @Bindable var dataManager = DataManager.shared
     var body: some View {
         VStack(spacing: 0) {
             LabeledContent("\(viewModel.monthYearText)") {
@@ -51,9 +52,9 @@ struct CalendarView: View {
                             .frame(maxWidth: .infinity, minHeight: 40)
                             .background(
                                 Circle()
-                                    .foregroundStyle( viewModel.getDayColor(day: day, routineHistory: dataManager.user.routineHistory ?? nil))
+                                    .foregroundStyle( viewModel.getDayColor(day: day, routineHistory: userService.user.routineHistory ?? nil))
                             )
-                            .underline(viewModel.shouldShowUnderline(day), color: .green)
+                            .underline(viewModel.shouldShowUnderline(day, routines: routineService.routines), color: .green)
                     }
 
                 }

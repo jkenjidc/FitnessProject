@@ -100,71 +100,13 @@ extension CreateRoutineScreen {
             let exercise = Exercise(name: newExerciseName, sets: [ExerciseSet(weight: 0, reps: 0)])
             routine.exercises.append(exercise)
         }
-        
-        func saveRoutine() async {
-            do {
-                if currentScreenMode == .creation{
-                    try await DataManager.shared.createRoutine(routine: routine)
-                } else {
-                    try await DataManager.shared.updateRoutine(routine: routine)
-                }
-            } catch {
-                print(error)
-            }
-        }
 
-        func finishRoutine() {
-            isTimerActive = false
-            var lastWorkOutDate = Date()
-            let historyRecord = RoutineHistoryRecord(nameOfRoutine: routine.name, durationOfRoutine: Int(elapsedTime), exercises: routine.exercises)
-            if var routineHistory = DataManager.shared.user.routineHistory {
-                routineHistory.insert(historyRecord, at: 0)
-                DataManager.shared.user.routineHistory = routineHistory
-                lastWorkOutDate = historyRecord.dateDone
-            }
-
-            if var streakInfo = DataManager.shared.user.streakInfo {
-                if lastWorkOutDate.areDatesInSameWeek(historyRecord.dateDone) {
-                    streakInfo.currentStreakAmount += 1
-                } else {
-                    streakInfo.currentStreakAmount = 1
-                    streakInfo.weekCount += 1
-                }
-
-                streakInfo.longestStreak = max(streakInfo.longestStreak, streakInfo.currentStreakAmount)
-                streakInfo.averageWorkout = Double(streakInfo.currentStreakAmount) / Double(streakInfo.weekCount)
-
-                DataManager.shared.user.streakInfo = streakInfo
-            } else {
-                DataManager.shared.user.streakInfo = CurrentUser.StreakInfo(1, 1, 1, 1)
-            }
-            Task {
-                await saveRoutine()
-            }
-        }
-        
         func deleteExercise(index: IndexSet) {
             routine.exercises.remove(atOffsets: index)
         }
-        
+
         func deleteExercise(exercise: Exercise) {
             routine.exercises.remove(at: routine.exercises.firstIndex(of: exercise) ?? 0)
-        }
-        
-        func trailingTabBarItemAction(action: ()-> Void) {
-            switch currentScreenMode {
-            case .creation, .editing:
-                if validInputs {
-                    Task {
-                        await saveRoutine()
-                    }
-                    action()
-                } else {
-                    checkRoutineName()
-                }
-            case .timer:
-                confirmFinishExercise()
-            }
         }
 
         //MARK: ALERT CONFIRMATIONS
