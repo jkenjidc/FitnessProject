@@ -135,6 +135,38 @@ class UserService {
         }
     }
 
+    // MARK: - Weight Entry Management
+
+    func createWeightEntry(_ entry: WeightEntry) async throws {
+        var entries = user.weightHistory ?? []
+        if let index = entries.firstIndex(where: { $0.entryDateString == entry.entryDateString }) {
+            entries[index] = entry
+        } else {
+            entries.append(entry)
+            entries.sort(by: { $0.entryDate < $1.entryDate })
+        }
+        user.weightHistory = entries
+        try await updateCurrentUser()
+        Log.info("Created weight entry")
+    }
+
+    func updateWeightEntry(_ entry: WeightEntry) async throws {
+        guard var entries = user.weightHistory,
+              let index = entries.firstIndex(where: { $0.id == entry.id }) else { return }
+        entries[index] = entry
+        user.weightHistory = entries
+        try await updateCurrentUser()
+        Log.info("Updated weight entry")
+    }
+
+    func deleteWeightEntry(_ entry: WeightEntry) async throws {
+        guard var entries = user.weightHistory else { return }
+        entries.removeAll(where: { $0.id == entry.id })
+        user.weightHistory = entries
+        try await updateCurrentUser()
+        Log.info("Deleted weight entry")
+    }
+
     // MARK: - Profile Image Management
     
 //    func uploadProfileImage(_ image: UIImage) async throws {

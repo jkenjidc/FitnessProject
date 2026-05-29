@@ -13,7 +13,6 @@ struct ProfileScreen: View {
     @Environment(AuthService.self) var authService
     @Environment(UserService.self) var userService
     @State var viewModel = ViewModel()
-    @Bindable var dataManager = DataManager.shared
     var body: some View {
         VStack(alignment: .center, spacing: 20){
             ProfileImage(
@@ -25,7 +24,7 @@ struct ProfileScreen: View {
             //TODO: Remove after finalizing profile screen
             Text("User ID \(userService.user.id)")
 
-            PreviousRoutineList(previousRoutines: dataManager.user.routineHistory)
+            PreviousRoutineList(previousRoutines: userService.user.routineHistory)
 
             HStack(spacing: 0){
                 Button(role: .destructive) {
@@ -36,9 +35,9 @@ struct ProfileScreen: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
                 Button {
-                    router.push(destination: dataManager.user.isAnonymous ?  .signUpScreen : .updatePasswordScreen)
+                    router.push(destination: userService.user.isAnonymous ?  .signUpScreen : .updatePasswordScreen)
                 } label: {
-                    Text(dataManager.user.isAnonymous ? "Create Acount" : "Update password")
+                    Text(userService.user.isAnonymous ? "Create Acount" : "Update password")
                 }
             }
             .padding(.bottom, 15)

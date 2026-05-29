@@ -10,8 +10,9 @@ import Charts
 
 struct WeightChart: View {
     @Environment(Router.self) var router
+    @Environment(UserService.self) var userService
     @State private var viewModel = ViewModel()
-    @Bindable var dataManager = DataManager.shared
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
             HStack{
@@ -113,7 +114,7 @@ struct WeightChart: View {
             .padding()
         }
         .onAppear {
-            viewModel.weightEntries = dataManager.user.weightHistory ?? []
+            viewModel.userService = userService
         }
         .onChange(of: viewModel.presentWeightEntryPopup) {_, newValue in
             if newValue {

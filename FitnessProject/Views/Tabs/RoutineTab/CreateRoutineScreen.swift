@@ -46,8 +46,7 @@ struct CreateRoutineScreen: View {
                 Button {
                     viewModel.trailingTabBarItemAction(action: router.pop)
                 } label: {
-                    Text(viewModel.timerMode ? "Finish" : "Save")
-                        .tint(viewModel.timerMode ? .green : nil)
+                    Text("Save")
                 }
             }
         }

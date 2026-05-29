@@ -46,8 +46,8 @@ extension CalendarView {
             return dayColor
         }
 
-        func shouldShowUnderline(_ day: Date) -> Bool {
-            for routine in DataManager.shared.routines {
+        func shouldShowUnderline(_ day: Date, routines: [Routine]) -> Bool {
+            for routine in routines {
                 if routine.daysToDo.contains(day.formatted(Date.FormatStyle().weekday(.wide))) {
                     return true
                 }

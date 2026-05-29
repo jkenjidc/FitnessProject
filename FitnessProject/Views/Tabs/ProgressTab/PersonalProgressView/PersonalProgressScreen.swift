@@ -10,11 +10,12 @@ import Charts
 
 struct PersonalProgressScreen: View {
     @Environment(Router.self) var router
-    @Bindable var dataManager = DataManager.shared
+    @Environment(UserService.self) var userService
+    
     var body: some View {
         ScrollView(showsIndicators: false){
             VStack(alignment: .leading, spacing: 0) {
-                HeaderView(weekCount: dataManager.user.streakInfo?.weekCount)
+                HeaderView(weekCount: userService.user.streakInfo?.weekCount)
 
                 CalendarView()
 

@@ -10,16 +10,19 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(Router.self) var router
     @Environment(AppCoordinator.self) var appCoordinator
-    @Bindable var dataManager = DataManager.shared
+    @Environment(UserService.self) var userService
     @State var confirmAccountDeletion: Bool = false
+
     var body: some View {
+        @Bindable var userServiceBinding = userService
         VStack{
             List {
                 HStack {
-                    Toggle("Imperial Weight Unit", isOn: $dataManager.user.preferences.usingImperialWeightUnits)
-                        .onChange(of: dataManager.user.preferences.usingImperialWeightUnits ) {
+                    Toggle("Imperial Weight Unit", isOn: $userServiceBinding.user.preferences.usingImperialWeightUnits)
+                        .onChange(of: userService.user.preferences.usingImperialWeightUnits ) {
                             Task{
-                                try await dataManager.switchWeightUnits()
+                                // TODO: Add Switching units support
+//                                try await userService.switchWeightUnits()
                             }
                         }
                 }
