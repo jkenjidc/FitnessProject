@@ -157,6 +157,45 @@ class AppCoordinator {
         }
     }
 
+    /// Records a finished workout: appends a history record, updates streak info,
+    /// persists the user, and saves the routine
+    func finishRoutine(_ routine: Routine, durationSeconds: Int) async throws {
+        let historyRecord = RoutineHistoryRecord(
+            nameOfRoutine: routine.name,
+            durationOfRoutine: durationSeconds,
+            exercises: routine.exercises
+        )
+
+        // Capture the previous workout date BEFORE inserting the new record,
+        // otherwise the week comparison is against the record itself and always matches
+        let previousWorkoutDate = userService.user.routineHistory?.first?.dateDone
+
+        var routineHistory = userService.user.routineHistory ?? []
+        routineHistory.insert(historyRecord, at: 0)
+        userService.user.routineHistory = routineHistory
+
+        if var streakInfo = userService.user.streakInfo {
+            if let previousWorkoutDate,
+               previousWorkoutDate.areDatesInSameWeek(historyRecord.dateDone) {
+                streakInfo.currentStreakAmount += 1
+            } else {
+                streakInfo.currentStreakAmount = 1
+                streakInfo.weekCount += 1
+            }
+
+            streakInfo.longestStreak = max(streakInfo.longestStreak, streakInfo.currentStreakAmount)
+            streakInfo.averageWorkout = Double(streakInfo.currentStreakAmount) / Double(streakInfo.weekCount)
+
+            userService.user.streakInfo = streakInfo
+        } else {
+            userService.user.streakInfo = CurrentUser.StreakInfo(1, 1, 1, 1)
+        }
+
+        try await userService.updateCurrentUser()
+        try await updateRoutine(routine)
+        Log.info("Routine finished: \(routine.name)")
+    }
+
     /// Deletes a routine and removes it from the user's routine list
     /// ⚠️ This is the ONLY way to properly delete a routine
     func deleteRoutine(_ routineId: String) async throws {

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct EditRoutineScreen: View {
     @State var routine: Routine
-    @State var activeAlert: AlertType? = nil
     @Environment(Router.self) var router
     @State var alertService = AlertService()
 

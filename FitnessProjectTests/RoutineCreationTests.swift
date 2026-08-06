@@ -13,60 +13,23 @@ final class RoutineCreationTests: XCTestCase {
     let testEmail =  "testingEmail@test.com"
     let password =  "testPassword123"
     let testName = "Test User"
-    let testExerciseName = "Test Exercise Name"
     let sampleRoutine = Routine.example[0]
     let coordinator = AppCoordinator()
 
     override func setUp() async throws {
         try await super.setUp()
         try await coordinator.signUp(testEmail, password, testName)
-        try await DataManager.shared.loadUser()
     }
-    
-    func testRoutineCreation() async throws {
-        try await DataManager.shared.createRoutine(routine: sampleRoutine)
-        let routines =  DataManager.shared.routines
-        XCTAssertFalse(routines.isEmpty)
-    }
-    
-    func testStartTimer() {
-        let createRoutineViewModelInTimerMode = CreateRoutineScreen.ViewModel(routine: sampleRoutine, screenMode: .timer)
-        XCTAssertTrue(createRoutineViewModelInTimerMode.isTimerActive)
-    }
-    
-    func testPauseTimer(){
-        let createRoutineViewModelInTimerMode = CreateRoutineScreen.ViewModel(routine: sampleRoutine, screenMode: .timer)
-        createRoutineViewModelInTimerMode.isTimerActive.toggle()
-        XCTAssertFalse(createRoutineViewModelInTimerMode.isTimerActive)
-    }
-    
-    func testEndTimer(){
-        let createRoutineViewModelInTimerMode = CreateRoutineScreen.ViewModel(routine: sampleRoutine, screenMode: .timer)
-        createRoutineViewModelInTimerMode.isTimerActive = false
-        XCTAssertFalse(createRoutineViewModelInTimerMode.isTimerActive)
-    }
-    
-    func testSavingExercisesToCurrentRoutine(){
-        let createRoutineViewModelInCreationMode = CreateRoutineScreen.ViewModel()
-        createRoutineViewModelInCreationMode.newExerciseName = testExerciseName
-        createRoutineViewModelInCreationMode.saveExercise()
-        XCTAssertTrue(createRoutineViewModelInCreationMode.routine.exercises.contains(where: { $0.name == testExerciseName}))
-    }
-    
-    func testRoutineHistorySaving(){
-        let createRoutineViewModelInTimerMode = CreateRoutineScreen.ViewModel(routine: sampleRoutine, screenMode: .timer)
-        createRoutineViewModelInTimerMode.finishRoutine()
-        XCTAssertTrue(((DataManager.shared.user.routineHistory?.isEmpty) != nil))
-    }
-    
-    func testDeletingExerciseGivenAnExercise(){
-        let createRoutineViewModelInCreationMode = CreateRoutineScreen.ViewModel(routine: sampleRoutine, screenMode: .editing)
-        let countBeforeDeletion = createRoutineViewModelInCreationMode.routine.exercises.count
-        createRoutineViewModelInCreationMode.deleteExercise(exercise: sampleRoutine.exercises[0])
-        let countAfterDeletion = createRoutineViewModelInCreationMode.routine.exercises.count
-        XCTAssertTrue(countBeforeDeletion == countAfterDeletion + 1)
-        
 
+    func testRoutineCreation() async throws {
+        try await coordinator.createRoutine(sampleRoutine)
+        XCTAssertTrue(coordinator.routineService.routines.contains(where: { $0.id == sampleRoutine.id }))
+        XCTAssertTrue(coordinator.userService.user.routines?.contains(sampleRoutine.id) == true)
+    }
+
+    func testRoutineHistorySaving() async throws {
+        try await coordinator.finishRoutine(sampleRoutine, durationSeconds: 0)
+        XCTAssertTrue(coordinator.userService.user.routineHistory?.contains(where: { $0.nameOfRoutine == sampleRoutine.name }) == true)
     }
 
     override func tearDown() async throws {
@@ -75,7 +38,4 @@ final class RoutineCreationTests: XCTestCase {
         }
         try await super.tearDown()
     }
-    
-    
-
 }

@@ -128,8 +128,6 @@ class Router {
             MainNavigationScreen()
         case .welcomeScreen:
             WelcomeScreen()
-        case .createRoutineScreen(let routine, let screenMode):
-            CreateRoutineScreen(routine: routine, screenMode: screenMode)
         case .settingsScreen:
             SettingsView()
         case .updatePasswordScreen:
@@ -144,8 +142,6 @@ class Router {
     @ViewBuilder
     func buildSheet(sheet: Sheet) -> some View {
         switch sheet {
-        case .addExerciseSheet(let viewModel):
-            AddExerciseView(viewModel: viewModel)
         case .forgotPassswordSheet:
             ForgotPasswordView()
         case .streakInfo:

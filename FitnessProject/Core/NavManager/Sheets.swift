@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 enum Sheet: Identifiable {
-    case addExerciseSheet(viewModel: Binding<CreateRoutineScreen.ViewModel>)
     case addExerciseSheetV2(Binding<[Exercise]>)
     case forgotPassswordSheet
     case streakInfo
@@ -17,7 +16,6 @@ enum Sheet: Identifiable {
 
     public var id: Int {
         switch self {
-        case .addExerciseSheet: return 0
         case .forgotPassswordSheet: return 1
         case .streakInfo: return 2
         case .exerciseDetail: return 3
