@@ -9,15 +9,17 @@ import Foundation
 import FirebaseFirestore
 import FirebaseStorage
 import Observation
+import UIKit
 
 @Observable
 class UserService {
     var user: CurrentUser = CurrentUser()
+    var profileImage: UIImage?
     
     // MARK: - Dependencies
     private let userCollection = Firestore.firestore().collection("users")
-//    private let storageRef = Storage.storage().reference()
-//    private let rootStoragePath = "profileImages"
+    private let storageRef = Storage.storage().reference()
+    private let rootStoragePath = "profileImages"
     
     // MARK: - User Data Operations
     
@@ -169,30 +171,31 @@ class UserService {
 
     // MARK: - Profile Image Management
     
-//    func uploadProfileImage(_ image: UIImage) async throws {
-//        let path = "\(rootStoragePath)/\(user.id)/profileImage.jpeg"
-//        let profileImageRef = storageRef.child(path)
-//        
-//        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-//            throw NSError(domain: "UserService", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to convert image to data"])
-//        }
-//        
-//        do {
-//            let _ = try await profileImageRef.putDataAsync(imageData, metadata: nil)
-//            
-//            // Update user with image path
-//            self.user.profileImageUrl = path
-//            try await updateCurrentUser()
-//            
-//            // Cache image locally
-//            try cacheImage(from: image)
-//            
-//            Log.info("Profile image uploaded successfully")
-//        } catch {
-//            Log.error("Failed to upload profile image: \(error)")
-//            throw error
-//        }
-//    }
+    func uploadProfileImage(_ image: UIImage) async throws {
+        let path = "\(rootStoragePath)/\(user.id)/profileImage.jpeg"
+        let profileImageRef = storageRef.child(path)
+
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            throw NSError(domain: "UserService", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to convert image to data"])
+        }
+
+        do {
+            let _ = try await profileImageRef.putDataAsync(imageData, metadata: nil)
+
+            // Update user with image path
+            self.user.profileImageUrl = path
+            try await updateCurrentUser()
+
+            // Cache image locally
+            try cacheImage(from: image)
+            profileImage = image
+
+            Log.info("Profile image uploaded successfully")
+        } catch {
+            Log.error("Failed to upload profile image: \(error)")
+            throw error
+        }
+    }
     
 //    func getProfileImage(path: String) async throws {
 //        let filename = getDocumentsDirectory().appendingPathComponent(FileNames.profileImage.rawValue)
@@ -215,14 +218,21 @@ class UserService {
 //        }
 //    }
     
+    func loadCachedProfileImage() {
+        guard profileImage == nil else { return }
+        let filename = getDocumentsDirectory().appendingPathComponent(FileNames.profileImage.rawValue)
+        profileImage = UIImage(contentsOfFile: filename.path())
+    }
+
     func clearCachedProfileImage() throws {
         let filename = getDocumentsDirectory().appendingPathComponent(FileNames.profileImage.rawValue)
         let fileManager = FileManager.default
-        
+
         if fileManager.fileExists(atPath: filename.path()) {
             try fileManager.removeItem(at: filename)
             Log.info("Cached profile image cleared")
         }
+        profileImage = nil
     }
     
     // MARK: - User Preferences

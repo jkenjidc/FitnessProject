@@ -12,13 +12,13 @@ struct ProfileScreen: View {
     @Environment(Router.self) var router
     @Environment(AuthService.self) var authService
     @Environment(UserService.self) var userService
-    @State var viewModel = ViewModel()
+    @State var selectedItem: PhotosPickerItem?
     var body: some View {
         VStack(alignment: .center, spacing: 20){
             ProfileImage(
-                selectedItem: $viewModel.selectedItem,
-                profileImage: viewModel.profileImage,
-                loadImageFromPicker: viewModel.loadImageFromDirectory
+                selectedItem: $selectedItem,
+                profileImage: userService.profileImage.map { Image(uiImage: $0) },
+                loadImageFromPicker: loadImageFromPicker
             )
 
             //TODO: Remove after finalizing profile screen
@@ -43,7 +43,7 @@ struct ProfileScreen: View {
             .padding(.bottom, 15)
         }
         .padding(.horizontal, 16)
-        .onAppear(perform: viewModel.loadImageFromDirectory)
+        .onAppear(perform: userService.loadCachedProfileImage)
         .frame(maxWidth: .infinity)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing){
@@ -55,6 +55,18 @@ struct ProfileScreen: View {
                 }
                 .padding()
                 .buttonStyle(.plain)
+            }
+        }
+    }
+
+    func loadImageFromPicker() {
+        Task {
+            guard let loadedData = try? await selectedItem?.loadTransferable(type: Data.self),
+                  let inputImage = UIImage(data: loadedData) else { return }
+            do {
+                try await userService.uploadProfileImage(inputImage)
+            } catch {
+                print(error.localizedDescription)
             }
         }
     }

@@ -16,14 +16,16 @@ FitnessProject/
 
 ### 📁 Core/
 **Business logic and service layer**
-- Migration is underway to convert the managers to have more robust error handling and follow service pattern
 ```
 Core/
+├── AppCoordinator.swift         # App-level coordination & service ownership
+├── AuthService/                 # Authentication handling
 ├── ExerciseService.swift        # Exercise data management
-├── HealthKitManager.swift       # Health integration service
-├── DataManager.swift            # User data persistence
-├── Router.swift                 # Navigation coordination
-└── AuthManager.swift            # Authentication handling
+├── HealthKit/                   # Health integration service
+├── Logger/                      # Logging utility
+├── NavManager/                  # Navigation coordination (Router, destinations)
+├── RoutineService.swift         # Routine data management
+└── UserService.swift            # User data persistence & profile image
 ```
 
 ### 📁 Views/
