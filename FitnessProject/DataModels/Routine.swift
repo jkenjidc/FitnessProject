@@ -14,10 +14,6 @@ struct Routine: Identifiable, Codable, Hashable, Equatable {
     var daysToDo: [String] = []
     var exercises: [Exercise] = []
     
-    static func == (lhs: Routine, rhs: Routine) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
     init() {
         id = UUID().uuidString
         name = ""

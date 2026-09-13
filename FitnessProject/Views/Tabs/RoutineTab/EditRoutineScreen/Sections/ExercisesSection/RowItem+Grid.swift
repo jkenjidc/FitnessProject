@@ -27,7 +27,10 @@ extension ExercisesSection.RowItem {
                 Text("Reps")
                     .frame(maxWidth: .infinity)
                 ForEach($exercise.sets){ $exerciseSet in
-                    Item(exerciseSet: $exerciseSet) {
+                    Item(
+                        exerciseSet: $exerciseSet,
+                        setNumber: exercise.getSetIndex(exerciseSet: exerciseSet)
+                    ) {
                         exercise.sets.removeAll(where: { $0.id == exerciseSet.id })
                     }
                 }
@@ -39,6 +42,7 @@ extension ExercisesSection.RowItem {
 
     struct Item: View {
         @Binding var exerciseSet: ExerciseSet
+        let setNumber: String
         var onDelete: () -> Void
         var body: some View {
             Button {
@@ -49,7 +53,7 @@ extension ExercisesSection.RowItem {
             }
             .buttonStyle(.plain)
 
-            Text("1")
+            Text(setNumber)
 
             TextField("\(exerciseSet.weight)", value: $exerciseSet.weight, format: .number)
                 .multilineTextAlignment(.center)

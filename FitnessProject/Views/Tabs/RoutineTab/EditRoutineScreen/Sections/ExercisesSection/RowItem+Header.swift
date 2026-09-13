@@ -22,6 +22,7 @@ extension ExercisesSection.RowItem {
                         .foregroundStyle(.red)
                         .padding(.leading, 30)
                 }
+                .buttonStyle(.plain)
 
                 Text(name)
                     .frame(maxWidth: .infinity)
