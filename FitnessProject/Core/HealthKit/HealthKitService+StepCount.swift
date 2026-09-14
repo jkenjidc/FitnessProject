@@ -9,11 +9,7 @@ import Foundation
 import HealthKit
 
 extension HealthKitService {
-    func readStepCountToday() {
-        guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
-            return
-        }
-
+    func readStepCountToday() async {
         let now = Date()
         let startDate = Calendar.current.startOfDay(for: now)
         let predicate = HKQuery.predicateForSamples(
@@ -22,43 +18,34 @@ extension HealthKitService {
             options: .strictStartDate
         )
 
-        let query = HKStatisticsQuery(
-            quantityType: stepCountType,
-            quantitySamplePredicate: predicate,
+        let descriptor = HKStatisticsQueryDescriptor(
+            predicate: .quantitySample(type: HKQuantityType(.stepCount), predicate: predicate),
             options: .cumulativeSum
-        ) {
-            _, result, error in
-            // Check for actual errors first
-            if let error = error {
-                Log.error("HealthKit query error: \(error.localizedDescription)")
-                return
-            }
+        )
 
-            // Check if sumQuantity exists (could be nil if no steps recorded or user has denied permission to read this data)
-            guard let sum = result?.sumQuantity() else {
+        do {
+            let statistics = try await descriptor.result(for: healthStore)
+
+            // sumQuantity is nil if no steps are recorded or the user denied read access
+            guard let sum = statistics?.sumQuantity() else {
                 // No steps recorded - this is normal, set to 0
-                self.stepCountToday = 0
+                stepCountToday = 0
                 return
             }
 
-            let steps = Int(sum.doubleValue(for: HKUnit.count()))
-            self.stepCountToday = steps
+            stepCountToday = Int(sum.doubleValue(for: .count()))
+        } catch {
+            Log.error("HealthKit query error: \(error.localizedDescription)")
         }
-        healthStore.execute(query)
     }
 
-    func readStepCountThisWeek() {
-        guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
-            Log.error("Failed to create step count type")
-            return
-        }
-
+    func readStepCountThisWeek() async {
         let calendar = Calendar.current
         let today = Date()
         let startOfToday = calendar.startOfDay(for: today)
 
         // Get the start of the week (Sunday or Monday depending on locale)
-        guard let startOfWeek = calendar.date(byAdding: .day,value: -7, to: today) else {
+        guard let startOfWeek = calendar.date(byAdding: .day, value: -7, to: today) else {
             Log.error("Failed to calculate the start date of the week")
             return
         }
@@ -74,38 +61,28 @@ extension HealthKitService {
             options: .strictStartDate
         )
 
-        let query = HKStatisticsCollectionQuery(
-            quantityType: stepCountType,
-            quantitySamplePredicate: predicate,
+        let descriptor = HKStatisticsCollectionQueryDescriptor(
+            predicate: .quantitySample(type: HKQuantityType(.stepCount), predicate: predicate),
             options: .cumulativeSum,
             anchorDate: startOfWeek,
             intervalComponents: DateComponents(day: 1)
         )
 
-        query.initialResultsHandler = { [weak self] _, result, error in
-            guard let self = self else { return }
+        do {
+            let collection = try await descriptor.result(for: healthStore)
 
-            if let error = error {
-                Log.error("HealthKit query error: \(error.localizedDescription)")
-                return
-            }
-
-            guard let result = result else {
-                Log.info("No result returned from HealthKit query")
-                return
-            }
-
-
-            result.enumerateStatistics(from: startOfWeek, to: endDate) { statistics, _ in
+            // Collect locally so the observable property is written once rather than per day
+            var steps: [Date: Int] = [:]
+            collection.enumerateStatistics(from: startOfWeek, to: endDate) { statistics, _ in
                 if let quantity = statistics.sumQuantity() {
-                    let steps = Int(quantity.doubleValue(for: HKUnit.count()))
-                    self.thisWeekSteps[statistics.startDate] = steps
+                    steps[statistics.startDate] = Int(quantity.doubleValue(for: .count()))
                 }
             }
 
-            Log.info("Final weekly steps data: \(self.thisWeekSteps)")
+            thisWeekSteps = steps
+            Log.info("Final weekly steps data: \(thisWeekSteps)")
+        } catch {
+            Log.error("HealthKit query error: \(error.localizedDescription)")
         }
-
-        healthStore.execute(query)
     }
 }

@@ -66,7 +66,7 @@ final class AuthServiceTests {
     func testUserIsAnonymous() async throws {
         try await withAuthCleanup {
             try await signInAnonymously()
-            coordinator.authService.checkAuth()
+            await coordinator.authService.checkAuth()
             guard case .authenticated(let data) = coordinator.authService.authState else {
                 Issue.record("Expected authenticated state")
                 return
@@ -79,7 +79,7 @@ final class AuthServiceTests {
     func testUserIsNotAnonymous() async throws {
         try await withAuthCleanup {
             try await signUpWithCredentials(email: Self.validEmail, password: Self.validPassword)
-            coordinator.authService.checkAuth()
+            await coordinator.authService.checkAuth()
             guard case .authenticated(let data) = coordinator.authService.authState else {
                 Issue.record("Expected authenticated state")
                 return
@@ -100,7 +100,7 @@ final class AuthServiceTests {
     func testAuthenticatedAfterSignIn() async throws {
         try await withAuthCleanup {
             try await signInAnonymously()
-            coordinator.authService.checkAuth()
+            await coordinator.authService.checkAuth()
             if case .unauthenticated = coordinator.authService.authState {
                 Issue.record("Expected authenticated state, got unauthenticated")
             }

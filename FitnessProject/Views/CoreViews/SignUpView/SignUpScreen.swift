@@ -29,6 +29,7 @@ struct SignUpScreen: View {
             .buttonStyle(.fitness(.secondary))
             .disabled(!viewModel.validSubmission)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .loadingOverlay($callState)
         .navigationTitle("Sign Up")
         .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert){

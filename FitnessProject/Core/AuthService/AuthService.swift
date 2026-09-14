@@ -13,7 +13,9 @@ import SwiftUI
 class AuthService {
     var authState: AuthState = .unauthenticated
 
-    init() { checkAuth() }
+    // Deliberately no auth check here. Firebase restores the persisted session from
+    // the Keychain asynchronously after `FirebaseApp.configure()` returns, so reading
+    // `currentUser` this early is a race. Call `checkAuth()` from app startup instead.
 
     // MARK: - Authentication Operations
     func signUp(email: String, password: String) async throws -> AuthData {
@@ -105,13 +107,38 @@ class AuthService {
     }
 
     // MARK: - Private Helpers
-    func checkAuth() {
-        if let firebaseUser = Auth.auth().currentUser {
-            authState = .authenticated(AuthData(user: firebaseUser))
-            Log.info("User authenticated")
-        } else {
+
+    /// Resolves the persisted session into `authState`. Must be awaited before any
+    /// Firestore read, since a restored `currentUser` can exist before Firebase can
+    /// mint a usable token for it.
+    ///
+    /// Forces a token refresh so a session that is no longer valid server-side — a
+    /// deleted or disabled account — is signed out rather than left to fail the next
+    /// Firestore call with a permissions error.
+    @MainActor
+    func checkAuth() async {
+        guard let firebaseUser = Auth.auth().currentUser else {
             authState = .unauthenticated
             Log.info("User not authenticated")
+            return
+        }
+
+        do {
+            _ = try await firebaseUser.getIDTokenResult(forcingRefresh: true)
+            authState = .authenticated(AuthData(user: firebaseUser))
+            Log.info("User authenticated")
+        } catch {
+            let nsError = error as NSError
+            if nsError.code == AuthErrorCode.networkError.rawValue {
+                // Offline at launch. The session is probably fine, it just can't be
+                // confirmed right now, so trust it rather than signing the user out.
+                authState = .authenticated(AuthData(user: firebaseUser))
+                Log.info("Offline at launch, keeping restored session unverified")
+            } else {
+                authState = .unauthenticated
+                Log.error("Stored session is no longer valid, signing out: \(error)")
+                try? Auth.auth().signOut()
+            }
         }
     }
 }

@@ -20,9 +20,9 @@ struct SignInScreen: View {
 
             buttons
         }
-        .loadingOverlay($callState)
         .padding(.horizontal, 15)
         .frame(maxHeight: .infinity, alignment: .top)
+        .loadingOverlay($callState)
         .navigationTitle("Sign In")
         .navigationBarTitleDisplayMode(.inline)
         .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert){

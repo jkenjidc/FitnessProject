@@ -21,7 +21,7 @@ struct HealthKitSection: View {
             // Show sync button only if authorization hasn't been requested yet
 //            if hkManager.shouldShowSyncButton {
                 Button {
-                    hkManager.requestAuthorization()
+                    Task { await hkManager.requestAuthorization() }
                 } label: {
                     HStack {
                         Image(systemName: "heart.fill")
@@ -35,9 +35,9 @@ struct HealthKitSection: View {
                 .buttonStyle(.plain)
 //            }
         }
-        .onAppear {
+        .task {
             // Check authorization status instead of immediately requesting
-            hkManager.getAuthRequestStatus()
+            await hkManager.getAuthRequestStatus()
         }
     }
 }

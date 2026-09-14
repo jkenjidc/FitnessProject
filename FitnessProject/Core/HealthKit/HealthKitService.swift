@@ -10,6 +10,7 @@ import HealthKit
 import WidgetKit
 
 @Observable
+@MainActor
 class HealthKitService {
     //This should be private
     var healthStore = HKHealthStore()
@@ -21,33 +22,31 @@ class HealthKitService {
     var thisWeekSteps: [Date: Int] = [:]
 
     // this is the type of data we will be reading from Health (e.g stepCount)
-    private let toReads = Set([
-        HKObjectType.quantityType(forIdentifier: .stepCount)!])
+    private let toReads: Set<HKObjectType> = [HKQuantityType(.stepCount)]
 
-    func getAuthRequestStatus() {
-        healthStore.getRequestStatusForAuthorization(toShare: Set(), read: toReads) { status, error in
-            if let error = error {
-                Log.error("Accessing authorization status for HealthKit Failed: \(error)")
-                return
-            }
-
-            self.shouldRequestAuthorization = status == .shouldRequest
+    func getAuthRequestStatus() async {
+        guard isHealthDataAvailable else { return }
+        do {
+            let status = try await healthStore.statusForAuthorizationRequest(toShare: [], read: toReads)
+            shouldRequestAuthorization = status == .shouldRequest
+        } catch {
+            Log.error("Accessing authorization status for HealthKit Failed: \(error)")
         }
     }
 
-    func requestAuthorization() {
-        self.healthStore.requestAuthorization(toShare: nil, read: self.toReads) {
-            success, error in
-            if success {
-                self.fetchAllDatas()
-            } else {
-                Log.error("Unexpected HealthKit error occured, check usage and share descriptions or device support")
-            }
+    func requestAuthorization() async {
+        guard isHealthDataAvailable else { return }
+        do {
+            try await healthStore.requestAuthorization(toShare: [], read: toReads)
+            shouldRequestAuthorization = false
+            await fetchAllDatas()
+        } catch {
+            Log.error("Unexpected HealthKit error occured, check usage and share descriptions or device support: \(error)")
         }
     }
 
-    func fetchAllDatas() {
-        readStepCountToday()
-        readStepCountThisWeek()
+    func fetchAllDatas() async {
+        await readStepCountToday()
+        await readStepCountThisWeek()
     }
 }

@@ -29,18 +29,36 @@ struct RootViewV2: View {
         }
     }
 
+    /// Shortest time the logo stays up. Setup usually finishes well inside this, so
+    /// without it the splash flashes by rather than reading as a deliberate screen.
+    private static let minimumSplashDuration: Duration = .milliseconds(700)
+
     @MainActor func handleSetUp() async {
+        let startedAt = ContinuousClock.now
+        let result: FirebaseCallState
+
         do {
+            // Resolve the persisted session first — the splash stays up until Firebase
+            // has restored it, so the Firestore read below always has a usable token.
+            await authService.checkAuth()
+
             if case .authenticated(let authdata) = authService.authState {
                 try await userService.loadUser(userId: authdata.uid)
             }
-            withAnimation {
-                networkCallState = .loaded
-            }
+            result = .loaded
         } catch {
             // TODO: Handle error state
             Log.error("Failed to set up app: \(error)")
-            networkCallState = .error(error)
+            result = .error(error)
+        }
+
+        let elapsed = ContinuousClock.now - startedAt
+        if elapsed < Self.minimumSplashDuration {
+            try? await Task.sleep(for: Self.minimumSplashDuration - elapsed)
+        }
+
+        withAnimation(.easeInOut(duration: 0.35)) {
+            networkCallState = result
         }
     }
 }
@@ -56,7 +74,7 @@ fileprivate extension RootViewV2 {
                     WelcomeScreen()
                 }
             }
-            .transition(.move(edge: .leading))
+            .transition(.opacity)
         }
     }
 
@@ -74,7 +92,7 @@ fileprivate extension RootViewV2 {
                 ProgressView()
                     .frame(width: 50, height: 50)
             }
-            .transition(.move(edge: .trailing))
+            .transition(.opacity)
         }
     }
 }
