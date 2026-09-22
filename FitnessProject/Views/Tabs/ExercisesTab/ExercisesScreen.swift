@@ -17,8 +17,15 @@ struct ExercisesScreen: View {
             case .loading:
                 ShimmerLoadingView()
 
+            case .loaded where service.filteredExercises.isEmpty:
+                searchHeader
+                NoResultsView()
+                Spacer()
+
             case .loaded:
-                Content()
+                searchHeader
+                ExercisesList()
+                    .padding(.horizontal)
 
             case .error:
                 //TODO: Handle error state
@@ -33,42 +40,34 @@ struct ExercisesScreen: View {
             await service.fetchExercises()
         }
     }
+
+    private var searchHeader: some View {
+        @Bindable var service = service
+        return VStack(spacing: 20) {
+            SearchBar(
+                text: $service.searchQuery,
+                placeholder: "Search for exercises"
+            )
+            ExercisesFilterMenu()
+        }
+        .padding(.horizontal)
+    }
 }
 
 extension ExercisesScreen {
-    struct Content: View {
+    struct NoResultsView: View {
         @Environment(ExerciseService.self) var service
+
         var body: some View {
-            VStack(spacing: 20) {
-                @Bindable var service = service
-                SearchBar(
-                    text: $service.searchQuery,
-                    placeholder: "Search for exercises"
+            ContentUnavailableView(
+                "No matching exercises found",
+                systemImage: "magnifyingglass",
+                description: Text(
+                    service.searchQuery.isEmpty ? "No results for selected filters" : "No results for **\(service.searchQuery)**"
                 )
-                ExercisesFilterMenu()
-
-                ExercisesList()
-            }
-            .overlay {
-                noResultsView
-            }
-            .padding(.horizontal)
-        }
-
-        @ViewBuilder
-        private var noResultsView: some View {
-            if service.filteredExercises.isEmpty {
-                ContentUnavailableView(
-                    "No matching exercises found",
-                    systemImage: "magnifyingglass",
-                    description: Text(
-                        service.searchQuery.isEmpty ? "No results for selected filters" : "No results for **\(service.searchQuery)**"
-                    )
-                )
-            }
+            )
         }
     }
-
 }
 
 #Preview {
