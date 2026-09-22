@@ -12,14 +12,14 @@ struct RoutineHistoryRecord: Codable, Hashable, Equatable, Identifiable {
     var dateDone = Date.now
     var nameOfRoutine: String
     var durationOfRoutine: Int
-    var exercises: [Exercise]
+    var exercises: [ExerciseEntry]
     
-    init(nameOfRoutine: String, durationOfRoutine: Int, exercises: [Exercise]) {
+    init(nameOfRoutine: String, durationOfRoutine: Int, exercises: [ExerciseEntry]) {
         self.nameOfRoutine = nameOfRoutine
         self.durationOfRoutine = durationOfRoutine
         self.exercises = exercises
     }
-    init(nameOfRoutine: String, durationOfRoutine: Int, exercises: [Exercise], dateDone: Date) {
+    init(nameOfRoutine: String, durationOfRoutine: Int, exercises: [ExerciseEntry], dateDone: Date) {
         self.nameOfRoutine = nameOfRoutine
         self.durationOfRoutine = durationOfRoutine
         self.exercises = exercises

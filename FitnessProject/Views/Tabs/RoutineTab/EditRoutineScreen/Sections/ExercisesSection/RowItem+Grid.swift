@@ -8,7 +8,7 @@
 import SwiftUI
 extension ExercisesSection.RowItem {
     struct Grid: View {
-        @Binding var exercise: Exercise
+        @Binding var exercise: ExerciseEntry
         let columns = [
             GridItem(.flexible(minimum: 40, maximum: 50)),    // minus button
             GridItem(.flexible(minimum: 40, maximum: 60)),    // set number
@@ -68,6 +68,6 @@ extension ExercisesSection.RowItem {
 }
 
 #Preview {
-    @Previewable @State var previewValue = Exercise.example
+    @Previewable @State var previewValue = ExerciseEntry.example
     ExercisesSection.RowItem.Grid(exercise: $previewValue)
 }

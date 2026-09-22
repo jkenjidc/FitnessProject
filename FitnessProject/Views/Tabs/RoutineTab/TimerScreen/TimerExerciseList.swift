@@ -9,7 +9,7 @@ import SwiftUI
 
 extension TimerScreen {
     struct TimerExerciseList: View {
-        @Binding var exercises: [Exercise]
+        @Binding var exercises: [ExerciseEntry]
 
         var body: some View {
             ScrollView {
@@ -32,7 +32,7 @@ extension TimerScreen {
         }
     }
     struct ExerciseListRow: View {
-        @Binding var exercise: Exercise
+        @Binding var exercise: ExerciseEntry
 
         var body: some View {
 
@@ -93,6 +93,6 @@ extension TimerScreen {
 }
 
 #Preview {
-    TimerScreen.TimerExerciseList(exercises: .constant([Exercise.example]))
+    TimerScreen.TimerExerciseList(exercises: .constant([ExerciseEntry.example]))
         .preferredColorScheme(.dark)
 }

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum Sheet: Identifiable {
-    case addExerciseSheetV2(Binding<[Exercise]>)
+    case addExerciseSheetV2(Binding<[ExerciseEntry]>)
     case forgotPassswordSheet
     case streakInfo
     case exerciseDetail(ExerciseV2)

@@ -8,35 +8,72 @@
 import SwiftUI
 
 struct AddExercisesSheet: View {
-    @Binding var exercises: [Exercise]
+    @Binding var exercises: [ExerciseEntry]
     @Environment(Router.self) var router
-    @State var name: String = ""
+    @Environment(ExerciseService.self) var service
+
     var body: some View {
-        VStack {
-            VStack(alignment: .leading){
-                EntryFieldView(
-                    textBinding: $name,
-                    placeholderString: "Exercise Name"
-                )
-                    .padding(.horizontal, 15)
-                // TODO: Add back in error view
-//                ErrorFooterView(invalidField: viewModel.isMissingExerciseName)
-//                    .padding(.leading, 25)
-            }
-            Button {
-                router.dismissSheet()
-                exercises.append(.init(name: name, sets: []))
-            } label: {
-                Text("Add Exercise")
-            }
-            .disabled(name.isEmpty)
-            .buttonStyle(.fitness(.secondary))
+        @Bindable var service = service
+        VStack(spacing: 15) {
+            SearchBar(
+                text: $service.searchQuery,
+                placeholder: "Search for exercises"
+            )
+
+            ExercisesFilterMenu()
+
+            content
         }
-        .presentationDetents([.fraction(0.4), .medium], selection: .constant(.fraction(0.4)))
+        .padding(.horizontal)
+        .padding(.top, 20)
+        .presentationDetents([.large])
+        .presentationDragIndicator(.visible)
+        // The catalog is fetched lazily, so it may not be loaded if the user came
+        // straight to a routine without opening the Exercises tab.
+        .task {
+            await service.fetchExercises()
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch service.networkState {
+        case .loading:
+            ShimmerLoadingView()
+
+        case .loaded:
+            ExercisesList { selected in
+                exercises.append(ExerciseEntry(from: selected))
+                router.dismissSheet()
+            }
+            .overlay {
+                if service.filteredExercises.isEmpty {
+                    ContentUnavailableView(
+                        "No matching exercises found",
+                        systemImage: "magnifyingglass",
+                        description: Text(
+                            service.searchQuery.isEmpty
+                            ? "No results for selected filters"
+                            : "No results for **\(service.searchQuery)**"
+                        )
+                    )
+                }
+            }
+
+        case .error:
+            ContentUnavailableView(
+                "Couldn't load exercises",
+                systemImage: "wifi.exclamationmark",
+                description: Text("Check your connection and try again.")
+            )
+            Spacer()
+        }
     }
 }
 
 #Preview {
-    @Previewable @State var previewValue = [Exercise.example]
+    @Previewable @State var previewValue = [ExerciseEntry.example]
     AddExercisesSheet(exercises: $previewValue)
+        .injectServices()
+        .preferredColorScheme(.dark)
 }

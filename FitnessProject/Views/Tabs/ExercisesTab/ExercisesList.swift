@@ -12,11 +12,19 @@ struct ExercisesList: View {
     @Environment(ExerciseService.self) var service
     @Environment(Router.self) var router
 
+    /// What tapping a row does. Defaults to opening the detail sheet; the routine
+    /// picker supplies its own handler instead.
+    var onSelect: ((ExerciseV2) -> Void)?
+
     var body: some View {
         List {
             ForEach(service.filteredExercises) { exercise in
                 Button {
-                    router.presentSheet(.exerciseDetail(exercise))
+                    if let onSelect {
+                        onSelect(exercise)
+                    } else {
+                        router.presentSheet(.exerciseDetail(exercise))
+                    }
                 } label: {
                     HStack(spacing: 30) {
                         AsyncImage(url: exercise.gifUrl) { image in

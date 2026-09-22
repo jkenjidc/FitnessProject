@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExercisesSection: View {
-    @Binding var exercises: [Exercise]
+    @Binding var exercises: [ExerciseEntry]
     var body: some View {
         Section {
             List{
@@ -24,6 +24,6 @@ struct ExercisesSection: View {
 }
 
 #Preview {
-    @Previewable @State var previewValue = [Exercise.example]
+    @Previewable @State var previewValue = [ExerciseEntry.example]
     ExercisesSection(exercises: $previewValue)
 }

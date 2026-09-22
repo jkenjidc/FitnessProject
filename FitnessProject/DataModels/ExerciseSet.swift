@@ -11,7 +11,6 @@ struct ExerciseSet: Identifiable, Hashable, Codable {
     var id = UUID().uuidString
     var weight: Double
     var reps: Int
-    var lastBestAttempt: Date?
     
     var formattedWeight: String {
         return String(format: "%g", weight)

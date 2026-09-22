@@ -9,8 +9,8 @@ import SwiftUI
 
 extension ExercisesSection {
     struct RowItem: View {
-        @Binding var exercise: Exercise
-        var onDelete: (Exercise) -> Void
+        @Binding var exercise: ExerciseEntry
+        var onDelete: (ExerciseEntry) -> Void
 
         var body: some View {
             VStack(alignment: .center, spacing: 0){
@@ -57,6 +57,6 @@ extension ExercisesSection {
 }
 
 #Preview {
-    @Previewable @State var previewValue = Exercise.example
+    @Previewable @State var previewValue = ExerciseEntry.example
     ExercisesSection.RowItem(exercise: $previewValue) { _ in }
 }

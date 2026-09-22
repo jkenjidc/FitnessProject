@@ -46,5 +46,5 @@ struct PreviousRoutineList: View {
 }
 
 #Preview {
-    PreviousRoutineList(previousRoutines: [RoutineHistoryRecord.init(nameOfRoutine: "Test", durationOfRoutine: 56, exercises: [Exercise.example])])
+    PreviousRoutineList(previousRoutines: [RoutineHistoryRecord.init(nameOfRoutine: "Test", durationOfRoutine: 56, exercises: [ExerciseEntry.example])])
 }
