@@ -67,7 +67,7 @@ Utilities/
 │   ├── Array+Extensions.swift  # Array Helpers
 ├── 📁 Networking/              # Network layer
 │   ├── APIRequest.swift        # Request protocols
-│   ├── ExerciseV2Request.swift # Exercise API requests
+│   ├── WgerRequest.swift       # wger exercise API requests
 │   └── DTOs/                   # Data transfer objects
 ├── 📁 ViewModifiers/           # Utility classes
 │   ├── ModalModifier.swift     # Repeated Style Modifier

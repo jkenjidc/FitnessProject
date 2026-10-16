@@ -27,13 +27,8 @@ struct ExercisesList: View {
                     }
                 } label: {
                     HStack(spacing: 30) {
-                        AsyncImage(url: exercise.gifUrl) { image in
-                            image
-                                .resizable()
-                        } placeholder: {
-                            Color.gray
-                        }
-                        .frame(width: 50, height: 50)
+                        ExerciseImage(url: exercise.imageURL)
+                            .frame(width: 50, height: 50)
 
                         Text(exercise.name)
                     }

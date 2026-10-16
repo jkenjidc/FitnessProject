@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(xcodebuild -project FitnessProject.xcodeproj -scheme FitnessProject -destination 'generic/platform=iOS Simulator' build-for-testing CODE_SIGNING_ALLOWED=NO)",
-      "mcp__visualize__show_widget"
+      "mcp__visualize__show_widget",
+      "Bash(find /Users/kenjidelacruz/Documents/SwiftUI/HealthKitSample /Users/kenjidelacruz/Documents/SwiftUI/HealthKitSampleApp -name \"*.swift\" 2>/dev/null | head -30)",
+      "Bash(xcodebuild -scheme FitnessProject -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' build)"
     ]
   }
 }

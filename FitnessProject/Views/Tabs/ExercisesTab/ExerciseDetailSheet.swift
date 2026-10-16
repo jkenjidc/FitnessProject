@@ -12,37 +12,38 @@ struct ExerciseDetailSheet: View {
     let exercise: ExerciseV2
     var body: some View {
         NavigationView {
-            VStack(spacing: 10) {
-                AsyncImage(url: exercise.gifUrl) { image in
-                    image
-                        .resizable()
-                } placeholder: {
-                    Color.gray
-                }
-                .frame(width: 250, height: 180)
+            ScrollView {
+                VStack(spacing: 10) {
+                    ExerciseImage(url: exercise.imageURL)
+                        .frame(width: 250, height: 180)
 
-                HStack {
-                    ForEach(exercise.accessoryLabels, id: \.self) { label in
-                        Text(label)
-                            .capsuleStyle()
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-                VStack(alignment: .leading, spacing: 12) {
-                    ForEach(exercise.instructions.indices, id: \.self) { index in
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("\(index + 1).")
-
-                            Text(exercise.instructions[index])
-                                .multilineTextAlignment(.leading)
+                    HStack {
+                        ForEach(exercise.accessoryLabels, id: \.self) { label in
+                            Text(label)
+                                .capsuleStyle()
                         }
                     }
-                }
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                Spacer()
+                    VStack(alignment: .leading, spacing: 12) {
+                        ForEach(exercise.instructions.indices, id: \.self) { index in
+                            HStack(alignment: .top, spacing: 8) {
+                                Text("\(index + 1).")
+
+                                Text(exercise.instructions[index])
+                                    .multilineTextAlignment(.leading)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                        }
+                    }
+
+                    Text("Exercise data from [wger.de](https://wger.de) (CC-BY-SA)")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 8)
+                }
+                .padding(.horizontal, 16)
             }
-            .padding(.horizontal, 16)
             .toolbar {
                 ToolbarItem(placement: .principal){
                     Text(exercise.name)

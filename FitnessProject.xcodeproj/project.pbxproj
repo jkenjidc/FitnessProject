@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A8A2D4C2CADD4A60087EE8B /* WgerExerciseMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8A2D4B2CADD4A60087EE8B /* WgerExerciseMappingTests.swift */; };
 		7A4239F12C8B71BC00F34FC7 /* FitnessProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4239F02C8B71BC00F34FC7 /* FitnessProjectApp.swift */; };
 		7A4239F52C8B71BD00F34FC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A4239F42C8B71BD00F34FC7 /* Assets.xcassets */; };
 		7A4239F82C8B71BD00F34FC7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A4239F72C8B71BD00F34FC7 /* Preview Assets.xcassets */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A8A2D4B2CADD4A60087EE8B /* WgerExerciseMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WgerExerciseMappingTests.swift; sourceTree = "<group>"; };
 		7A4239ED2C8B71BC00F34FC7 /* FitnessProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FitnessProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A4239F02C8B71BC00F34FC7 /* FitnessProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessProjectApp.swift; sourceTree = "<group>"; };
 		7A4239F42C8B71BD00F34FC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				7A8A2D492CADD4A60087EE8B /* RoutineCreationTests.swift */,
 				7A8A2D472CAC6C240087EE8B /* AuthServiceTests.swift */,
+				7A8A2D4B2CADD4A60087EE8B /* WgerExerciseMappingTests.swift */,
 			);
 			path = FitnessProjectTests;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A8A2D4A2CADD4A60087EE8B /* RoutineCreationTests.swift in Sources */,
+				7A8A2D4C2CADD4A60087EE8B /* WgerExerciseMappingTests.swift in Sources */,
 				7A8A2D482CAC6C240087EE8B /* AuthServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

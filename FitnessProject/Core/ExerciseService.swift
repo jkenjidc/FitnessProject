@@ -48,19 +48,13 @@ class ExerciseService {
         Log.info("Fetching exercises data....")
         do {
             // First, try to use cache if it exists and is valid
-            if let cachedExercises = URLCache.shared.cachedResponse(for: ExerciseV2Request.request()),
-               let expirationDate = cachedExercises.userInfo?["expirationDate"] as? Date,
-               Date() < expirationDate {
-
-                do {
-                    try fetchCache(cachedExercises)
-                    return // Success with cache, exit early
-                } catch {
-                    Log.error("Cache fetch failed, falling back to network: \(error.localizedDescription)")
-                }
+            if let cachedExercises = try? loadCache() {
+                networkState = .loaded(cachedExercises)
+                Log.info("Successfully loaded \(exercises.count) exercises from cache")
+                return
             }
 
-            // If no valid cache or cache fetch failed, fetch from network
+            // If no valid cache or cache load failed, fetch from network
             try await fetchAndCacheExercises()
 
         } catch let exerciseError as ExerciseServiceError {
@@ -72,51 +66,73 @@ class ExerciseService {
         }
     }
 
+    /// Fetches every page of wger exercises, then caches the mapped list to disk.
     func fetchAndCacheExercises() async throws {
-        let (data, response) = try await URLSession.shared.data(for: ExerciseV2Request.request())
+        var allExercises: [ExerciseV2] = []
+        var nextRequest: URLRequest? = WgerRequest.exerciseInfo()
 
-        // Validate the response
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw ExerciseServiceError.invalidResponse
+        while let request = nextRequest {
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            // Validate the response
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw ExerciseServiceError.invalidResponse
+            }
+
+            guard httpResponse.statusCode == 200 else {
+                throw ExerciseServiceError.httpError(statusCode: httpResponse.statusCode)
+            }
+
+            let page: WgerExercisePage
+            do {
+                page = try JSONDecoder().decode(WgerExercisePage.self, from: data)
+            } catch {
+                throw ExerciseServiceError.networkDecodingFailed(underlyingError: error)
+            }
+
+            allExercises += page.results.compactMap(ExerciseV2.init)
+            nextRequest = page.next.map(WgerRequest.request)
         }
 
-        guard httpResponse.statusCode == 200 else {
-            throw ExerciseServiceError.httpError(statusCode: httpResponse.statusCode)
-        }
-
-        // Cache the successful response
-        let initialCache = CachedURLResponse(
-            response: httpResponse,
-            data: data,
-            storagePolicy: .allowed
-        )
-        var userInfo = initialCache.userInfo ?? [:]
-        userInfo["expirationDate"] = Date.threeMonthsFromToday()
-        let cachedResponse = CachedURLResponse(
-            response: initialCache.response,
-            data: initialCache.data,
-            userInfo: userInfo,
-            storagePolicy: initialCache.storagePolicy
-        )
-
-        URLCache.shared.storeCachedResponse(cachedResponse, for: ExerciseV2Request.request())
+        allExercises.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        networkState = .loaded(allExercises)
+        Log.info("Successfully fetched \(allExercises.count) exercises")
 
         do {
-            let decodedResponse = try JSONDecoder().decode([ExerciseV2DTO].self, from: data)
-            networkState = .loaded(decodedResponse.map(ExerciseV2.init))
-            Log.info("Successfully fetched and cached \(exercises.count) exercises")
+            try saveCache(allExercises)
         } catch {
-            throw ExerciseServiceError.networkDecodingFailed(underlyingError: error)
+            Log.error("Failed to cache exercises: \(error.localizedDescription)")
         }
     }
 
-    func fetchCache(_ cachedResponse: CachedURLResponse) throws {
+    // MARK: Disk cache
+
+    private struct ExerciseCache: Codable {
+        let expirationDate: Date
+        let exercises: [ExerciseV2]
+    }
+
+    private var cacheFileURL: URL {
+        URL.cachesDirectory.appendingPathComponent("wgerExercises.json")
+    }
+
+    /// Returns cached exercises, or `nil` if there is no cache or it has expired.
+    private func loadCache() throws -> [ExerciseV2]? {
+        guard FileManager.default.fileExists(atPath: cacheFileURL.path) else { return nil }
+
+        let cache: ExerciseCache
         do {
-            let decodedResponse = try JSONDecoder().decode([ExerciseV2DTO].self, from: cachedResponse.data)
-            networkState = .loaded(decodedResponse.map(ExerciseV2.init))
-            Log.info("Successfully loaded \(exercises.count) exercises from cache")
+            cache = try JSONDecoder().decode(ExerciseCache.self, from: Data(contentsOf: cacheFileURL))
         } catch {
+            Log.error("Cache load failed, falling back to network: \(error.localizedDescription)")
             throw ExerciseServiceError.cacheCorrupted
         }
+
+        return Date() < cache.expirationDate ? cache.exercises : nil
+    }
+
+    private func saveCache(_ exercises: [ExerciseV2]) throws {
+        let cache = ExerciseCache(expirationDate: Date.threeMonthsFromToday(), exercises: exercises)
+        try JSONEncoder().encode(cache).write(to: cacheFileURL, options: .atomic)
     }
 }

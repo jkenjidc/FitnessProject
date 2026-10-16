@@ -33,23 +33,9 @@ Alternatively, you can:
 - Launch Xcode
 - File → Open → Navigate to `FitnessProject.xcodeproj`
 
-### 3. Configure API Keys (Optional)
+### 3. Exercise Data
 
-If you plan to use the exercise database features:
-
-1. **Get ExerciseDB API Key**:
-   - Visit [RapidAPI ExerciseDB](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb)
-   - Subscribe to get your API key
-   - Remember to add this file to your .gitignore file list
-
-2. **Add API Configuration**:
-   ```swift
-   // In FitnessProject/Utilities/Constants/API.swift
-   struct API {
-       static let key = "your_rapidapi_key_here"
-       static let header = "exercisedb.p.rapidapi.com"
-   }
-   ```
+The exercise catalog comes from the public [wger API](https://wger.de/api/v2/), which is free and needs no API key. Exercises are cached on device for 3 months.
 
 ### 3. Build and Run
 
